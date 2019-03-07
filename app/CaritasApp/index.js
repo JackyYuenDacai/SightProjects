@@ -7,5 +7,5 @@ import { View, Text } from 'react-native';
 import {AppRegistry} from 'react-native';
 import App from './App';
 
-
+export default App;
 AppRegistry.registerComponent('CaritasApp', () => App);
