@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import {AppRegistry} from 'react-native';
+import 'global.js';
 import App from './App';
 
 export default App;

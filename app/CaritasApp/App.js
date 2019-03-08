@@ -13,6 +13,7 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 import {HomeScreen} from './HomeScreen';
 import ProfileScreen from './Profile';
 import MainNavigator from './MainNavigator';
+
 const App = createAppContainer(MainNavigator);
 
 export default App;

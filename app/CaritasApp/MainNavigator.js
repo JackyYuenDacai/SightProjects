@@ -4,10 +4,11 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 import HomeScreen from './HomeScreen';
 import ProfileScreen from './Profile';
 import ThirdPage from './ThirdPage';
+import RFIDPage from './RFIDPage';
+import ManPage from './ManPage';
 const MainNavigator = createStackNavigator({
-  Home: {screen: HomeScreen},
-  Profile: {screen: ProfileScreen},
-  ThirdPage: {screen: ThirdPage}
+  Home:{RFIDPage},
+  ManPage:{ManPage}
 });
 
 export default MainNavigator;
