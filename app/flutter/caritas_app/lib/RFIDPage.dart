@@ -1,44 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import './columnWidget.dart';
 import './RFIDPage.dart';
 import './ManPage.dart';
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CaritasApp',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
-      routes: <String, WidgetBuilder>{
-          '/RFIDPage':(BuildContext context) => new RFIDPage(),
-          '/ManPage':(BuildContext context) => new ManPage()
-      },
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
+class RFIDPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new _MyHomePageState();
+    return new _RFIDPageState();
   }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _RFIDPageState extends State<RFIDPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
-    return Scaffold(appBar: AppBar(title: Text("Home"),),
+    return Scaffold(appBar: AppBar(title: Text("RFID Page"),),
       body: new Container(
         child: new SingleChildScrollView (
           scrollDirection: Axis.horizontal,
@@ -60,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            userHeader , 
+            userHeader ,  
             ListTile(title: Text('RFID Page'),
               leading: new CircleAvatar(child: new Icon(Icons.school),),
               onTap: () {
@@ -83,4 +55,3 @@ class _MyHomePageState extends State<MyHomePage> {
       ),);
   }
 }
-
