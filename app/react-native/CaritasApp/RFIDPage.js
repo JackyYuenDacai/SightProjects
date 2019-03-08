@@ -1,9 +1,9 @@
 //RFIDPage
 
 import React, {Component} from 'react';
-import {FlatList, Button, Platform, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Button, Platform, StyleSheet, Text, View, Animated, Image, Easing, ScrollView} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
-import {SharedElement} from 'react-native-motion';
+//import {SharedElement} from 'react-native-motion';
 
 const styles = StyleSheet.create({
     ColScrollViewStyle:{
@@ -25,10 +25,11 @@ export default class RFIDPage extends React.Component{
     static ColNum = 0;
     static ColData = [];
     RFIDPage(){
-        ColData.push({id:0,Name:'Test',IconPath:'...'});
+        
+        this.ColData.push({id:0,Name:'Test',IconPath:'...'});
     }
     popCol(id){
-        ColData.push({id:id,Name:'Name',IconPath:'...'});
+        this.ColData.push({id:id,Name:'Name',IconPath:'...'});
     }
     rmCol(id){
 
@@ -37,34 +38,37 @@ export default class RFIDPage extends React.Component{
         title: 'RFID Page'
       };
     onColSubmitPressed(id){
-
+        this.rmCol(id);
     }
     renderAllCol(){
         let allCol = [];
-        for(let i = 0; i< ColData.length;i++){
+        
+        for(let i = 0; i< Object.keys(this.ColData).length;i++){
             allCol.push(
-                <Animated.View ref= {String(ColData[i].id)}>
+                <Animated.View ref= {String(this.ColData[i].id)}>
                     <ScrollView 
                         horizontal={false}
                         style={styles.ColScrollViewStyle}
                         pagingEnabled={false}>
                         <Image styles={styles.ColIconStyle}/>
-                        <Text styles={styles.ColNameStyle}>{ColData[i].Name}</Text>
+                        <Text styles={styles.ColNameStyle}>{this.ColData[i].Name}</Text>
                         <Button styles={styles.ColButtonStyle} 
-                            onPress={onColSubmitPressed(ColData[i].id)}>Submit</Button>
+                            onPress={this.onColSubmitPressed(this.ColData[i].id).bind(this)}>Submit</Button>
                     </ScrollView>
                 </Animated.View>
             );
         }
     }
     render(){
+        const {navigate} = this.props.navigation;
+        this.popCol(0);
         return(<View>
             <ScrollView ref = {"scrollView"}
                 style={styles.scrollViewStyle}
                 horizontal={true}
                 showHorizontalScrollIndicator = {false}
                 pagingEnabled={false}>
-                {this.renderAllCol()}
+                {this.renderAllCol().bind(this)}
             </ScrollView>
         </View>);
         }

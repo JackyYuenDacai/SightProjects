@@ -8,6 +8,7 @@ export default class ManPage extends React.Component{
         title: 'Manuel Page'
       };
     render(){
+        const {navigate} = this.props.navigation;
         return(<View>
         </View>);
     }

@@ -7,8 +7,8 @@ import ThirdPage from './ThirdPage';
 import RFIDPage from './RFIDPage';
 import ManPage from './ManPage';
 const MainNavigator = createStackNavigator({
-  Home:{RFIDPage},
-  ManPage:{ManPage}
+  Home:{screen:RFIDPage},
+  ManPage:{screen:ManPage}
 });
 
 export default MainNavigator;
