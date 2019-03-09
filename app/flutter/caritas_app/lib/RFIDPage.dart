@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
 import './columnWidget.dart';
 import './RFIDPage.dart';
 import './ManPage.dart';
+import 'package:connectivity/connectivity.dart';
 class RFIDPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -12,6 +13,16 @@ class RFIDPage extends StatefulWidget {
 
 class _RFIDPageState extends State<RFIDPage> {
 
+    var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
+        var connectivityResult = await Connectivity().checkConnectivity();
+        if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
+          //NO NETWORK CONNECTION
+        }
+    });
+  initState(){
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     Widget userHeader = UserAccountsDrawerHeader(
@@ -53,5 +64,8 @@ class _RFIDPageState extends State<RFIDPage> {
           ],
         ),
       ),);
+  }
+  dispose(){
+    subscription.cancel();
   }
 }

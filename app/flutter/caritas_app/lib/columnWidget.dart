@@ -48,7 +48,13 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 splashColor: Colors.blueGrey,
                 onPressed:(){
                     //form submitted.
-               
+                      _tween = new Tween<double>(begin: 250, end: 0.0).
+                          animate(_controller)
+                          ..addListener((){
+                            setState((){
+
+                            });
+                          });
                       startAnimation();
                 },)
           ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:connectivity/connectivity.dart';
 class ManPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -8,6 +10,16 @@ class ManPage extends StatefulWidget {
 
 class _ManPageState extends State<ManPage> {
 
+  var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
+        var connectivityResult = await Connectivity().checkConnectivity();
+        if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
+          //NO NETWORK CONNECTION
+        }
+    });
+  initState(){
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     Widget userHeader = UserAccountsDrawerHeader(
@@ -42,5 +54,8 @@ class _ManPageState extends State<ManPage> {
           ],
         ),
       ),);
+  }
+  dispose(){
+    subscription.cancel();
   }
 }
