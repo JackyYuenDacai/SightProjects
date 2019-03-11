@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
 import 'dart:async';
 import './columnWidget.dart';
 import './RFIDPage.dart';
 import './ManPage.dart';
-import 'package:connectivity/connectivity.dart';
+
 class RFIDPage extends StatefulWidget {
+  static var IsNetwork = true;
   @override
   State<StatefulWidget> createState() {
     return new _RFIDPageState();
@@ -13,15 +15,28 @@ class RFIDPage extends StatefulWidget {
 
 class _RFIDPageState extends State<RFIDPage> {
 
-    var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
+  var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
         var connectivityResult = await Connectivity().checkConnectivity();
         if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
           //NO NETWORK CONNECTION
+          //this.IsNetwork = false;
+        }else{
+          //HAVE NETWORK CONNECTION
+          //this.IsNetwork = true;
         }
-    });
+      });
   initState(){
     super.initState();
-
+    var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
+          var connectivityResult = await Connectivity().checkConnectivity();
+          if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
+            //NO NETWORK CONNECTION
+            RFIDPage.IsNetwork = false;
+          }else{
+            //HAVE NETWORK CONNECTION
+            RFIDPage.IsNetwork = true;
+          }
+        });
   }
   @override
   Widget build(BuildContext context) {
@@ -30,20 +45,23 @@ class _RFIDPageState extends State<RFIDPage> {
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
-    return Scaffold(appBar: AppBar(title: Text("RFID Page"),),
+    return Scaffold(
+      appBar: AppBar(title: Text("RFID Page"),),
       body: new Container(
         child: new SingleChildScrollView (
           scrollDirection: Axis.horizontal,
           child: new Row(
             children:[
-            new ColForm(),new ColForm(),]
+              new ColForm(),
+              new ColForm(),
+            ]
           )
         ),),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            userHeader ,  
+            userHeader ,
             ListTile(title: Text('RFID Page'),
               leading: new CircleAvatar(child: new Icon(Icons.school),),
               onTap: () {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-
+import 'RFIDPage.dart';
 class ColForm extends StatefulWidget{
   @override
   _ColFormState createState() => new _ColFormState();
@@ -18,13 +18,13 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
   initState(){
 
     super.initState();
-    print('init Called');
+    //print('init Called');
     _controller = new AnimationController(
         duration: const Duration(milliseconds: 600),
       vsync:this,);
     _tween = new Tween<double>(begin: 0.0, end: 250).
             animate(_controller)
-            ..addListener(() { 
+            ..addListener(() {
               setState(() {
                 //print(tween.value);
             });
@@ -48,6 +48,9 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 splashColor: Colors.blueGrey,
                 onPressed:(){
                     //form submitted.
+                    if(!RFIDPage.IsNetwork){
+                      
+                    }
                       _tween = new Tween<double>(begin: 250, end: 0.0).
                           animate(_controller)
                           ..addListener((){
@@ -58,7 +61,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                       startAnimation();
                 },)
           ],
-          
+
         )),
         width: (this?._tween?.value ?? 0.0),
         height: double.infinity,

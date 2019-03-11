@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:connectivity/connectivity.dart';
+import 'dart:async';
+
 class ManPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -33,7 +34,7 @@ class _ManPageState extends State<ManPage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            userHeader ,  
+            userHeader ,
             ListTile(title: Text('RFID Page'),
               leading: new CircleAvatar(child: new Icon(Icons.school),),
               onTap: () {
