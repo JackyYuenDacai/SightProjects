@@ -23,6 +23,7 @@ class _RFIDPageState extends State<RFIDPage> {
             //DUMMY
         }
       });
+  var colform_list = [new ColForm(),new ColForm()];
   initState(){
     super.initState();
     var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
@@ -49,12 +50,7 @@ class _RFIDPageState extends State<RFIDPage> {
         child: new SingleChildScrollView (
           scrollDirection: Axis.horizontal,
           child: new Row(
-            children:[
-              new ColForm(),
-              new ColForm(),
-              new ColForm(),
-
-            ]
+            children:colform_list,
           )
         ),),
       drawer: Drawer(
@@ -79,6 +75,15 @@ class _RFIDPageState extends State<RFIDPage> {
               onTap: () {
                 Navigator.pop(context);
               },),
+              ListTile(title: Text('+'),
+                leading: new CircleAvatar(
+                  child: new Icon(Icons.list),),
+                onTap: () {
+            
+                  this.setState((){
+                    colform_list.add(new ColForm());
+                  });
+                },),
           ],
         ),
       ),);
