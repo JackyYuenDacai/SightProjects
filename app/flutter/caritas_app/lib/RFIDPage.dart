@@ -52,6 +52,8 @@ class _RFIDPageState extends State<RFIDPage> {
             children:[
               new ColForm(),
               new ColForm(),
+              new ColForm(),
+
             ]
           )
         ),),
