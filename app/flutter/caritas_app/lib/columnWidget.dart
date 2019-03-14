@@ -98,7 +98,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                             });
                           });
                       startAnimation();
-                },)
+                },),
           ],
 
         )),

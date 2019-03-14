@@ -70,10 +70,11 @@ class _ManPageState extends State<ManPage> {
                             <Widget>[
                                     FlatButton(
                                       onPressed: () {
-                                          DatePicker.showDatePicker(context,
+                                          DatePicker.showDateTimePicker(context,
                                                 showTitleActions: true,
-                                                minTime: DateTime(2018, 3, 5),
-                                                maxTime: DateTime(2019, 6, 7), onChanged: (date) {
+                                                //minTime: DateTime(2018, 3, 5),
+                                                //maxTime: DateTime(2019, 6, 7), 
+                                                onChanged: (date) {
                                               print('change $date');
                                             }, onConfirm: (date) {
                                               print('confirm $date');
@@ -85,10 +86,11 @@ class _ManPageState extends State<ManPage> {
                                       )),
                                   FlatButton(
                                     onPressed: () {
-                                        DatePicker.showDatePicker(context,
+                                        DatePicker.showDateTimePicker(context,
                                                               showTitleActions: true,
-                                                              minTime: DateTime(2018, 3, 5),
-                                                              maxTime: DateTime(2019, 6, 7), onChanged: (date) {
+                                                              //minTime: DateTime(2018, 3, 5),
+                                                              //maxTime: DateTime(2019, 6, 7),
+                                                              onChanged: (date) {
                                                             print('change $date');
                                                           }, onConfirm: (date) {
                                                             print('confirm $date');
