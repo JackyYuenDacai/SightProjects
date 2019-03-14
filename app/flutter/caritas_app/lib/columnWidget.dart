@@ -4,6 +4,12 @@ import 'RFIDPage.dart';
 class ColForm extends StatefulWidget{
   @override
   _ColFormState createState() => new _ColFormState();
+  setName(String name){
+
+  }
+  setId(String id){
+
+  }
 }
 
 class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
@@ -42,6 +48,39 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
               new SizedBox(height: 35),
               new Text('Name',textAlign:TextAlign.center),
               new SizedBox(height:50),
+              new DropdownButton<String>(
+                hint: Text("Diaper check"),
+                items: <String>['A', 'B', 'C', 'D'].map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (_) {},
+              ),
+              new SizedBox(height:50),
+              new DropdownButton<String>(
+                hint: Text("Wet diaper"),
+                items: <String>['A', 'B', 'C', 'D'].map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (_) {},
+              ),
+              new SizedBox(height:50),
+              new DropdownButton<String>(
+                hint: Text("Toileting condition"),
+                items: <String>['A', 'B', 'C', 'D'].map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (_) {},
+              ),
+              new SizedBox(height:50),
               new RaisedButton(child: const Text('Submit'),
                 color: Theme.of(context).accentColor,
                 elevation: 4.0,
@@ -49,7 +88,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 onPressed:(){
                     //form submitted.
                     if(!RFIDPage.IsNetwork){
-                      
+
                     }
                       _tween = new Tween<double>(begin: 250, end: 0.0).
                           animate(_controller)

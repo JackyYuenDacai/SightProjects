@@ -18,11 +18,9 @@ class _RFIDPageState extends State<RFIDPage> {
   var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
         var connectivityResult = await Connectivity().checkConnectivity();
         if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
-          //NO NETWORK CONNECTION
-          //this.IsNetwork = false;
+              //DUMMY
         }else{
-          //HAVE NETWORK CONNECTION
-          //this.IsNetwork = true;
+            //DUMMY
         }
       });
   initState(){
