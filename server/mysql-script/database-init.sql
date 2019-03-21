@@ -14,12 +14,14 @@ create table record_form
 (id varchar(64) primary key,parent_token varchar(128),student_id varchar(64),data_json varchar(1024));--parent_token:the id at master_record
 
 create table staff_location
-(staff_id varchar(64) primary key, )
+(id varchar(64) primary key, Location varchar(128))
+
+create table id_list--to ensure unique id
+(id varchar(64) primary key, used_id varchar(64), in_table varchar(128))
 
 /*
 data_json
 store form data in json;
-
 */
 
 create table record_child
