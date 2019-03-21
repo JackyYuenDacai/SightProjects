@@ -20,7 +20,7 @@ store form data in json;
 
 create table record_child
 (id varchar(64) primary key, parent_token varchar(128),
-    pp_id varchar(64), time datetime default now(), status int);
+    staff_id varchar(64), time datetime default now(), status int);
 /*
 status :
 0: get in
