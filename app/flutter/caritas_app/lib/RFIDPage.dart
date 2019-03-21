@@ -79,7 +79,6 @@ class _RFIDPageState extends State<RFIDPage> {
                 leading: new CircleAvatar(
                   child: new Icon(Icons.list),),
                 onTap: () {
-            
                   this.setState((){
                     colform_list.add(new ColForm());
                   });
