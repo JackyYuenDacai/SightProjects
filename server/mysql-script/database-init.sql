@@ -11,7 +11,7 @@ create table bathroom_record
 (id varchar(64) primary key,Location varchar(128),token varchar(128));
 
 create table record_form
-(id varchar(64) primary key,parent_token varchar(128),student_id varchar(64),data_json varchar(1024));
+(id varchar(64) primary key,parent_token varchar(128),student_id varchar(64),data_json varchar(1024));--parent_token:the id at master_record
 /*
 data_json
 store form data in json;
@@ -20,7 +20,7 @@ store form data in json;
 
 create table record_child
 (id varchar(64) primary key, parent_token varchar(128),
-    staff_id varchar(64), time datetime default now(), status int);
+    student_id varchar(64), time datetime default now(), status int);
 /*
 status :
 0: get in
