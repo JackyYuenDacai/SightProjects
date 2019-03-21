@@ -17,17 +17,7 @@ create table staff_location
 (id varchar(64) primary key, Location varchar(128));
 
 create table id_list/*to ensure unique id*/
-(id varchar(128) primary key);
-/*
-does not need anything else other then id
-use below to generate unique id
-*/
-/*
-  set @id = md5(TO_BASE64(now()+rand()));
-  while (select count(*) from id_list where id_list.id = @id) > 0 do
-    set @id = md5(TO_BASE64(now()+rand()));
-  end while;
-*/
+(id varchar(64) primary key, used_id varchar(64), in_table varchar(128));
 
 /*
 data_json
