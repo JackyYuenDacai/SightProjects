@@ -7,11 +7,15 @@ drop if exists table personnel;
 create table personnel
 (id varchar(64) primary key,Name varchar(128), Role int not null, Extra varchar(1024));
 
-create table bathroom_record
+create table master_record
 (id varchar(64) primary key,Location varchar(128),token varchar(128));
 
 create table record_form
 (id varchar(64) primary key,parent_token varchar(128),student_id varchar(64),data_json varchar(1024));--parent_token:the id at master_record
+
+create table staff_location
+(staff_id varchar(64) primary key, )
+
 /*
 data_json
 store form data in json;
