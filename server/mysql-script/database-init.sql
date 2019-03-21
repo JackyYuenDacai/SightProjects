@@ -1,8 +1,8 @@
-drop if exists database caritas_main;
+drop database if exists caritas_main;
 create database caritas_main;
 use caritas_main;
 
-drop if exists table personnel;
+drop table if exists personnel;
 
 create table personnel
 (id varchar(64) primary key,p_name varchar(128), p_role int not null, Extra varchar(1024));
