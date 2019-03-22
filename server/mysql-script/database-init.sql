@@ -22,7 +22,7 @@ create table id_list/*to ensure unique id*/
 does not need anything else other then id
 use below to generate unique id
 */
-/*
+/* 
   set @id = md5(TO_BASE64(now()+rand()));
   while (select count(*) from id_list where id_list.id = @id) > 0 do
     set @id = md5(TO_BASE64(now()+rand()));
