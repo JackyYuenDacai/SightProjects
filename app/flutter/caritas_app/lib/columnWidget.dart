@@ -38,7 +38,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
      _controller.forward(from: 0.0);
   }
   Widget build(BuildContext context) {
-    return new GestureDetector(
+    return new GestureDetector( 
       child: new Container(
         child: new Center(
           child: new Column(
@@ -102,7 +102,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
           ],
 
         )),
-        width: (this?._tween?.value ?? 0.0),
+        width: (this?._tween?.value ?? 0.0), //?. : check if width exist, null-->not initialized, width=0.0, else return width 
         height: double.infinity,
         decoration: new BoxDecoration(
           color: Colors.lightBlue[400]
