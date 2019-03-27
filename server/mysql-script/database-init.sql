@@ -8,7 +8,7 @@ create table personnel
 (id varchar(64) primary key,p_name varchar(128), p_role int not null, Extra varchar(1024));
 
 create table master_record
-(id varchar(64) primary key,location varchar(128),token varchar(128));
+(id varchar(64) primary key,t_location varchar(128),token varchar(128));
 
 create table record_form
 (id varchar(64) primary key,parent_token varchar(128),student_id varchar(64),data_json varchar(1024)); /*parent_token:the id at master_record*/
