@@ -57,7 +57,7 @@ namespace Daemon
                     ref Program.iparr[(int)state].ComAddr, 0, 1, 0
                     , epclenandepc, ref Program.iparr[k].numOfTags, ref cardnum,
                     Program.iparr[(int)state].PortHandle);
-                Console.WriteLine("Inventory flashed");
+                //Console.WriteLine("Inventory flashed");
                     for (int j = 0; j < cardnum; j++)
                     {
 
@@ -66,25 +66,29 @@ namespace Daemon
                             Program.TagsNear[j].EPC[a] = epclenandepc[(j + 1) + j * EPCLEN + a];
 
                         Program.TagsNear[j].USER = new byte[16];
-                        StaticClassReaderB.ReadCard_G2(ref Program.iparr[k].ComAddr, Program.TagsNear[j].EPC, 3, 0, 8,
+                        //Console.WriteLine("TAG EPC SCANNED:" + BitConverter.ToString(Program.TagsNear[j].EPC));
+                        StaticClassReaderB.ReadCard_G2(ref Program.iparr[k].ComAddr, Program.TagsNear[j].EPC, 3, 0, 4,
                             new byte[4] { 0, 0, 0, 0 }, 0, 0, 0, Program.TagsNear[j].USER, 12, ref errorcode, Program.iparr[k].PortHandle);
-
-                        try { 
-                            MySqlCommand cmd = new MySqlCommand(sqlstr, conn);
-                            cmd.Parameters.Add("@para1", MySqlDbType.String);
-                            cmd.Parameters.Add("@para2", MySqlDbType.String);
-                            cmd.Parameters["@para1"].Value = BitConverter.ToString(Program.TagsNear[j].USER);
-                            cmd.Parameters["@para2"].Value = Program.iparr[k].Location;
-
-
-                            MySqlDataReader reader = cmd.ExecuteReader();
-                            reader.Close();
-                             }
-                        catch(Exception ex)
+                        
+                        if (!Program.TagsNear[j].USER.SequenceEqual(new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }))
                         {
-                            Console.WriteLine(ex.ToString());
-                        }
+                            try
+                            {
+                                MySqlCommand cmd = new MySqlCommand(sqlstr, conn);
+                                cmd.Parameters.Add("@para1", MySqlDbType.String);
+                                cmd.Parameters.Add("@para2", MySqlDbType.String);
+                                cmd.Parameters["@para1"].Value = BitConverter.ToString(Program.TagsNear[j].USER);
+                                cmd.Parameters["@para2"].Value = Program.iparr[k].Location;
+                                Console.WriteLine("DataScanned USER: " + BitConverter.ToString(Program.TagsNear[j].USER));
 
+                                MySqlDataReader reader = cmd.ExecuteReader();
+                                reader.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.ToString());
+                            }
+                        }
 
                     }
                 }),i,0,2000);
