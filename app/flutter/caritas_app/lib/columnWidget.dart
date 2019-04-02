@@ -43,9 +43,13 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
           child: new Column(
             children: [
               new SizedBox(height: 75),
-              new CircleAvatar(child: new Icon(Icons.school),radius: 35.0,),
+              new CircleAvatar(child: new Icon(Icons.school),radius: 70.0,),
               new SizedBox(height: 35),
-              new Text('Name',textAlign:TextAlign.center),
+              new Text(
+                'Chan Tai Man',
+                textAlign:TextAlign.center, 
+                textScaleFactor:2.0,
+              ),
               new SizedBox(height:50),
             ],
 
@@ -53,7 +57,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
         width: (this?._tween?.value ?? 0.0), //?. : check if width exist, null-->not initialized, width=0.0, else return width 
         height: double.infinity,
         decoration: new BoxDecoration(
-          color: Colors.lightBlue[400]
+          color: Colors.lightBlue[200]
         ),
       ),
     );

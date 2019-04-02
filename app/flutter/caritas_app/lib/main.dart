@@ -3,75 +3,80 @@ import 'package:flutter/material.dart';
 import './columnWidget.dart';
 import './RFIDPage.dart';
 import './ManPage.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CaritasApp',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+        initialRoute: '/',
+  routes: {
+    // When we navigate to the "/" route, build the FirstScreen Widget
+    '/first': (context) => ManPage(),
+    // When we navigate to the "/second" route, build the SecondScreen Widget
+    '/second': (context) => RFIDPage(),
+  },
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text("Menu"),
       ),
-      home: MyHomePage(),
-      routes: <String, WidgetBuilder>{
-          '/RFIDPage':(BuildContext context) => new RFIDPage(),
-          '/ManPage':(BuildContext context) => new ManPage()
-      },
-    );
+      body: Menu()
+      
+      //decoration: new BoxDecoration(color: Colors.lightBlue[200]),
+    ));
   }
 }
-
-class MyHomePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return new _MyHomePageState();
-  }
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
+class Menu extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    Widget userHeader = UserAccountsDrawerHeader(
-      accountName: new Text('Location'),
-      currentAccountPicture: new CircleAvatar(
-        backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
+    return 
+      Row(children: <Widget>[
+        Expanded(
+            child: FlatButton(child: Column(
+              children: <Widget>[
+                Expanded(child: SizedBox()),
+                Center(child: CircleAvatar(child: Icon(Icons.school), radius: 60.0)),
+                Center(
+                  child: SizedBox(height: 35),
+                ),
+                Center(
+                  child: Text(
+                    'Staff',
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 3.0,
+                  ),
+                ),
+                Expanded(child:SizedBox() ),            
+              ]
+            ),
+          onPressed: () {
+            // Navigate to the second screen using a named route
+            Navigator.pushNamed(context, '/first');
+          })),
+                Expanded(
+            child: FlatButton(child: Column(
+              children: <Widget>[
+                Expanded(child: SizedBox()),
+                Center(child: CircleAvatar(child: Icon(Icons.school), radius: 60.0)),
+                Center(
+                  child: SizedBox(height: 35),
+                ),
+                Center(
+                  child: Text(
+                    'Toilet iPad',
+                    textAlign: TextAlign.center,
+                    textScaleFactor: 3.0,
+                  ),
+                ),
+                Expanded(child:SizedBox() ),            
+              ]
+            ),
+          onPressed: () {
+            // Navigate to the second screen using a named route
+            Navigator.pushNamed(context, '/second');
+          })),
+      ]);
 
-    return Scaffold(appBar: AppBar(title: Text("Home"),),
-      body: new Container(
-        child: new SingleChildScrollView (
-          scrollDirection: Axis.horizontal,
-          child: new Row(
-            children:[
-            new ColForm(),new ColForm(),]
-          )
-        ),),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            userHeader , 
-            ListTile(title: Text('RFID Page'),
-              leading: new CircleAvatar(child: new Icon(Icons.school),),
-              onTap: () {
-                Navigator.of(context).pushNamed('/RFIDPage');
-              },),
-            ListTile(title: Text('Manuel Page'),
-              leading: new CircleAvatar(child: new Text('B2'),),
-              onTap: () {
-                Navigator.of(context).pushNamed('/ManPage');
-              },),
-            ListTile(title: Text('Settings'),
-              leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
-              onTap: () {
-                Navigator.pop(context);
-              },),
-          ],
-        ),
-      ),);
-  }
 }
-
+}
