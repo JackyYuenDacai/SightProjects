@@ -13,28 +13,13 @@ class ColForm extends StatefulWidget{
 class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
   int id;
   String name;
-  AnimationController _controller;
-  Animation<double> _tween;
   int state = 0;  // 0: init
                   // 1: normal
                   // 2: animated
 
-  initState(){
-
-    super.initState();
-    //print('init Called');
-    _controller = new AnimationController(
-        duration: const Duration(milliseconds: 600),
-      vsync:this,);
-    _tween = new Tween<double>(begin: 0.0, end: 250).
-            animate(_controller)
-            ..addListener(() {
-              setState(() {
-                //print(tween.value);
-            });
-      });
-     _controller.forward(from: 0.0);
   }
+  initState(){
+  super.initState();
   Widget build(BuildContext context) {
     return new GestureDetector( 
       child: new Container(
@@ -50,10 +35,9 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 textScaleFactor:2.0,
               ),
               new SizedBox(height:50),
-            ],
-
+            ]
         )),
-        width: (this?._tween?.value ?? 0.0), //?. : check if width exist, null-->not initialized, width=0.0, else return width 
+        width: (0.0), //?. : check if width exist, null-->not initialized, width=0.0, else return width 
         height: double.infinity,
         decoration: new BoxDecoration(
           color: Colors.lightBlue[200]
@@ -61,17 +45,6 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
       ),
     );
   }
-  startAnimation(){
-    setState((){
-      _controller.forward(from: 0.0);
-    });
-  }
-  dispose(){
-    _controller.dispose();
-    super.dispose();
-  }
 }
 
-
-
-
+}
