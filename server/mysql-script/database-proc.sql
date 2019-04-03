@@ -35,11 +35,11 @@ CREATE PROCEDURE insert_record_child(id,this_parent_token,here)
 BEGIN   
     SET @student_id = --to be finished
     IF(SELECT count(*) FROM record_child WHERE parent_token=this_parent_token > 0) THEN
-        INSERT INTO record_child (id,this_parent_token,@student_id,now(), 0);
+        INSERT INTO record_child(id,student_id, child_status) VALUES (id,@student_id, 0);
     ELSE IF (here=1)
-        INSERT INTO record_child (id,this_parent_token,@student_id,now(), 1);
+        INSERT INTO record_child(id,student_id, child_status) VALUES (id,@student_id, 1);
     ELSE   
-        INSERT INTO record_child (id,this_parent_token,@student_id,now(), 2);
+        INSERT INTO record_child(id,student_id, child_status) VALUES (id,@student_id, 2);
 END /$
 
 
