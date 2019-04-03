@@ -11,7 +11,7 @@ create table master_record
 (id varchar(64) primary key,t_location varchar(128),token varchar(128));
 
 create table record_form
-(id varchar(64) primary key,parent_token varchar(128),student_id varchar(64),data_json varchar(1024)); /*parent_token:the id at master_record*/
+(id varchar(64) primary key,parent_token varchar(128) FOREIGN KEY REFERENCES master_record(id),student_id varchar(64),data_json varchar(1024)); /*parent_token:the id at master_record*/
 
 create table staff_location
 (id varchar(64) primary key, Location varchar(128));
