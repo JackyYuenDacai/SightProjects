@@ -10,16 +10,12 @@ class ColForm extends StatefulWidget{
   }
 }
 
-class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
+class _ColFormState extends State<ColForm>{
   int id;
   String name;
   int state = 0;  // 0: init
                   // 1: normal
                   // 2: animated
-
-  
-  initState(){
-  super.initState();
   Widget build(BuildContext context) {
     return new GestureDetector( 
       child: new Container(
@@ -47,4 +43,3 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
   }
 }
 
-}

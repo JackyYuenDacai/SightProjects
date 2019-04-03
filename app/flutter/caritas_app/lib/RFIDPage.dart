@@ -15,7 +15,7 @@ class Frame extends StatelessWidget {
         child: new SingleChildScrollView (
           scrollDirection: Axis.horizontal,
           child: new Row(
-            children: <Widget>[RFIDPage()]
+            children: colformList.map((element) => ColEntry())
             //children:colform_list,
           )
         )),
@@ -43,7 +43,8 @@ class Frame extends StatelessWidget {
                 leading: new CircleAvatar(
                   child: new Icon(Icons.list),),
                 onTap: () {
-                    colformList.add(new ColForm());
+                    colformList.add(new ColForm())
+                    ;
                   })
           ],
         ),
@@ -86,7 +87,6 @@ class _RFIDPageState extends State<RFIDPage> {
   dispose(){
     subscription.cancel();
   }
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -94,14 +94,9 @@ class _RFIDPageState extends State<RFIDPage> {
   }
 }
 class ColEntry extends StatelessWidget {
-  String get name => null;
-  setName(String name){
 
-  }
-  setId(String id){
-
-  }
   @override
+
   Widget build(BuildContext context) {
     return       
      new Container(
@@ -112,7 +107,7 @@ class ColEntry extends StatelessWidget {
               new CircleAvatar(child: new Icon(Icons.school),radius: 70.0,),
               new SizedBox(height: 35),
               new Text(
-                name,
+                element,
                 textAlign:TextAlign.center, 
                 textScaleFactor:2.0,
               ),
