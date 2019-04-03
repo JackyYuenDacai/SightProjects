@@ -14,33 +14,47 @@ GO
 DELIMITER '/$'
 /*procedures to be added*/
 
-CREATE FUNCTION gen_id()--This will generate a unique id for each eventRETURNS VARCHAR(64)
+CREATE FUNCTION gen_id() #This will generate a unique id for each event
+RETURNS VARCHAR(64)
 BEGIN
     SET @id = md5(TO_BASE64(now()+rand()));
     while (SELECT count(*) FROM id_list WHERE id_list.id = @id) > 0 do
         SET @id = md5(TO_BASE64(now()+rand()));
     END while
     INSERT INTO id_list VALUE(@id);
-    RETURNS varchar(64)
     RETURN @id;
 END /$
 
-CREATE PROCEDURE insert_in(id, t_location,token)--This will allow data to be inserted when a tag is sensed 
+CREATE FUNCTION tag_record(t_location,token,this_id) #This will allow data to be inserted when a tag is sensed
+RETURNS VARCHAR(64)  
 BEGIN
-    --SET @token = (SELECT count(*) FROM master_record)
-    INSERT INTO master_record VALUE(id,t_location,@token)
+    SET token = gen_id();
+    INSERT INTO master_record VALUE(id,t_location,token);
+    @p_role= SELECT p_role FROM personnel WHERE id=this_id;
+    IF @p_role = 1 THEN
+		insert_record_child(token,this_id);
+	RETURN id # It will return the parent token for other tables
 END /$
 
-CREATE PROCEDURE insert_record_child(id,this_parent_token,here)
+CREATE PROCEDURE submit_form(token,s_id,answer) #That's what to be called as a survey is submitted
+BEGIN
+	insert_record_child(token,s_id);
+    @id = gen_id();
+    INSERT INTO record_form(@id,token,s_id,answer);
+END /$
+
+CREATE PROCEDURE insert_record_child(this_parent_token,student_id) #That's to handle record_child; will only be called by other stored rountines
 BEGIN   
-    SET @student_id = --to be finished
+	SET id = gen_id();
     IF(SELECT count(*) FROM record_child WHERE parent_token=this_parent_token > 0) THEN
-        INSERT INTO record_child(id,student_id, child_status) VALUES (id,@student_id, 0);
-    ELSE IF (here=1)
+        UPDATE record_child SET child_status = 0 WHERE parent_token=this_parent_token;
         INSERT INTO record_child(id,student_id, child_status) VALUES (id,@student_id, 1);
-    ELSE   
+    ELSE
         INSERT INTO record_child(id,student_id, child_status) VALUES (id,@student_id, 2);
 END /$
+
+
+	
 
 
 
