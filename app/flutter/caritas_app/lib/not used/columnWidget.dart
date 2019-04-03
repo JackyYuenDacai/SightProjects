@@ -13,7 +13,7 @@ class ColForm extends StatefulWidget{
 
 class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
   int id;
-  String Name;
+  String name;
   AnimationController _controller;
   Animation<double> _tween;
   int state = 0;  // 0: init
@@ -46,7 +46,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
               new CircleAvatar(child: new Icon(Icons.school),radius: 70.0,),
               new SizedBox(height: 35),
               new Text(
-                'Chan Tai Man',
+                name,
                 textAlign:TextAlign.center, 
                 textScaleFactor:2.0,
               ),
@@ -72,3 +72,5 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 }
+
+

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './columnWidget.dart';
+import './enterList.dart';
 import './RFIDPage.dart';
 import './ManPage.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     // When we navigate to the "/" route, build the FirstScreen Widget
     '/first': (context) => ManPage(),
     // When we navigate to the "/second" route, build the SecondScreen Widget
-    '/second': (context) => RFIDPage(),
+    '/second': (context) => Frame(),
   },
         home: Scaffold(
       appBar: AppBar(

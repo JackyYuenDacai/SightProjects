@@ -2,7 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'dart:async';
 import './enterList.dart';
-import './ManPage.dart';
+import './survey.dart';
+
+
+class Frame extends StatelessWidget {
+  final List colformList = [new ColForm(),new ColForm()];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Toilet iPad"),), //replace with toilet location?
+      body: new Container(
+        child: new SingleChildScrollView (
+          scrollDirection: Axis.horizontal,
+          child: new Row(
+            children: <Widget>[RFIDPage()]
+            //children:colform_list,
+          )
+        )),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: new Text('Location'),
+              currentAccountPicture: new CircleAvatar(
+                backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0), accountEmail: null,),
+            ListTile(title: Text('Manuel Page'),
+              leading: new CircleAvatar(child: new Text('B2'),),
+              onTap: () {
+                //Navigator.pop(context);
+                Navigator.pop(context);
+              },),
+            ListTile(title: Text('Settings'),
+              leading: new CircleAvatar(
+                child: new Icon(Icons.list),),
+              onTap: () {
+                Navigator.pop(context);
+              },),
+              ListTile(title: Text('+ Test Student'),
+                leading: new CircleAvatar(
+                  child: new Icon(Icons.list),),
+                onTap: () {
+                    colformList.add(new ColForm());
+                  })
+          ],
+        ),
+      ),);
+  }
+  
+}
 
 class RFIDPage extends StatefulWidget {
   static var networkConnection = true;
@@ -21,7 +69,6 @@ class _RFIDPageState extends State<RFIDPage> {
             //DUMMY
         }
       });
-  var colform_list = [new ColForm(),new ColForm()];
   initState(){
     super.initState();
     var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
@@ -36,66 +83,29 @@ class _RFIDPageState extends State<RFIDPage> {
         });
   }
   @override
-  Widget build(BuildContext context) {
-    Widget userHeader = UserAccountsDrawerHeader(
-      accountName: new Text('Location'),
-      currentAccountPicture: new CircleAvatar(
-        backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
-
-    return Scaffold(
-      appBar: AppBar(title: Text("Toilet iPad"),), //replace with toilet location?
-      body: new Container(
-        child: new SingleChildScrollView (
-          scrollDirection: Axis.horizontal,
-          child: new Row(
-            children:colform_list,
-          )
-        ),),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            userHeader ,
-            ListTile(title: Text('Toilet iPad'), //replace with toilet location?
-              leading: new CircleAvatar(child: new Icon(Icons.school),),
-              onTap: () {
-                Navigator.of(context).pushNamed('/RFIDPage');
-              },),
-            ListTile(title: Text('Manuel Page'),
-              leading: new CircleAvatar(child: new Text('B2'),),
-              onTap: () {
-                //Navigator.pop(context);
-                Navigator.of(context).pushNamed('/ManPage');
-              },),
-            ListTile(title: Text('Settings'),
-              leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
-              onTap: () {
-                Navigator.pop(context);
-              },),
-              ListTile(title: Text('+ Test Student'),
-                leading: new CircleAvatar(
-                  child: new Icon(Icons.list),),
-                onTap: () {
-                  this.setState((){
-                    colform_list.add(new ColForm());
-                  });
-                },),
-          ],
-        ),
-      ),);
-  }
   dispose(){
     subscription.cancel();
   }
-}
-class ColEntry extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    return null;
+  }
+}
+class ColEntry extends StatelessWidget {
+  String get name => null;
+  setName(String name){
+
+  }
+  setId(String id){
+
+  }
+  @override
+  Widget build(BuildContext context) {
     return       
      new Container(
-        child: new Center(
+          child: new Center(
           child: new Column(
             children: [
               new SizedBox(height: 75),
@@ -114,6 +124,10 @@ class ColEntry extends StatelessWidget {
         decoration: new BoxDecoration(
           color: Colors.lightBlue[200]
         ),
+        onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreateSurvey()),
       );
   }
 
