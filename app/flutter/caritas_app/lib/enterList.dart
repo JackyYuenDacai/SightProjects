@@ -17,7 +17,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                   // 1: normal
                   // 2: animated
 
-  }
+  
   initState(){
   super.initState();
   Widget build(BuildContext context) {

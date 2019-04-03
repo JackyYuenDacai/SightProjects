@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'dart:async';
-import './columnWidget.dart';
+import './enterList.dart';
 import './ManPage.dart';
 
 class RFIDPage extends StatefulWidget {
@@ -88,4 +88,34 @@ class _RFIDPageState extends State<RFIDPage> {
   dispose(){
     subscription.cancel();
   }
+}
+class ColEntry extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return       
+     new Container(
+        child: new Center(
+          child: new Column(
+            children: [
+              new SizedBox(height: 75),
+              new CircleAvatar(child: new Icon(Icons.school),radius: 70.0,),
+              new SizedBox(height: 35),
+              new Text(
+                name,
+                textAlign:TextAlign.center, 
+                textScaleFactor:2.0,
+              ),
+              new SizedBox(height:50),
+            ]
+        )),
+        width: (0.0), //?. : check if width exist, null-->not initialized, width=0.0, else return width 
+        height: double.infinity,
+        decoration: new BoxDecoration(
+          color: Colors.lightBlue[200]
+        ),
+      );
+  }
+
+  
 }
