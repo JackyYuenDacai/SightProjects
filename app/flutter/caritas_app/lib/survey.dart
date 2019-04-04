@@ -4,7 +4,7 @@ import 'dart:async';
 import './enterList.dart';
 import './RFIDPage.dart';
 import './ManPage.dart';
-   
+
 class CreateSurvey extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -16,7 +16,7 @@ class CreateSurveyState extends State<CreateSurvey> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Survey')),
-      body: 
+    
     );
   }
 }
