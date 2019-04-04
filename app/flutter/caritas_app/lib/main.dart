@@ -12,9 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         initialRoute: '/',
   routes: {
-    // When we navigate to the "/" route, build the FirstScreen Widget
     '/first': (context) => ManPage(),
-    // When we navigate to the "/second" route, build the SecondScreen Widget
     '/second': (context) => Frame(),
   },
         home: Scaffold(
@@ -32,44 +30,38 @@ class Menu extends StatelessWidget{
   Widget build(BuildContext context) {
     return 
       Row(children: <Widget>[
-        Expanded(
-            child: FlatButton(child: Column(
+        Container(
+          height: double.infinity,
+          alignment: Alignment.center,
+            child: FlatButton(
+              child: Column(
               children: <Widget>[
-                Expanded(child: SizedBox()),
-                Center(child: CircleAvatar(child: Icon(Icons.school), radius: 60.0)),
-                Center(
-                  child: SizedBox(height: 35),
-                ),
-                Center(
-                  child: Text(
+                CircleAvatar(child: Icon(Icons.school), radius: 60.0),
+                SizedBox(height: 35),
+                Text(
                     'Staff',
                     textAlign: TextAlign.center,
                     textScaleFactor: 3.0,
-                  ),
-                ),
-                Expanded(child:SizedBox() ),            
+                ), 
               ]
             ),
           onPressed: () {
             // Navigate to the second screen using a named route
             Navigator.pushNamed(context, '/first');
           })),
-                Expanded(
-            child: FlatButton(child: Column(
+        Container(
+          height: double.infinity,
+          alignment: Alignment.center,
+            child: FlatButton(
+              child: Column(
               children: <Widget>[
-                Expanded(child: SizedBox()),
-                Center(child: CircleAvatar(child: Icon(Icons.school), radius: 60.0)),
-                Center(
-                  child: SizedBox(height: 35),
-                ),
-                Center(
-                  child: Text(
+                CircleAvatar(child: Icon(Icons.school), radius: 60.0),
+                SizedBox(height: 35),
+                Text(
                     'Toilet iPad',
                     textAlign: TextAlign.center,
                     textScaleFactor: 3.0,
-                  ),
-                ),
-                Expanded(child:SizedBox() ),            
+                ), 
               ]
             ),
           onPressed: () {
