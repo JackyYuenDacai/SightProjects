@@ -20,3 +20,16 @@ class CreateSurveyState extends State<CreateSurvey> {
     );
   }
 }
+
+class Question extends StatelessWidget {
+   @override
+   Widget build(BuildConext context){
+   return
+      Expanded(
+   Text(
+   )
+   
+   }
+
+
+}
