@@ -80,7 +80,7 @@ class ColEntry extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container(child: FlatButton(
         child: Center(
             child: Column(children: [
               SizedBox(height:250,width: 250),
@@ -96,11 +96,11 @@ class ColEntry extends StatelessWidget {
           ),
         ])),
 
-        /*onTap: () {
+        onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CreateSurvey()),
+            MaterialPageRoute(builder: (context) => CreateSurvey(name)),
           );
-        }*/);
+        }));
   }
 }

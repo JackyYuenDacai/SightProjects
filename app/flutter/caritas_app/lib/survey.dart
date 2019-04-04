@@ -6,51 +6,67 @@ import './RFIDPage.dart';
 import './ManPage.dart';
 
 class CreateSurvey extends StatefulWidget {
-  String name;
   String question;
-  CreateSurvey(String question){
-    this.question = question;
+  String name;
+  CreateSurvey(String name) {
+    this.name = name;
   }
 
   @override
   State<StatefulWidget> createState() {
-    return new CreateSurveyState();
+    return new CreateSurveyState(name);
   }
 }
+
 class CreateSurveyState extends State<CreateSurvey> {
-  String answer;
-  surveyAnswer(String answer){
-    this.answer = answer;
+  final List questionList = [
+    'Who are you?',
+    'How old are you?',
+    'Where will you go?'
+  ];
+  final List answerList = ['A', 'B', 'C', 'D'];
+  String name;
+  CreateSurveyState(String name) {
+    this.name = name;
   }
-  get name => null;
-  final List questionList = ['Who are you?','How old are you?','Where will you go?'];
-  final List answerList = ['A','B','C','D'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: name,),
-        body: Row(
-          children: [
-            Survey.question(questionList[0]),
-            Row(children: answerList.map((element) => Survey.answer(element)).toList())
-          ]
-        ),
+      appBar: AppBar(
+        title: Text(name),
+      ),
+      body: Row(children: <Widget>[
+        SurveyQuestion(questionList[0]),
+        Row(
+            children:
+                answerList.map((element) => SurveyAnswer(element)).toList())
+      ]),
     );
   }
 }
-class Survey extends StatelessWidget {
+//Below need to modify in order to have better look
+class SurveyQuestion extends StatelessWidget {
   String q;
-  Survey.question(String q){
+  SurveyQuestion(String q) {
     this.q = q;
   }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        alignment: Alignment.center,
+        child: Column(children: [Expanded(child: Text(q))]));
+  }
+}
+
+class SurveyAnswer extends StatelessWidget {
   String a;
-  Survey.answer(String a){
+  SurveyAnswer(String a) {
     this.a = a;
   }
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(a)
-    );
+        alignment: Alignment.center,
+        child: Column(children: [Expanded(child: Text(a))]));
   }
 }
