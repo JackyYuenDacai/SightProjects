@@ -80,7 +80,7 @@ class ColEntry extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return Container(
         child: Center(
             child: Column(children: [
               SizedBox(height:250,width: 250),
