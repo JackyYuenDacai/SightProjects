@@ -83,10 +83,10 @@ class ColEntry extends StatelessWidget {
     return new Container(
         child: Center(
             child: Column(children: [
-           SizedBox(height: 75),
+              SizedBox(height:250,width: 250),
            CircleAvatar(
             child:  Icon(Icons.school),
-            radius: 70.0,
+            radius: 100.0,
           ),
            SizedBox(height: 35),
            Text(
@@ -94,12 +94,8 @@ class ColEntry extends StatelessWidget {
             textAlign: TextAlign.center,
             textScaleFactor: 2.0,
           ),
-           SizedBox(height: 50),
         ])),
-        width:
-            (0.0), //?. : check if width exist, null-->not initialized, width=0.0, else return width
-        height: double.infinity,
-        decoration: BoxDecoration(color: Colors.lightBlue[200]),
+
         /*onTap: () {
           Navigator.push(
             context,
