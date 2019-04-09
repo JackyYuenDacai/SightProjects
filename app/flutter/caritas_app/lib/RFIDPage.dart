@@ -83,7 +83,7 @@ class ColEntry extends StatelessWidget {
     return Container(child: FlatButton(
         child: Center(
             child: Column(children: [
-              SizedBox(height:250,width: 250),
+              Expanded(child: SizedBox(),),
            CircleAvatar(
             child:  Icon(Icons.school),
             radius: 100.0,
@@ -94,6 +94,7 @@ class ColEntry extends StatelessWidget {
             textAlign: TextAlign.center,
             textScaleFactor: 2.0,
           ),
+          Expanded(child: SizedBox(),),
         ])),
 
         onPressed: () {
