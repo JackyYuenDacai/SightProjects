@@ -1,0 +1,26 @@
+package data_access;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import data_access.MysqlAccess;
+
+public class popReal extends MysqlAccess{
+
+		public ArrayList<pop_impl> getPopList(String Location) {
+		// TODO Auto-generated method stub
+		ArrayList<pop_impl> result = new ArrayList<pop_impl>();
+		String query = "call getPopList(\'"+Location+"\');";
+		ResultSet rs = this.executeQuery(query, null);
+		if(rs != null)
+		try {
+			while(rs.next()) {
+				result.add(new pop_impl(rs.getString("name"),rs.getString("id"),rs.getString("status"),rs.getString("unitok")));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			this.close();
+		}
+		return result;
+	}
+}
