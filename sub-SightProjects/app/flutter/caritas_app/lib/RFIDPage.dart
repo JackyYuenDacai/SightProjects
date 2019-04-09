@@ -97,7 +97,7 @@ class _RFIDPageState extends State<RFIDPage> {
   @override
   Widget build(BuildContext context) {
     Widget userHeader = UserAccountsDrawerHeader(
-      accountName: new Text('Location'),
+      accountName: new Text('Current Location: '+StaticList.location),
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
@@ -131,14 +131,14 @@ class _RFIDPageState extends State<RFIDPage> {
               onTap: () {
                 Navigator.pop(context);
               },),
-              ListTile(title: Text('+'),
+              /*ListTile(title: Text('+'),
                 leading: new CircleAvatar(
                   child: new Icon(Icons.list),),
                 onTap: () {
                   this.setState((){
                     StaticList.colform_list.add(new ColForm('Test','001'));
                   });
-                },),
+                },),*/
           ],
         ),
       ),);

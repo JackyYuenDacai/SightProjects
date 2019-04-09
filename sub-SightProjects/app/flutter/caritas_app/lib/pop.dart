@@ -26,4 +26,5 @@ class popList{
 }
 class StaticList{
   static List<ColForm> colform_list = new List<ColForm>();
+  static String location = 'A';
 }
