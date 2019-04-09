@@ -30,7 +30,7 @@ begin
     insert into record_form values(generate_unique_id(),unitok,pid,json_form);
     insert into record_child values(generate_unique_id(),unitok,pid,now(),2);
     select master_record.t_location into @location from master_record where master_record.token = unitok;
-    insert into pop_list values(pid,@location,1);
+    insert into pop_list values(pid,@location,unitok,1);
     select 'SUCCESS: students form submitted!';
   end if;
 end

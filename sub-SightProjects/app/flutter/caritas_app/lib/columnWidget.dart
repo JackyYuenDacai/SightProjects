@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'RFIDPage.dart';
 import 'package:http/http.dart' as http;
+import 'pop.dart';
 class ColForm extends StatefulWidget{
   String name,id,unitok;
 
@@ -21,9 +22,9 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
  String name;
  String id;
  String unitok;
- String select0;
- String select1;
- String select2;
+ var select0 = '0';
+ var select1 = '1';
+ var select2 = '2';
   AnimationController _controller;
   Animation<double> _tween;
   int state = 0;  // 0: init
@@ -34,6 +35,9 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
 
     super.initState();
     //print('init Called');
+    select0 ="0";
+    select1 = "1";
+    select2 = "2";
     _controller = new AnimationController(
         duration: const Duration(milliseconds: 600),
       vsync:this,);
@@ -41,10 +45,47 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
             animate(_controller)
             ..addListener(() {
               setState(() {
-                //print(tween.value);
+
             });
       });
      _controller.forward(from: 0.0);
+  }
+  _onSubmit(){
+    if(!RFIDPage.IsNetwork){
+        print('no network');
+    }else{
+      var url = 'http://localhost:8080/WebInterface/submit_form?';
+      url = url + 'id=' + id +'&';
+      url = url + 'unitok=' + unitok +'&';
+      url = url + 'select0=${select0}&' ;
+      url = url + 'select1=${select1}&';
+      url = url + 'select2=${select2}&';
+
+      http.get(url)
+          .then((response) {
+        print("Submit Response status: ${response.statusCode}");
+        print("Submit Response body: ${response.body}");
+              if(response.body.length>0)
+              _tween = new Tween<double>(begin: 250, end: 0.0).
+                  animate(_controller)
+                  ..addListener((){
+                    setState((){ });
+                  })
+                  ..addStatusListener((AnimationStatus status) {
+                  if (status == AnimationStatus.completed){
+                    this.dispose();
+                    StaticList.colform_list.remove(this);
+
+                  }
+                });
+                _controller.forward(from:250.0);
+              //_controller.forward(from: 250.0);
+            });
+
+
+    }
+
+
   }
   Widget build(BuildContext context) {
 
@@ -98,38 +139,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 color: Theme.of(context).accentColor,
                 elevation: 4.0,
                 splashColor: Colors.blueGrey,
-                onPressed:(){
-                    //form submitted.
-                    if(!RFIDPage.IsNetwork){
-
-                    }else{
-                      var url = 'http://localhost:8080/WebInterface/submit_form?';
-                      url = url + 'id=' + id +'&';
-                      url = url + 'unitok=' + unitok +'&';
-                      url = url + 'select0='+select0+'&';
-                      url = url + 'select1='+select1+'&';
-                      url = url + 'select2='+select2+'&';
-
-                      http.get(url)
-                          .then((response) {
-                        //print("Response status: ${response.statusCode}");
-                        //print("Response body: ${response.body}");
-                              if(response.body.length>0)
-                                this.dispose();
-                            });
-
-
-                    }
-
-                      _tween = new Tween<double>(begin: 250, end: 0.0).
-                          animate(_controller)
-                          ..addListener((){
-                            setState((){
-                                this.dispose();
-                            });
-                          });
-                      startAnimation();
-                },),
+                onPressed:(){_onSubmit();},),
           ],
 
         )),

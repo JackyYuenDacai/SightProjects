@@ -27,10 +27,10 @@ public class pop_impl{
 		System.out.println(jsonObject.toString());
 	}
 
-    @Override
+    /*@Override
     public String toString() {
         return "pop{name='" + name + '\'' + ", id='" + id + '\'' + ", status=" + status + '}';
-    }
+    }*/
     
     public JSONObject toJSONObject() {
     	JSONObject ret = new JSONObject();

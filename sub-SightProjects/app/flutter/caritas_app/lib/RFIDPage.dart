@@ -18,17 +18,17 @@ class RFIDPage extends StatefulWidget {
 }
 
 class _RFIDPageState extends State<RFIDPage> {
-  Duration ajaxCallDuration = new Duration(seconds:2);
+  Duration ajaxCallDuration = new Duration(seconds:10);
   var ajaxCall = null;
   http.Response ajaxResponse = new http.Response("",200);
   addColForm(String name,String id,String unitok){
     this.setState((){
-      colform_list.add(new ColForm(name,id,unitok));
+      StaticList.colform_list.add(new ColForm(name,id,unitok));
     });
   }
   delColForm(Object obj){
     this.setState((){
-      colform_list.remove(obj);
+      StaticList.colform_list.remove(obj);
     });
   }
   ajaxCallFun(){
@@ -57,7 +57,7 @@ class _RFIDPageState extends State<RFIDPage> {
 
 
         }else if(wid.status == "1"){
-          for(var a in colform_list){
+          for(var a in StaticList.colform_list){
             if(a.name == wid.name){
               this.delColForm(a);
               print("deleted colform ${wid.name} ${wid.id} ${wid.unitok}");
@@ -78,7 +78,7 @@ class _RFIDPageState extends State<RFIDPage> {
             //DUMMY
         }
       });
-  var colform_list = new List<ColForm>();
+
   initState(){
     super.initState();
     ajaxCall = new RestartableTimer(ajaxCallDuration,ajaxCallFun);
@@ -106,7 +106,7 @@ class _RFIDPageState extends State<RFIDPage> {
       body: new Container(
         child: new SingleChildScrollView (
           scrollDirection: Axis.horizontal,
-          child: new Row(children:colform_list,)
+          child: new Row(children:StaticList.colform_list,)
         ),),
       drawer: Drawer(
         child: ListView(
@@ -136,7 +136,7 @@ class _RFIDPageState extends State<RFIDPage> {
                   child: new Icon(Icons.list),),
                 onTap: () {
                   this.setState((){
-                    colform_list.add(new ColForm('Test','001'));
+                    StaticList.colform_list.add(new ColForm('Test','001'));
                   });
                 },),
           ],
