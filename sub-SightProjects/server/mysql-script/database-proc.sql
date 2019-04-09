@@ -124,6 +124,7 @@ end;
 
 create procedure getPopList(location varchar(128))
 begin
+  call RoutineCheck();
   select personnel.p_name as name, pop_list.sid as id, pop_list.type as status, pop_list.unitok as unitok from pop_list inner join personnel on pop_list.sid = personnel.id where pop_list.Location = location;
   delete  from pop_list where pop_list.Location = location;
 end;
