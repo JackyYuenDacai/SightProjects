@@ -16,6 +16,12 @@
   	<description></description>
   	<servlet-class>submit_form</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>beaconTest</servlet-name>
+  	<display-name>beaconTest</display-name>
+  	<description></description>
+  	<servlet-class>beaconTest</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>get_pops_list</servlet-name>
   	<url-pattern>/get_pops_list</url-pattern>
@@ -23,5 +29,9 @@
   <servlet-mapping>
   	<servlet-name>submit_form</servlet-name>
   	<url-pattern>/submit_form</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>beaconTest</servlet-name>
+  	<url-pattern>/beaconTest</url-pattern>
   </servlet-mapping>
 </web-app>
