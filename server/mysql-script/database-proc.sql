@@ -1,31 +1,33 @@
 DELIMITER ';'
-uses caritas_main;
+USE caritas_main;
 
 /*drop procedures to update*/
-IF EXISTS (
+/*IF EXISTS (
 SELECT *
     FROM INFORMATION_SCHEMA.ROUTINES
 WHERE SPECIFIC_SCHEMA = 'caritas_main'
     AND SPECIFIC_NAME = 
 )
 DROP PROCEDURE SchemaName.StoredProcedureName
-GO
+GO*/
 
 DELIMITER '/$'
 /*procedures to be added*/
 
 CREATE FUNCTION gen_id() #This will generate a unique id for each event
-RETURNS VARCHAR(64)
 BEGIN
-    SET @id = md5(TO_BASE64(now()+rand()));
+    @random= SELECT RAND();
+    SET @id = md5(TO_BASE64(now()+ @random);
     while (SELECT count(*) FROM id_list WHERE id_list.id = @id) > 0 do
-        SET @id = md5(TO_BASE64(now()+rand()));
+        @random= SELECT RAND();
+        SET @id = md5(TO_BASE64(now()+@random);
     END while
     INSERT INTO id_list VALUE(@id);
+    RETURNS VARCHAR(64)
     RETURN @id;
 END /$
 
-CREATE FUNCTION tag_record(t_location,token,this_id) #This will allow data to be inserted when a tag is sensed
+CREATE FUNCTION tag_record(t_location,token,this_id) /*#This will allow data to be inserted when a tag is sensed*/
 RETURNS VARCHAR(64)  
 BEGIN
     SET token = gen_id();
