@@ -28,7 +28,7 @@ begin
     select 'ERROR: students record did not exists';
   else
     insert into record_form values(generate_unique_id(),unitok,pid,json_form);
-    insert into record_child values(generate_unique_id(),unitok,pid,now(),2);
+    insert into record_child values(generate_unique_id(),unitok,pid,now(),1);
     select master_record.t_location into @location from master_record where master_record.token = unitok;
     insert into pop_list values(pid,@location,unitok,1);
     select 'SUCCESS: students form submitted!';
@@ -96,11 +96,12 @@ begin
         limit 1
         into @out_parent_token;
 
-      if (@in_parent_token IS NOT NULL) then
+      if (@in_parent_token IS NOT NULL and @out_parent_token IS NULL) then
         insert into record_child values(generate_unique_id(),@in_parent_token,pid,now(),2);
         select 'SUCCESS: appended one not sure child record';
       else
-        if @in_parent_token is null and @out_parent_token is null then
+        if (@in_parent_token is null and @out_parent_token is null) or
+        (@in_parent_token is not null and @out_parent_token is not null) then
           /*NO ANY RECORD*/
           set @unitok = generate_unique_id();
           insert into master_record values(generate_unique_id(),location,@unitok);
