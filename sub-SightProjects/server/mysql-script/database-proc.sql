@@ -39,6 +39,7 @@ end
 
 create procedure RoutineCheck()
 begin
+  truncate table tmp_list;
   select count(distinct record_child.parent_token) from record_child where
     addtime(record_child.record_time,"96:00:00") >= now() and
     addtime(record_child.record_time,"00:15:00") < now()
@@ -66,7 +67,7 @@ begin
 
     end if;
   end while;
-  truncate table tmp_list;
+
 end;
 /$
 
@@ -87,13 +88,13 @@ begin
   end if;
   if @p_role = 1 then
       select distinct record_child.parent_token into @in_parent_token from record_child where
-        record_child.student_id = pid and
+        record_child.student_id = pid and (select master_record.t_location from master_record where master_record.token = record_child.parent_token) = location and
         addtime(record_child.record_time,"00:15:00") >= now() and
         record_child.child_status = 0
         limit 1;
 
       select distinct record_child.parent_token from record_child where
-        record_child.student_id = pid and
+        record_child.student_id = pid and (select master_record.t_location from master_record where master_record.token = record_child.parent_token) = location and
         addtime(record_child.record_time,"00:15:00") >= now() and record_child.child_status = 1
         limit 1
         into @out_parent_token;

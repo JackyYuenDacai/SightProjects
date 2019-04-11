@@ -139,7 +139,7 @@ class _RFIDPageState extends State<RFIDPage> {
               leading: new CircleAvatar(child: new Text('B2'),),
               onTap: () {
                 //Navigator.pop(context);
-                this.dispose();
+                //this.dispose();
                 Navigator.of(context).pushNamed('/ManPage');
               },),
             ListTile(title: Text('Settings'),

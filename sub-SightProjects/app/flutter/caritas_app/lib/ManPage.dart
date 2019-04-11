@@ -73,7 +73,7 @@ class _ManPageState extends State<ManPage> {
                                           DatePicker.showDateTimePicker(context,
                                                 showTitleActions: true,
                                                 //minTime: DateTime(2018, 3, 5),
-                                                //maxTime: DateTime(2019, 6, 7), 
+                                                //maxTime: DateTime(2019, 6, 7),
                                                 onChanged: (date) {
                                               print('change $date');
                                             }, onConfirm: (date) {
@@ -152,7 +152,7 @@ class _ManPageState extends State<ManPage> {
               leading: new CircleAvatar(child: new Text('B2'),),
               onTap: () {
                 //Navigator.pop(context);
-                Navigator.of(context).pushNamed('/ManPage');
+                //Navigator.of(context).pushNamed('/ManPage');
               },),
             ListTile(title: Text('Settings'),
               leading: new CircleAvatar(
