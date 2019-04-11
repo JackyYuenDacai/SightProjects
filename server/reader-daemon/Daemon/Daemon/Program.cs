@@ -31,9 +31,9 @@ namespace Daemon
     class Program
     {
         public static String connectstr =
-            "server=localhost;port=3306;user=root;password=root; database=caritas_db;";
+            "database=caritas_main;server=localhost;port=3306;user=root;password=root; ";
         public static String sqlstr = "call tagScanned(@para1,@para2);";
-        public static IPPORT[] iparr=new IPPORT[50];
+        public static IPPORT[] iparr = new IPPORT[50];
         public static TAGS[] TagsNear = new TAGS[50];
         public static int numOfReader = 0;
         public static Timer[] reg;
@@ -41,23 +41,23 @@ namespace Daemon
         public static void RegularScan()
         {
             reg = new Timer[numOfReader];
-            for(int i = 0; i < numOfReader; i++)
+            for (int i = 0; i < numOfReader; i++)
             {
                 reg[i] = new System.Threading.Timer(new System.Threading.TimerCallback(state =>
                 {
-                byte[] epclenandepc = new byte[80000];
-                byte[] data = new byte[80000];
-                int datalen = 0;
-                int EPCLEN = 12;
-                int errorcode = 0;
-                //EPC  len  == 12
-                int cardnum = 0;
-                int k = (int)state;
-                StaticClassReaderB.Inventory_G2(
-                    ref Program.iparr[(int)state].ComAddr, 0, 1, 0
-                    , epclenandepc, ref Program.iparr[k].numOfTags, ref cardnum,
-                    Program.iparr[(int)state].PortHandle);
-                //Console.WriteLine("Inventory flashed");
+                    byte[] epclenandepc = new byte[80000];
+                    byte[] data = new byte[80000];
+                    int datalen = 0;
+                    int EPCLEN = 12;
+                    int errorcode = 0;
+                    //EPC  len  == 12
+                    int cardnum = 0;
+                    int k = (int)state;
+                    StaticClassReaderB.Inventory_G2(
+                        ref Program.iparr[(int)state].ComAddr, 0, 1, 0
+                        , epclenandepc, ref Program.iparr[k].numOfTags, ref cardnum,
+                        Program.iparr[(int)state].PortHandle);
+                    //Console.WriteLine("Inventory flashed");
                     for (int j = 0; j < cardnum; j++)
                     {
 
@@ -67,11 +67,35 @@ namespace Daemon
 
                         Program.TagsNear[j].USER = new byte[16];
                         //Console.WriteLine("TAG EPC SCANNED:" + BitConverter.ToString(Program.TagsNear[j].EPC));
-                        StaticClassReaderB.ReadCard_G2(ref Program.iparr[k].ComAddr, Program.TagsNear[j].EPC, 3, 0, 4,
-                            new byte[4] { 0, 0, 0, 0 }, 0, 0, 0, Program.TagsNear[j].USER, 12, ref errorcode, Program.iparr[k].PortHandle);
-                        
-                        if (!Program.TagsNear[j].USER.SequenceEqual(new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }))
+
+                        for (int l = 0; l < 20; l++)
                         {
+
+                            StaticClassReaderB.ReadCard_G2(ref Program.iparr[k].ComAddr, Program.TagsNear[j].EPC, 3, 0, 4,
+                                new byte[4] { 0, 0, 0, 0 }, 0, 0, 0, Program.TagsNear[j].USER, 12, ref errorcode, Program.iparr[k].PortHandle);
+                            if (!Program.TagsNear[j].USER.SequenceEqual(new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }))
+                                break;
+                        }
+
+                        if (!Program.TagsNear[j].USER.SequenceEqual(new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }))
+                        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                            if (conn.State == System.Data.ConnectionState.Broken ||
+                                conn.State == System.Data.ConnectionState.Closed)
+                            {
+                                conn.Dispose();
+                                conn = new MySqlConnection(connectstr);
+                                try
+                                {
+                                    conn.Open();
+                                    Console.WriteLine("Connected to the database");
+
+                                }
+                                catch (MySqlException ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
+                            }
+                            while (conn.State != System.Data.ConnectionState.Open) ;
                             try
                             {
                                 MySqlCommand cmd = new MySqlCommand(sqlstr, conn);
@@ -80,9 +104,17 @@ namespace Daemon
                                 cmd.Parameters["@para1"].Value = BitConverter.ToString(Program.TagsNear[j].USER);
                                 cmd.Parameters["@para2"].Value = Program.iparr[k].Location;
                                 Console.WriteLine("DataScanned USER: " + BitConverter.ToString(Program.TagsNear[j].USER));
-
+                                Console.WriteLine(cmd.CommandText);
                                 MySqlDataReader reader = cmd.ExecuteReader();
+                                while (reader.Read())
+                                {
+                                    Console.WriteLine(reader[0].ToString());
+                                }
+                                //if (reader.HasRows) Console.WriteLine(reader.Item[0]);
                                 reader.Close();
+                                reader = null;
+                                cmd.Dispose();
+                                cmd = null;
                             }
                             catch (Exception ex)
                             {
@@ -91,15 +123,15 @@ namespace Daemon
                         }
 
                     }
-                }),i,0,2000);
+                }), i, 0, 50);
             }
-      
+
         }
 
-        
+
         static void Main(string[] args)
         {
-            String tmpstr;int i = 0;
+            String tmpstr; int i = 0;
             StreamReader F = null;
             /*
             try
@@ -124,7 +156,7 @@ namespace Daemon
             numOfReader = ++i;
             Program.iparr[0].ip = "192.168.16.254";
             Program.iparr[0].port = "6000";
-            Program.iparr[0].Location = "0";
+            Program.iparr[0].Location = "A";
             Program.iparr[0].portNum = 6000;
             Program.iparr[0].PortHandle = 0xFF;
             Console.WriteLine("Connecting to the database");
@@ -147,7 +179,7 @@ namespace Daemon
 
             for (int j = 0; j < numOfReader; j++)
             {
-                i=StaticClassReaderB.OpenNetPort(Program.iparr[j].portNum,
+                i = StaticClassReaderB.OpenNetPort(Program.iparr[j].portNum,
                     Program.iparr[j].ip, ref Program.iparr[j].ComAddr,
                     ref Program.iparr[j].PortHandle);
                 if (i == 0)
@@ -155,7 +187,7 @@ namespace Daemon
 
             }
 
-            
+
             Console.ReadKey();
             RegularScan();
             Console.ReadKey();

@@ -60,7 +60,7 @@ use below to generate unique id
 data_json
 store form data in json;
 */
-insert into personnel values("000",'root',0,null);
-insert into personnel values('001','student a',1,null);
-insert into personnel values('002','student b',1,null);
-insert into personnel values('003','student c',1,null);
+insert into personnel values("01-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00",'root',0,null);
+insert into personnel values('00-01-00-00-00-00-00-00-00-00-00-00-00-00-00-00','student a',1,null);
+insert into personnel values('00-02-00-00-00-00-00-00-00-00-00-00-00-00-00-00','student b',1,null);
+insert into personnel values('00-03-00-00-00-00-00-00-00-00-00-00-00-00-00-00','student c',1,null);
