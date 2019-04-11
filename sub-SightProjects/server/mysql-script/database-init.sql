@@ -61,6 +61,7 @@ data_json
 store form data in json;
 */
 insert into personnel values("000",'root',0,null);
+insert into personnel values("111",'staff 1',0,null);
 insert into personnel values('001','student a',1,null);
 insert into personnel values('002','student b',1,null);
 insert into personnel values('003','student c',1,null);

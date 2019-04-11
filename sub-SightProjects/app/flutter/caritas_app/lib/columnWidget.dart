@@ -22,9 +22,10 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
  String name;
  String id;
  String unitok;
- var select0 = '0';
- var select1 = '1';
- var select2 = '2';
+ String select0 = 'A';
+ String select1 = 'A';
+ String select2 = 'A';
+ String select3 = 'A';
   AnimationController _controller;
   Animation<double> _tween;
   int state = 0;  // 0: init
@@ -35,9 +36,9 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
 
     super.initState();
     //print('init Called');
-    select0 ="0";
-    select1 = "1";
-    select2 = "2";
+    //select0 = "0";
+    //select1 = "1";
+    //select2 = "2";
     _controller = new AnimationController(
         duration: const Duration(milliseconds: 600),
       vsync:this,);
@@ -88,7 +89,15 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
 
   }
   Widget build(BuildContext context) {
-
+    if(select0 == null){
+      select0 = 'A';
+    }
+    if(select1 == null){
+      select1 = 'A';
+    }
+    if(select2 == null){
+      select2 = 'A';
+    }
     return new GestureDetector(
       child: new Container(
         child: new Center(
@@ -98,48 +107,96 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
               new CircleAvatar(child: new Icon(Icons.school),radius: 55.0,),
               new SizedBox(height: 35),
               new Text(widget.name,textAlign:TextAlign.center,style: new TextStyle(
-          color: Colors.purple,
+          color: Colors.white,
           fontSize: 40.0,
         )),
               new SizedBox(height:30),
               new DropdownButton<String>(
                 hint: Text("Diaper check"),
+                //value: (this?.select0 ?? "A"),
                 items: <String>['A', 'B', 'C', 'D'].map((String value) {
                   return new DropdownMenuItem<String>(
                     value: value,
-                    child: new Text(value),
+                    child: new Text(value, style:  TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.0,
+                                    )),
                   );
                 }).toList(),
-                onChanged: (String value) {select0 = value;},
+                onChanged: (String value) {setState(() {select0 = value;});},
+                      style:  TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                )
               ),
-              new SizedBox(height:50),
+              new SizedBox(height:10),
               new DropdownButton<String>(
                 hint: Text("Wet diaper"),
+                //value: (this?.select1 ?? "A"),
                 items: <String>['A', 'B', 'C', 'D'].map((String value) {
                   return new DropdownMenuItem<String>(
                     value: value,
-                    child: new Text(value),
+                    child: new Text(value, style:  TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.0,
+                                    )),
                   );
                 }).toList(),
-                onChanged: (String value) {select1 = value;},
+                onChanged: (String value) {setState(() {select1 = value;});},
+                style: new TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+          )
               ),
-              new SizedBox(height:50),
+              new SizedBox(height:10),
               new DropdownButton<String>(
                 hint: Text("Toileting condition"),
+                //value: (this?.select2 ?? "A"),
                 items: <String>['A', 'B', 'C', 'D'].map((String value) {
                   return new DropdownMenuItem<String>(
                     value: value,
-                    child: new Text(value),
+                    child: new Text(value, style:  TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.0,
+                                    )),
                   );
                 }).toList(),
-                onChanged: (String value) {select2 = value;},
+                onChanged: (String value) {setState(() {select2 = value;});},
+                style: new TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+          )
               ),
-              new SizedBox(height:50),
-              new RaisedButton(child: const Text('Submit'),
+              new SizedBox(height:10),
+              new DropdownButton<String>(
+                hint: Text("Staff Responsible"),
+                //value: (this?.select2 ?? "A"),
+                items: StaticList.staff_list.map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value, style:  TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.0,
+                                    )),
+                  );
+                }).toList(),
+                onChanged: (String value) {setState(() {select3 = value;});},
+
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                )
+              ),
+              new SizedBox(height:30),
+              new RaisedButton(child: const Text('Submit',                style:  TextStyle(
+                          color: Colors.white,
+                          fontSize: 40.0,
+                        )),
                 color: Theme.of(context).accentColor,
                 elevation: 4.0,
                 splashColor: Colors.blueGrey,
                 onPressed:(){_onSubmit();},),
+
           ],
 
         )),
@@ -160,4 +217,6 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     _controller.dispose();
     super.dispose();
   }
+  bool operator ==(o) => o is _ColFormState && o.select0 == select0 ;
+  int get hashCode => select0.hashCode;
 }

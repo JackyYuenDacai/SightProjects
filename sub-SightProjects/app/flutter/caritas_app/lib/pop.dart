@@ -24,7 +24,26 @@ class popList{
     return new popList(Pops:Pops);
   }
 }
+class staff{
+  final String name;
+  final id;
+  staff(this.id,this.name);
+  factory staff.fromJson(Map<String,dynamic> json){
+    return new staff(json['id'],json['name']);
+  }
+}
+class staffList{
+  final List<staff> Staffs;
+  staffList({this.Staffs,});
+  factory staffList.fromJson(List<dynamic> json){
+    List<staff> Staffs = new List<staff>();
+    Staffs = json.map((i)=>staff.fromJson(i)).toList();
+    return new staffList(Staffs:Staffs);
+  }
+}
 class StaticList{
   static List<ColForm> colform_list = new List<ColForm>();
   static String location = 'A';
+  static List<String> staff_id = new List<String>();
+  static List<String> staff_list = new List<String>();
 }

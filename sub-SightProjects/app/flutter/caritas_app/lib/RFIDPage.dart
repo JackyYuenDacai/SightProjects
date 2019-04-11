@@ -32,7 +32,7 @@ class _RFIDPageState extends State<RFIDPage> {
     });
   }
   ajaxCallFun(){
-    var url = 'http://localhost:8080/WebInterface/get_pops_list?location='+'A';
+    var url = 'http://localhost:8080/WebInterface/get_pops_list?location='+StaticList.location;
     http.get(url)
         .then((response) {
       //print("Response status: ${response.statusCode}");
@@ -45,29 +45,46 @@ class _RFIDPageState extends State<RFIDPage> {
       return;
     }
     popList pops = new popList.fromJson(json.decode(ajaxResponse.body));
-
     for(pop wid in pops.Pops){
-      //print("one pop ${wid.name} ${wid.id}");
-
         if(wid.status == "0"){
             this.addColForm(wid.name,wid.id,wid.unitok);
-
-          //  colform_list.add(new ColForm());
             print("added colform ${wid.name} ${wid.id} ${wid.unitok}");
-
-
         }else if(wid.status == "1"){
           for(var a in StaticList.colform_list){
             if(a.name == wid.name){
               this.delColForm(a);
               print("deleted colform ${wid.name} ${wid.id} ${wid.unitok}");
-
               break;
-              //colform_list.remove(a);
             }
           }
         }
     }
+
+    ajaxResponse = new http.Response("",200);;
+    url = 'http://localhost:8080/WebInterface/get_staff_list?location='+StaticList.location;
+    //print(url);
+    http.get(url)
+        .then((response) {
+      //print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+      this.ajaxResponse = response;
+          });
+    //print("Response body:${ajaxResponse.body}");
+    if(ajaxResponse == null || ajaxResponse?.body?.length <= 0){
+      ajaxCall.reset();
+      return;
+    }
+    staffList staffs = new staffList.fromJson(json.decode(ajaxResponse.body));
+    StaticList.staff_id.clear();
+    StaticList.staff_list.clear();
+    for(staff wid in staffs.Staffs){
+      this.setState((){
+        StaticList.staff_id.add(wid.id);
+        print(wid.name);
+        StaticList.staff_list.add(wid.name);
+      });
+    }
+    print(StaticList.staff_list);
     ajaxCall.reset();
   }
   var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{

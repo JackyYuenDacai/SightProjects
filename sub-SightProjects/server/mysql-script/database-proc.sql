@@ -5,6 +5,7 @@ drop procedure if exists RoutineCheck;
 drop procedure if exists tagScanned;
 drop procedure if exists submitForm;
 drop procedure if exists getPopList;
+drop procedure if exists getStaffList;
 
 set global log_bin_trust_function_creators=TRUE;
 
@@ -88,7 +89,8 @@ begin
       select distinct record_child.parent_token into @in_parent_token from record_child where
         record_child.student_id = pid and
         addtime(record_child.record_time,"00:15:00") >= now() and
-        record_child.child_status = 0;
+        record_child.child_status = 0
+        limit 1;
 
       select distinct record_child.parent_token from record_child where
         record_child.student_id = pid and
@@ -128,6 +130,12 @@ begin
   call RoutineCheck();
   select personnel.p_name as name, pop_list.sid as id, pop_list.type as status, pop_list.unitok as unitok from pop_list inner join personnel on pop_list.sid = personnel.id where pop_list.Location = location;
   delete  from pop_list where pop_list.Location = location;
+end;
+/$
+
+create procedure getStaffList(location varchar(128))
+begin
+  select staff_location.id as id, personnel.p_name as name from staff_location inner join personnel on staff_location.id = personnel.id order by ltime limit 5;
 end;
 /$
 DELIMITER ';'
