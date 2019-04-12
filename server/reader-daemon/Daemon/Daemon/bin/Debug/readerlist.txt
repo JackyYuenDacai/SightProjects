@@ -1,0 +1,7 @@
+database=caritas_main;server=localhost;port=3306;user=root;password=root;
+192.168.16.254
+6000
+A
+192.168.16.253
+6000
+B

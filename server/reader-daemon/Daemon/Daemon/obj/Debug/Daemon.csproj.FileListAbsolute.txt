@@ -18,3 +18,4 @@ C:\Users\ccyuenae\Downloads\SightProjects-master\SightProjects-master\server\rea
 C:\Users\ccyuenae\Downloads\SightProjects-master\SightProjects-master\server\reader-daemon\Daemon\Daemon\obj\Debug\Daemon.csproj.CopyComplete
 C:\Users\ccyuenae\Downloads\SightProjects-master\SightProjects-master\server\reader-daemon\Daemon\Daemon\obj\Debug\Daemon.exe
 C:\Users\ccyuenae\Downloads\SightProjects-master\SightProjects-master\server\reader-daemon\Daemon\Daemon\obj\Debug\Daemon.pdb
+C:\Users\ccyuenae\Downloads\SightProjects-master\SightProjects-master\server\reader-daemon\Daemon\Daemon\obj\Debug\Daemon.csprojAssemblyReference.cache

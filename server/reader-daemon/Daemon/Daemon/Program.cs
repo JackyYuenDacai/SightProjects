@@ -31,99 +31,133 @@ namespace Daemon
     class Program
     {
         public static String connectstr =
-            "database=caritas_main;server=localhost;port=3306;user=root;password=root; ";
+            "database=caritas_main;server=localhost;port=3306;user=root;password=root;";
         public static String sqlstr = "call tagScanned(@para1,@para2);";
         public static IPPORT[] iparr = new IPPORT[50];
         public static TAGS[] TagsNear = new TAGS[50];
         public static int numOfReader = 0;
         public static Timer[] reg;
-        public static MySqlConnection conn;
+        public static Timer counterThread;
+        public static MySqlConnection[] conn = new MySqlConnection[50];
+        public static Dictionary<String, int>[] counter = new Dictionary<string, int>[50];
+        public static void ClearCounter()
+        {
+            //AUTO CLEAR OF COUNTER OF EACH READER AFTER 5 SECS
+            counterThread = new System.Threading.Timer(new System.Threading.TimerCallback(state =>
+            {
+                for(int i = 0; i < numOfReader; i++)
+                {
+                    counter[i].Clear();
+                }
+            }), 0, 0, 5000);
+        }
         public static void RegularScan()
         {
             reg = new Timer[numOfReader];
             for (int i = 0; i < numOfReader; i++)
             {
+                //CREATE THREAD FOR EACH READER
                 reg[i] = new System.Threading.Timer(new System.Threading.TimerCallback(state =>
                 {
-                    byte[] epclenandepc = new byte[80000];
-                    byte[] data = new byte[80000];
-                    int datalen = 0;
-                    int EPCLEN = 12;
-                    int errorcode = 0;
-                    //EPC  len  == 12
-                    int cardnum = 0;
-                    int k = (int)state;
-                    StaticClassReaderB.Inventory_G2(
-                        ref Program.iparr[(int)state].ComAddr, 0, 1, 0
-                        , epclenandepc, ref Program.iparr[k].numOfTags, ref cardnum,
-                        Program.iparr[(int)state].PortHandle);
-                    //Console.WriteLine("Inventory flashed");
-                    for (int j = 0; j < cardnum; j++)
+
+                byte[] epclenandepc = new byte[80000];
+                byte[] data = new byte[80000];
+                int datalen = 0;
+                int EPCLEN = 12;
+                int errorcode = 0;
+                //EPC  len  == 12
+                int cardnum = 0;
+                int k = (int)state;
+                MySqlCommand cmd = null;
+                MySqlDataReader reader = null;
+                System.Data.ConnectionState connectionstate = System.Data.ConnectionState.Open;
+                //Console.WriteLine("THREAD NO:" + state);
+                StaticClassReaderB.Inventory_G2(
+                    ref Program.iparr[(int)state].ComAddr, 0, 1, 0
+                    , epclenandepc, ref Program.iparr[k].numOfTags, ref cardnum,
+                    Program.iparr[(int)state].PortHandle);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("READER#"+k+" NO OF CARD SCANNED:"+cardnum);
+                Console.ForegroundColor = ConsoleColor.White;
+                //PROCESS DATA FETCHED FROM READER
+                for (int j = 0; j < cardnum; j++)
+                {
+                    Program.TagsNear[j].EPC = new byte[EPCLEN];
+                    for (int a = 0; a < EPCLEN; a++)
+                        Program.TagsNear[j].EPC[a] = epclenandepc[(j + 1) + j * EPCLEN + a];
+
+                    Program.TagsNear[j].USER = new byte[16];
+                    Console.WriteLine("\tTAG EPC SCANNED:" + BitConverter.ToString(Program.TagsNear[j].EPC));
+                    if (counter[k].ContainsKey(BitConverter.ToString(Program.TagsNear[j].EPC)))
                     {
+                        counter[k][BitConverter.ToString(Program.TagsNear[j].EPC)] += 1;
+                    }
+                    else
+                    {
+                        counter[k].Add(BitConverter.ToString(Program.TagsNear[j].EPC), 1);
+                    }
+                }
+                //SEND DATA IF COUNTER >= 5
+                for (int j = 0; j < cardnum; j++)
+                {
 
-                        Program.TagsNear[j].EPC = new byte[EPCLEN];
-                        for (int a = 0; a < EPCLEN; a++)
-                            Program.TagsNear[j].EPC[a] = epclenandepc[(j + 1) + j * EPCLEN + a];
-
-                        Program.TagsNear[j].USER = new byte[16];
-                        //Console.WriteLine("TAG EPC SCANNED:" + BitConverter.ToString(Program.TagsNear[j].EPC));
-
-                        for (int l = 0; l < 20; l++)
+                    if (counter[k][BitConverter.ToString(Program.TagsNear[j].EPC)] >= 5)
+                    {
+                        counter[k][BitConverter.ToString(Program.TagsNear[j].EPC)] = 0;
+                            Console.BackgroundColor = ConsoleColor.Red;Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine("TAG RECORDED:" + BitConverter.ToString(Program.TagsNear[j].EPC));
+                            Console.BackgroundColor = ConsoleColor.Black; Console.ForegroundColor = ConsoleColor.White;
+                            connectionstate = conn[k].State;
+                        if (connectionstate == System.Data.ConnectionState.Broken || connectionstate == System.Data.ConnectionState.Closed)
                         {
-
-                            StaticClassReaderB.ReadCard_G2(ref Program.iparr[k].ComAddr, Program.TagsNear[j].EPC, 3, 0, 4,
-                                new byte[4] { 0, 0, 0, 0 }, 0, 0, 0, Program.TagsNear[j].USER, 12, ref errorcode, Program.iparr[k].PortHandle);
-                            if (!Program.TagsNear[j].USER.SequenceEqual(new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }))
-                                break;
-                        }
-
-                        if (!Program.TagsNear[j].USER.SequenceEqual(new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }))
-                        {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-                            if (conn.State == System.Data.ConnectionState.Broken ||
-                                conn.State == System.Data.ConnectionState.Closed)
-                            {
-                                conn.Dispose();
-                                conn = new MySqlConnection(connectstr);
-                                try
-                                {
-                                    conn.Open();
-                                    Console.WriteLine("Connected to the database");
-
-                                }
-                                catch (MySqlException ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                            }
-                            while (conn.State != System.Data.ConnectionState.Open) ;
+                            //conn[k].Dispose();
+                            conn[k] = new MySqlConnection(connectstr);
                             try
                             {
-                                MySqlCommand cmd = new MySqlCommand(sqlstr, conn);
-                                cmd.Parameters.Add("@para1", MySqlDbType.String);
-                                cmd.Parameters.Add("@para2", MySqlDbType.String);
-                                cmd.Parameters["@para1"].Value = BitConverter.ToString(Program.TagsNear[j].USER);
-                                cmd.Parameters["@para2"].Value = Program.iparr[k].Location;
-                                Console.WriteLine("DataScanned USER: " + BitConverter.ToString(Program.TagsNear[j].USER));
-                                Console.WriteLine(cmd.CommandText);
-                                MySqlDataReader reader = cmd.ExecuteReader();
-                                while (reader.Read())
-                                {
-                                    Console.WriteLine(reader[0].ToString());
-                                }
-                                //if (reader.HasRows) Console.WriteLine(reader.Item[0]);
-                                reader.Close();
-                                reader = null;
-                                cmd.Dispose();
-                                cmd = null;
+                                conn[k].Open();
+                                Console.WriteLine("Connected to the database");
+
+                            }
+                            catch (MySqlException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+                        //SENDING DATA TO DATABASE
+                        try
+                        {
+                            cmd = new MySqlCommand(sqlstr, conn[k]);
+                            cmd.Parameters.Add("@para1", MySqlDbType.String);
+                            cmd.Parameters.Add("@para2", MySqlDbType.String);
+                            cmd.Parameters["@para1"].Value = BitConverter.ToString(Program.TagsNear[j].EPC);//BitConverter.ToString(Program.TagsNear[j].USER);
+                            cmd.Parameters["@para2"].Value = Program.iparr[k].Location;
+                            connectionstate = conn[k].State;
+                            //CHECK IF PREVIOUS COMMAND COMPLETED
+                            while (connectionstate == System.Data.ConnectionState.Open && connectionstate.ToString() == "Open")
+                            {
+                                Thread.Sleep(200);
+                            }
+                            reader = cmd.ExecuteReader();
+                            //FETCH QUERY RESULT
+                            while (reader.Read())
+                            {
+                                Console.WriteLine("RESULT:"+reader[0].ToString());
+                            }
                             }
                             catch (Exception ex)
                             {
                                 Console.WriteLine(ex.ToString());
+                               
                             }
+                            //MAKE SURE DATAREADER IS CLOSED
+                            if (reader != null)
+                                if (reader.IsClosed == false)
+                                    reader.Close();
+
                         }
 
                     }
-                }), i, 0, 50);
+                }), i, 0, 200);
             }
 
         }
@@ -133,48 +167,51 @@ namespace Daemon
         {
             String tmpstr; int i = 0;
             StreamReader F = null;
-            /*
-            try
-            {
-                F = File.OpenText("C://Users/ccyuenae/source/repos/Daemon/Daemon/bin/Debug/readerlist.txt");
+            //TRY TO FETCH READER INFO FROM readerlist.txt
+            try{
+                F = File.OpenText("readerlist.txt");
             }
-            catch(Exception ex)
-            {
+            //RETURN IF FAIL TO READ FROM readerlist.txt
+            catch(Exception ex){
                 Console.WriteLine(ex.Message+" READERLIST.TXT NOT FOUND");
                 Console.ReadKey();
                 return;
             }
-            //int.Parse(myFile.ReadLine());
+            connectstr = F.ReadLine();
             while ((tmpstr = F.ReadLine())!=null)
             {
                 Program.iparr[i].ip = tmpstr;
                 Program.iparr[i].port = F.ReadLine();
                 Program.iparr[i].Location = F.ReadLine();
                 Program.iparr[i].portNum = int.Parse(Program.iparr[i].port);
+                //NET CONNECT ASSIGN 0xFF TO PORTHANDLE TO GET THE ACTUAL HANDLE
+                Program.iparr[i].PortHandle = 0xFF;
                 i++;
-            }*/
-            numOfReader = ++i;
-            Program.iparr[0].ip = "192.168.16.254";
-            Program.iparr[0].port = "6000";
-            Program.iparr[0].Location = "A";
-            Program.iparr[0].portNum = 6000;
-            Program.iparr[0].PortHandle = 0xFF;
-            Console.WriteLine("Connecting to the database");
-            conn = new MySqlConnection(connectstr);
-            try
+            }
+            numOfReader = i;
+            Console.WriteLine("CONNECTING TO THE  DATABASE...");
+            for (int l = 0; l < numOfReader; l++)
             {
-                conn.Open();
-                Console.WriteLine("Connected to the database");
+                conn[l] = new MySqlConnection(connectstr);
+                try
+                {
+                    conn[l].Open();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("DATABASE CONNECTED.");
+                    Console.ForegroundColor = ConsoleColor.White;
 
+                }
+                catch (MySqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    //conn.Close();
+                }
+                counter[l] = new Dictionary<string, int>();
             }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                //conn.Close();
-            }
+
 
 
             for (int j = 0; j < numOfReader; j++)
@@ -183,14 +220,32 @@ namespace Daemon
                     Program.iparr[j].ip, ref Program.iparr[j].ComAddr,
                     ref Program.iparr[j].PortHandle);
                 if (i == 0)
-                    System.Console.WriteLine("Reader at " + Program.iparr[j].ip + " connected");
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    System.Console.WriteLine("READER AT LOCATION: \'" + Program.iparr[j].Location + "\'\tIP ADDRESS:" + Program.iparr[j].ip + "\tCONNECTED.");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("READER AT LOCATION: \'" + Program.iparr[j].Location + "\'\tIP ADDRESS:" + Program.iparr[j].ip + "\tFAILED TO CONNECT.");
+                }
+                Console.ForegroundColor = ConsoleColor.White;
 
             }
 
-
+            Console.WriteLine("PRESS ENTER TO START EVERYTHING");
+            Console.WriteLine("PRESS Q TO QUIT");
             Console.ReadKey();
             RegularScan();
-            Console.ReadKey();
+            ClearCounter();
+            while (Console.ReadKey().Key != ConsoleKey.Q) ;
+
+            for(int j = 0; j < numOfReader; j++)
+            {
+                conn[j].Dispose();
+                reg[j].Dispose();
+                StaticClassReaderB.CloseNetPort(Program.iparr[j].PortHandle);
+            }
         }
     }
 }
