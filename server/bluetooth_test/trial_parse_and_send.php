@@ -16,7 +16,12 @@ foreach($devices as $v) {
     echo $parser->hexString($adv->rawData);
     echo "\n";
 
-/*TODO: exact mac and rssi from $devices by looking at parser, given byte 2 - 7 is mac address for BLE device and byte 8 is RSSI, minus 256 for real value*/
+/*exact mac and rssi from $devices by looking at parser, given that in function phase() in PacketParser4.php:
+$data->rssi = ord($v[self::OFFSET_RSSI]) - 255;
+$data->macAddress = strtoupper(bin2hex(substr($v, self::OFFSET_MAC_ADDRESS, BLEAdvData::MAC_ADDRESS_LEN))); */
+
+$mac=$adv->macAddress
+$rssi=$adv->rssi
 
 $conn="insert into bluetooth_test values(generate_unique_id(),$mac,$rssi)";
 mysql_query($conn);
