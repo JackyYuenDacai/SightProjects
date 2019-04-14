@@ -30,9 +30,9 @@ namespace Daemon
     };
     class Program
     {
-        public static String connectstr =
-            "database=caritas_main;server=localhost;port=3306;user=root;password=root;";
+        public static String connectstr = "";
         public static String sqlstr = "call tagScanned(@para1,@para2);";
+        public const int CountTH = 3;
         public static IPPORT[] iparr = new IPPORT[50];
         public static TAGS[] TagsNear = new TAGS[50];
         public static int numOfReader = 0;
@@ -77,6 +77,7 @@ namespace Daemon
                     , epclenandepc, ref Program.iparr[k].numOfTags, ref cardnum,
                     Program.iparr[(int)state].PortHandle);
                 Console.ForegroundColor = ConsoleColor.Yellow;
+                if(cardnum>0)
                 Console.WriteLine("READER#"+k+" NO OF CARD SCANNED:"+cardnum);
                 Console.ForegroundColor = ConsoleColor.White;
                 //PROCESS DATA FETCHED FROM READER
@@ -101,13 +102,14 @@ namespace Daemon
                 for (int j = 0; j < cardnum; j++)
                 {
 
-                    if (counter[k][BitConverter.ToString(Program.TagsNear[j].EPC)] >= 5)
+                    if(counter[k].ContainsKey(BitConverter.ToString(Program.TagsNear[j].EPC)))
+                    if (counter[k][BitConverter.ToString(Program.TagsNear[j].EPC)] >= CountTH)
                     {
                         counter[k][BitConverter.ToString(Program.TagsNear[j].EPC)] = 0;
-                            Console.BackgroundColor = ConsoleColor.Red;Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine("TAG RECORDED:" + BitConverter.ToString(Program.TagsNear[j].EPC));
-                            Console.BackgroundColor = ConsoleColor.Black; Console.ForegroundColor = ConsoleColor.White;
-                            connectionstate = conn[k].State;
+                        Console.BackgroundColor = ConsoleColor.Red;Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("TAG RECORDED:" + BitConverter.ToString(Program.TagsNear[j].EPC));
+                        Console.BackgroundColor = ConsoleColor.Black; Console.ForegroundColor = ConsoleColor.White;
+                        connectionstate = conn[k].State;
                         if (connectionstate == System.Data.ConnectionState.Broken || connectionstate == System.Data.ConnectionState.Closed)
                         {
                             //conn[k].Dispose();
@@ -116,7 +118,6 @@ namespace Daemon
                             {
                                 conn[k].Open();
                                 Console.WriteLine("Connected to the database");
-
                             }
                             catch (MySqlException ex)
                             {
@@ -126,38 +127,47 @@ namespace Daemon
                         //SENDING DATA TO DATABASE
                         try
                         {
+                            while (!(conn[k].State.ToString() == "Open" && conn[k].State == System.Data.ConnectionState.Open))
+                            {
+
+                                Thread.Sleep(500);
+                            }
                             cmd = new MySqlCommand(sqlstr, conn[k]);
                             cmd.Parameters.Add("@para1", MySqlDbType.String);
                             cmd.Parameters.Add("@para2", MySqlDbType.String);
                             cmd.Parameters["@para1"].Value = BitConverter.ToString(Program.TagsNear[j].EPC);//BitConverter.ToString(Program.TagsNear[j].USER);
                             cmd.Parameters["@para2"].Value = Program.iparr[k].Location;
+                                
                             connectionstate = conn[k].State;
                             //CHECK IF PREVIOUS COMMAND COMPLETED
-                            while (connectionstate == System.Data.ConnectionState.Open && connectionstate.ToString() == "Open")
+                            while (!(conn[k].State.ToString() == "Open" && conn[k].State == System.Data.ConnectionState.Open))
                             {
-                                Thread.Sleep(200);
+
+                                Thread.Sleep(500);
                             }
+                            //MAKE SURE DATAREADER IS CLOSED
                             reader = cmd.ExecuteReader();
+                                
                             //FETCH QUERY RESULT
                             while (reader.Read())
                             {
-                                Console.WriteLine("RESULT:"+reader[0].ToString());
+                                Console.WriteLine("RESULT:" + reader[0].ToString());
                             }
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.ToString());
-                               
-                            }
+
                             //MAKE SURE DATAREADER IS CLOSED
                             if (reader != null)
                                 if (reader.IsClosed == false)
                                     reader.Close();
+                            }
+                            catch(Exception ex)
+                            {
+                                Console.WriteLine(ex.ToString());
+                            }
 
-                        }
+                            }
 
                     }
-                }), i, 0, 200);
+                }), i, 0,50);
             }
 
         }
@@ -242,9 +252,9 @@ namespace Daemon
 
             for(int j = 0; j < numOfReader; j++)
             {
-                conn[j].Dispose();
                 reg[j].Dispose();
                 StaticClassReaderB.CloseNetPort(Program.iparr[j].PortHandle);
+                conn[j].Dispose();  
             }
         }
     }
