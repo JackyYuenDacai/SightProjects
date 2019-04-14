@@ -55,7 +55,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     if(!RFIDPage.IsNetwork){
         print('no network');
     }else{
-      var url = 'http://localhost:8080/WebInterface/submit_form?';
+      var url = StaticList.submit_form_api_url;
       url = url + 'id=' + id +'&';
       url = url + 'unitok=' + unitok +'&';
       url = url + 'select0=${select0}&' ;

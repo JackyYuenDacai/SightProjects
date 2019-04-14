@@ -46,4 +46,7 @@ class StaticList{
   static String location = 'A';
   static List<String> staff_id = new List<String>();
   static List<String> staff_list = new List<String>();
+  static String getpop_api_url = 'http://192.168.31.2:8080/WebInterface/get_pops_list?location=';
+  static String getstaff_api_url = 'http://192.168.31.2:8080/WebInterface/get_staff_list?location=';
+  static String submit_form_api_url = 'http://192.168.31.2:8080/WebInterface/submit_form?';
 }

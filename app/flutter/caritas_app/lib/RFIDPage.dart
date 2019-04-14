@@ -32,7 +32,7 @@ class _RFIDPageState extends State<RFIDPage> {
     });
   }
   ajaxCallFun(){
-    var url = 'http://localhost:8080/WebInterface/get_pops_list?location='+StaticList.location;
+    var url = StaticList.getpop_api_url+StaticList.location;
     http.get(url)
         .then((response) {
       //print("Response status: ${response.statusCode}");
@@ -61,7 +61,7 @@ class _RFIDPageState extends State<RFIDPage> {
     }
 
     ajaxResponse = new http.Response("",200);;
-    url = 'http://localhost:8080/WebInterface/get_staff_list?location='+StaticList.location;
+    url = StaticList.getstaff_api_url+StaticList.location;
     //print(url);
     http.get(url)
         .then((response) {

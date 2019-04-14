@@ -42,15 +42,16 @@ begin
   truncate table tmp_list;
   select count(distinct record_child.parent_token) from record_child where
     addtime(record_child.record_time,"96:00:00") >= now() and
-    addtime(record_child.record_time,"00:15:00") < now()
+    addtime(record_child.record_time,"00:00:30") < now()
     into @expired_record_count;
   insert into tmp_list(token) select distinct record_child.parent_token as token  from record_child where
     addtime(record_child.record_time,"96:00:00") >= now() and
-    addtime(record_child.record_time,"00:15:00") < now()
+    addtime(record_child.record_time,"00:00:30") < now()
     order by record_child.parent_token;
   set @one = 1;
   while @expired_record_count > 0 do
-    select * from tmp_list order by tmp_list.token limit 1 into @currentToken;
+    select * from tmp_list order by token limit 1 into @currentToken;
+    set @expired_record_count = @expired_record_count - 1;
     select count(*) into @Iscompleted from record_child where
       record_child.parent_token = @currentToken and
       record_child.child_status = 1;
@@ -89,13 +90,13 @@ begin
   if @p_role = 1 then
       select distinct record_child.parent_token into @in_parent_token from record_child where
         record_child.student_id = pid and (select master_record.t_location from master_record where master_record.token = record_child.parent_token) = location and
-        addtime(record_child.record_time,"00:15:00") >= now() and
+        addtime(record_child.record_time,"00:00:30") >= now() and
         record_child.child_status = 0
         limit 1;
 
       select distinct record_child.parent_token from record_child where
         record_child.student_id = pid and (select master_record.t_location from master_record where master_record.token = record_child.parent_token) = location and
-        addtime(record_child.record_time,"00:15:00") >= now() and record_child.child_status = 1
+        addtime(record_child.record_time,"00:00:30") >= now() and record_child.child_status = 1
         limit 1
         into @out_parent_token;
 
