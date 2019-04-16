@@ -3,6 +3,7 @@ import './columnWidget.dart';
 import './RFIDPage.dart';
 import './ManPage.dart';
 import './pop.dart';
+import './DataPage.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
       routes: <String, WidgetBuilder>{
           '/RFIDPage':(BuildContext context) => new RFIDPage(),
-          '/ManPage':(BuildContext context) => new ManPage()
+          '/ManPage':(BuildContext context) => new ManPage(),
+          '/DataPage':(BuildContext context) => new DataPage(),
       },
     );
   }
@@ -115,6 +117,11 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.of(context).pushNamed('/RFIDPage');
               },),
+              ListTile(title: Text('Data Analysis'),
+                leading: new CircleAvatar(child: new Icon(Icons.school),),
+                onTap: () {
+                  Navigator.of(context).pushNamed('/DataPage');
+                },),
             ListTile(title: Text('Manuel Page'),
               leading: new CircleAvatar(child: new Text('B2'),),
               onTap: () {

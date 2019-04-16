@@ -31,7 +31,6 @@ class _ManPageState extends State<ManPage> {
 
     return Scaffold(
       appBar: AppBar(title: Text("Manual Page"),),
-
       body:
       new Container(
           margin: const EdgeInsets.only(top:40.0, left: 20.0, right: 20.0),
@@ -148,11 +147,14 @@ class _ManPageState extends State<ManPage> {
               onTap: () {
                 Navigator.of(context).pushNamed('/RFIDPage');
               },),
+            ListTile(title: Text('Data Analysis'),
+              leading: new CircleAvatar(child: new Icon(Icons.school),),
+              onTap: () {
+                Navigator.of(context).pushNamed('/DataPage');
+              },),
             ListTile(title: Text('Manuel Page'),
               leading: new CircleAvatar(child: new Text('B2'),),
               onTap: () {
-                //Navigator.pop(context);
-                //Navigator.of(context).pushNamed('/ManPage');
               },),
             ListTile(title: Text('Settings'),
               leading: new CircleAvatar(

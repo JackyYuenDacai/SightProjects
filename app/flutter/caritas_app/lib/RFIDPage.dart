@@ -66,26 +66,31 @@ class _RFIDPageState extends State<RFIDPage> {
     http.get(url)
         .then((response) {
       //print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
-      this.ajaxResponse = response;
-          });
+
+          print("Response body: ${response.body}");
+          print('get staff list');
+          if(response.body.length<=0){
+            ajaxCall.reset();
+          }
+          staffList staffs = new staffList.fromJson(json.decode(response.body));
+          StaticList.staff_id.clear();
+          StaticList.staff_list.clear();
+          for(staff wid in staffs.Staffs){
+            this.setState((){
+              StaticList.staff_id.add(wid.id);
+              print('name:'+wid.name);
+              StaticList.staff_list.add(wid.name);
+            });
+          }
+          print(StaticList.staff_list);
+          ajaxCall.reset();
+    });
     //print("Response body:${ajaxResponse.body}");
-    if(ajaxResponse == null || ajaxResponse?.body?.length <= 0){
+    if(this.ajaxResponse.body.length <= 0){
       ajaxCall.reset();
       return;
     }
-    staffList staffs = new staffList.fromJson(json.decode(ajaxResponse.body));
-    StaticList.staff_id.clear();
-    StaticList.staff_list.clear();
-    for(staff wid in staffs.Staffs){
-      this.setState((){
-        StaticList.staff_id.add(wid.id);
-        print(wid.name);
-        StaticList.staff_list.add(wid.name);
-      });
-    }
-    print(StaticList.staff_list);
-    ajaxCall.reset();
+
   }
   var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
         var connectivityResult = await Connectivity().checkConnectivity();
@@ -134,6 +139,11 @@ class _RFIDPageState extends State<RFIDPage> {
               leading: new CircleAvatar(child: new Icon(Icons.school),),
               onTap: () {
                 //Navigator.of(context).pushNamed('/RFIDPage');
+              },),
+            ListTile(title: Text('Data Analysis'),
+              leading: new CircleAvatar(child: new Icon(Icons.school),),
+              onTap: () {
+                Navigator.of(context).pushNamed('/DataPage');
               },),
             ListTile(title: Text('Manuel Page'),
               leading: new CircleAvatar(child: new Text('B2'),),

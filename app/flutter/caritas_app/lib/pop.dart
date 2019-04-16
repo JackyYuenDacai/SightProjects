@@ -25,9 +25,10 @@ class popList{
   }
 }
 class staff{
-  final String name;
-  final id;
   staff(this.id,this.name);
+  final String name;
+  final String id;
+
   factory staff.fromJson(Map<String,dynamic> json){
     return new staff(json['id'],json['name']);
   }
@@ -46,7 +47,8 @@ class StaticList{
   static String location = 'A';
   static List<String> staff_id = new List<String>();
   static List<String> staff_list = new List<String>();
-  static String getpop_api_url = 'http://192.168.31.2:8080/WebInterface/get_pops_list?location=';
-  static String getstaff_api_url = 'http://192.168.31.2:8080/WebInterface/get_staff_list?location=';
-  static String submit_form_api_url = 'http://192.168.31.2:8080/WebInterface/submit_form?';
+  static String server_addr = 'http://192.168.31.2:8080';//'http://192.168.31.2:8080';
+  static String getpop_api_url = server_addr+'/WebInterface/get_pops_list?location=';
+  static String getstaff_api_url = server_addr+'/WebInterface/get_staff_list?location=';
+  static String submit_form_api_url = server_addr+'/WebInterface/submit_form?';
 }
