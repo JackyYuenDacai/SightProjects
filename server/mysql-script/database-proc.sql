@@ -18,6 +18,7 @@ begin
   while (select count(*) from id_list where id_list.id = @id) > 0 do
     set @id = md5(TO_BASE64(now()+rand()));
     end while;
+  insert into id_list values(@id);
   return(@id);
 end
 /$
