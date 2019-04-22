@@ -144,7 +144,7 @@ end;
 
 create procedure getStaffList(location varchar(128))
 begin
-  select staff_location.id as id, personnel.p_name as name from staff_location inner join personnel on staff_location.id = personnel.id order by ltime limit 5;
+  select staff_location.id as id, personnel.p_name as staff_name from staff_location inner join personnel on staff_location.id = personnel.id where staff_location.Location = location order by ltime DESC limit 5;
 end;
 /$
 DELIMITER ';'
