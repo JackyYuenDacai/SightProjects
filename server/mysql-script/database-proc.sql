@@ -17,7 +17,7 @@ begin
   set @id = md5(TO_BASE64(now()+rand()));
   while (select count(*) from id_list where id_list.id = @id) > 0 do
     set @id = md5(TO_BASE64(now()+rand()));
-    end while;
+  end while;
   insert into id_list values(@id);
   return(@id);
 end
@@ -27,16 +27,14 @@ create procedure submitForm(pid varchar(128), unitok varchar(128), json_form var
 begin
   select count(*) from record_child where parent_token = unitok and student_id = pid into @matched_count;
   if @matched_count = 0 then
-	select 'ERROR: students record did not exists';
+    select 'ERROR: students record did not exists';
   else
-	select count(*) into @Iscompleted from record_child where
-      record_child.parent_token = unitok and
-	  record_child.child_status = 1;
-	delete from record_form where record_form.parent_token = unitok; /*The latest version of form will be the only one saved*/
+    select count(*) from record_form where record_form.parent_token = unitok into @IsFilled;
+    if @IsFilled != 0 then
+      delete from record_form where record_form.parent_token = unitok;
+    end if;
     insert into record_form values(generate_unique_id(),unitok,pid,json_form);
-    if @Iscompleted = 0 then
-		insert into record_child values(generate_unique_id(),unitok,pid,now(),1);/*Only record time of first input---more accurate*/
-	end if;
+    insert into record_child values(generate_unique_id(),unitok,pid,now(),1);
     select master_record.t_location into @location from master_record where master_record.token = unitok;
     insert into pop_list values(pid,@location,unitok,1);
     select 'SUCCESS: students form submitted!';
@@ -144,7 +142,11 @@ end;
 
 create procedure getStaffList(location varchar(128))
 begin
-  select staff_location.id as id, personnel.p_name as staff_name from staff_location inner join personnel on staff_location.id = personnel.id where staff_location.Location = location order by ltime DESC limit 5;
+  select staff_location.id as id, personnel.p_name as name from
+    staff_location inner join personnel on
+    staff_location.id = personnel.id where
+    staff_location.Location = location
+    order by ltime desc limit 5;
 end;
 /$
 DELIMITER ';'
