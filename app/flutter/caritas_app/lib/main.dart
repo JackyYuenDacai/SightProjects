@@ -4,6 +4,8 @@ import './RFIDPage.dart';
 import './ManPage.dart';
 import './pop.dart';
 import './DataPage.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import './I8N.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,6 +14,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CaritasApp',
+      onGenerateTitle: (BuildContext context) => I8N.of(context).apptitle,
+      localizationsDelegates: [
+        // ... app-specific localization delegate[s] here
+        const I8NDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+         const Locale('en'), // English
+         const Locale('zh'), // Chinese
+
+       ],
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -50,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
-    return Scaffold(appBar: AppBar(title: Text("Home"),),
+    return Scaffold(appBar: new AppBar(title: Text(I8N.of(context).home),),
       body: new Container(
         child: Align(alignment: Alignment.center,child:new SingleChildScrollView (
           scrollDirection: Axis.horizontal,

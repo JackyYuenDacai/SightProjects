@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'columnWidget.dart';
+import 'package:intl/intl.dart';
 class pop{
   pop(this.name,this.id,this.status,this.unitok);
   final String name;
@@ -61,6 +62,31 @@ class studentList{
     return new studentList(Staffs:Staffs);
   }
 }
+
+class record_entry{
+  final DateTime time_in;
+  final DateTime interval;
+  final String location;
+  final String data_json;
+  record_entry(this.time_in,this.interval,this.location,this.data_json);
+  factory record_entry.fromJson(Map<String,dynamic> json){
+    return new record_entry(
+      new DateFormat("yyyy-MM-dd HH:mm:ss").parse(json['time']),
+      new DateFormat("HH:mm:ss").parse(json['interval']),
+      json['location'],
+      json['data_json']);
+  }
+}
+class record_entries{
+  final List<record_entry> entries;
+  record_entries({this.entries});
+  factory record_entries.fromJson(List<dynamic> json){
+    List<record_entry> entries = new List<record_entry>();
+    entries = json.map((i)=>record_entry.fromJson(i)).toList();
+    return new record_entries(entries:entries);
+  }
+}
+
 
 class StaticList{
   static List<ColForm> colform_list = new List<ColForm>();

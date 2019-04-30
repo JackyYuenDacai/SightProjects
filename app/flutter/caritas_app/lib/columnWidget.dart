@@ -69,8 +69,8 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
       url = url + 'select3=${select3}&';
       http.get(url)
           .then((response) {
-            print("Submit Response status: ${response.statusCode}");
-            print("Submit Response body: ${response.body}");
+            //print("Submit Response status: ${response.statusCode}");
+            print("Submit: ${response.body}");
             if(response.body.length>0)
               _tween = new Tween<double>(begin: 250, end: 0.0).
                 animate(_controller)

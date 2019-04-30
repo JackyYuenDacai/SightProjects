@@ -18,13 +18,14 @@ class RFIDPage extends StatefulWidget {
 }
 
 class _RFIDPageState extends State<RFIDPage> {
-  Duration ajaxCallDuration = new Duration(seconds:4);
+  Duration ajaxCallDuration = new Duration(seconds:6);
   var ajaxCall = null;
   http.Response ajaxResponse = new http.Response("",200);
   addColForm(String name,String id,String unitok){
     this.setState((){
       StaticList.colform_list.add(new ColForm(name,id,unitok));
     });
+    setState((){});
   }
   delColForm(Object obj){
     this.setState((){

@@ -56,4 +56,7 @@ create table id_list/*STORE UNIQUE ID*/
 create table tags_location/*GIVES RECOMMAND LIST OF TAGS FOR EACH LOCATION*/
 (id varchar(64) , ltime datetime, location varchar(128) , IsRegistered boolean);
 
+create table tags_linkage
+(pid varchar(64), tagId varchar(128));
+
 source ./init-sample-data.sql;
