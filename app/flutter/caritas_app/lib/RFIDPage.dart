@@ -39,7 +39,7 @@ class _RFIDPageState extends State<RFIDPage> {
       //print("Response body: ${response.body}");
       this.ajaxResponse = response;
           });
-    print("Response body:${ajaxResponse.body}");
+    //print("Response body:${ajaxResponse.body}");
     if(ajaxResponse.body.length <= 0){
       ajaxCall.reset();
       return;
@@ -67,8 +67,8 @@ class _RFIDPageState extends State<RFIDPage> {
         .then((response) {
       //print("Response status: ${response.statusCode}");
 
-          print("Response body: ${response.body}");
-          print('get staff list');
+          //print("Response body: ${response.body}");
+          //print('get staff list');
           if(response.body.length<=0){
             ajaxCall.reset();
           }
@@ -82,7 +82,7 @@ class _RFIDPageState extends State<RFIDPage> {
               StaticList.staff_list.add(wid.name);
             });
           }
-          print(StaticList.staff_list);
+          //print(StaticList.staff_list);
           ajaxCall.reset();
     });
     //print("Response body:${ajaxResponse.body}");

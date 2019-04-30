@@ -57,7 +57,7 @@ begin
     set @RecordCount = @RecordCount - 1;
     delete from tmp_list order by token limit 1;
   end while;
-  select student_id as id, name,token,location,time_in,time_interval,data_json from ret_query_list where ret_query_list.student_id = pid;
+  select student_id as id, name,token,location,ret_query_list.time_in,time_interval,data_json from ret_query_list where ret_query_list.student_id = pid;
   delete from ret_query_list where ret_query_list.student_id = pid;
 end;
 /$

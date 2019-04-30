@@ -44,7 +44,7 @@ class staffList{
   }
 }
 class student{
-  staff(this.id,this.name);
+  student(this.id,this.name);
   final String name;
   final String id;
 
@@ -54,7 +54,7 @@ class student{
 }
 class studentList{
   final List<student> Staffs;
-  staffList({this.Staffs,});
+  studentList({this.Staffs,});
   factory studentList.fromJson(List<dynamic> json){
     List<student> Staffs = new List<student>();
     Staffs = json.map((i)=>student.fromJson(i)).toList();
@@ -67,7 +67,7 @@ class StaticList{
   static String location = 'A';
 
   static List<String> student_id = new List<String>();
-  static List<String> studnet_name = new List<String>();
+  static List<String> student_name = new List<String>();
 
   static List<String> staff_id = new List<String>();
   static List<String> staff_list = new List<String>();
@@ -75,5 +75,6 @@ class StaticList{
   static String getpop_api_url = server_addr+'/WebInterface/get_pops_list?location=';
   static String getstaff_api_url = server_addr+'/WebInterface/get_staff_list?location=';
   static String submit_form_api_url = server_addr+'/WebInterface/submit_form?';
-  static String get_student_list = server_addr+'/WebInterface/get_student_list'
+  static String get_student_list = server_addr+'/WebInterface/get_student_list';
+  static String get_record_data_url = server_addr+'/WebInterface/getRecordData?';
 }
