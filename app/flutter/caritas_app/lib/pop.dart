@@ -33,6 +33,7 @@ class staff{
     return new staff(json['id'],json['name']);
   }
 }
+
 class staffList{
   final List<staff> Staffs;
   staffList({this.Staffs,});
@@ -42,13 +43,37 @@ class staffList{
     return new staffList(Staffs:Staffs);
   }
 }
+class student{
+  staff(this.id,this.name);
+  final String name;
+  final String id;
+
+  factory student.fromJson(Map<String,dynamic> json){
+    return new student(json['id'],json['name']);
+  }
+}
+class studentList{
+  final List<student> Staffs;
+  staffList({this.Staffs,});
+  factory studentList.fromJson(List<dynamic> json){
+    List<student> Staffs = new List<student>();
+    Staffs = json.map((i)=>student.fromJson(i)).toList();
+    return new studentList(Staffs:Staffs);
+  }
+}
+
 class StaticList{
   static List<ColForm> colform_list = new List<ColForm>();
   static String location = 'A';
+
+  static List<String> student_id = new List<String>();
+  static List<String> studnet_name = new List<String>();
+
   static List<String> staff_id = new List<String>();
   static List<String> staff_list = new List<String>();
-  static String server_addr = 'http://192.168.31.2:8080';//'http://192.168.31.2:8080';
+  static String server_addr = 'http://localhost:8080';//'http://192.168.31.2:8080';
   static String getpop_api_url = server_addr+'/WebInterface/get_pops_list?location=';
   static String getstaff_api_url = server_addr+'/WebInterface/get_staff_list?location=';
   static String submit_form_api_url = server_addr+'/WebInterface/submit_form?';
+  static String get_student_list = server_addr+'/WebInterface/get_student_list'
 }

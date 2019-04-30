@@ -28,6 +28,24 @@
   	<description></description>
   	<servlet-class>get_staff_list</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>getRecordData</servlet-name>
+  	<display-name>getRecordData</display-name>
+  	<description></description>
+  	<servlet-class>getRecordData</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>file_upload</servlet-name>
+  	<display-name>file_upload</display-name>
+  	<description></description>
+  	<servlet-class>file_upload</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>get_student_list</servlet-name>
+  	<display-name>get_student_list</display-name>
+  	<description></description>
+  	<servlet-class>get_student_list</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>get_pops_list</servlet-name>
   	<url-pattern>/get_pops_list</url-pattern>
@@ -43,5 +61,17 @@
   <servlet-mapping>
   	<servlet-name>get_staff_list</servlet-name>
   	<url-pattern>/get_staff_list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>getRecordData</servlet-name>
+  	<url-pattern>/getRecordData</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>file_upload</servlet-name>
+  	<url-pattern>/file_upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>get_student_list</servlet-name>
+  	<url-pattern>/get_student_list</url-pattern>
   </servlet-mapping>
 </web-app>

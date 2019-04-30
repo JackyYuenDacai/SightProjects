@@ -11,7 +11,39 @@ class DataPage extends StatefulWidget {
 }
 
 class _DataPageState extends State<DataPage> {
+  initState(){
+    super.initState();
+    ajaxResponse = new http.Response("",200);;
+    url = StaticList.get_student_list;
+    //print(url);
+    http.get(url)
+        .then((response) {
+      //print("Response status: ${response.statusCode}");
 
+          print("Response body: ${response.body}");
+          print('get student list');
+          if(response.body.length<=0){
+            ajaxCall.reset();
+          }
+          studentList staffs = new studentList.fromJson(json.decode(response.body));
+          StaticList.student_id.clear();
+          StaticList.student_list.clear();
+          for(student wid in staffs.Staffs){
+            this.setState((){
+              StaticList.student_id.add(wid.id);
+              print('name:'+wid.name);
+              StaticList.student_list.add(wid.name);
+            });
+          }
+          print(StaticList.staff_list);
+          ajaxCall.reset();
+    });
+    //print("Response body:${ajaxResponse.body}");
+    if(this.ajaxResponse.body.length <= 0){
+      ajaxCall.reset();
+      return;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Widget userHeader = UserAccountsDrawerHeader(
@@ -26,9 +58,9 @@ class _DataPageState extends State<DataPage> {
           child: new Align(
             alignment: Alignment.center,
             child:new Row(
-            //children:[]
-            children:[
-            ]
+              children:[
+                //CONTENTS
+              ]
           ))
         )),),
       drawer: Drawer(

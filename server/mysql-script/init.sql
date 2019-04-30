@@ -8,11 +8,16 @@ drop table if exists record_child;
 drop table if exists staff_location;
 drop table if exists record_form;
 drop table if exists tmp_list;
+drop table if exists tags_location;
+
 create table personnel
 (id varchar(64) primary key,p_name varchar(128), p_role int not null, Extra varchar(1024));
 
 create table master_record
 (id varchar(64) primary key,t_location varchar(128),token varchar(128));
+
+create table user_iconpath
+(id varchar(64) primary key,icon_path varchar(256));
 
 create table record_form
 (id varchar(64) primary key,parent_token varchar(128),student_id varchar(64),data_json varchar(1024)); /*parent_token:the id at master_record*/
@@ -33,7 +38,6 @@ type 1: pop out
 create table record_child
 (id varchar(64) primary key, parent_token varchar(128),
     student_id varchar(64), record_time datetime default now(), child_status int);
-
 /*
 child_status :
 0: get in
@@ -43,33 +47,13 @@ child_status :
 if submit form  change [2] to [0] and insert one row of [1]
 */
 
-create table id_list/*to ensure unique id*/
+create table ret_query_list
+(token varchar(64) primary key, name varchar(64),student_id varchar(64),location varchar(64),time_in datetime, time_interval time, data_json varchar(1024));
+
+create table id_list/*STORE UNIQUE ID*/
 (id varchar(128) primary key);
-/*
-does not need anything else other then id
-use below to generate unique id
-*/
-/*
-  set @id = md5(TO_BASE64(now()+rand()));
-  while (select count(*) from id_list where id_list.id = @id) > 0 do
-    set @id = md5(TO_BASE64(now()+rand()));
-  end while;
-*/
 
-/*
-data_json
-store form data in json;
-*/
-insert into personnel values("000",'root',0,null);
-insert into personnel values("111",'staff 1',0,null);
-insert into personnel values('001','student a',1,null);
-insert into personnel values('002','student b',1,null);
-insert into personnel values('003','student c',1,null);
-insert into personnel values("01-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00",'root',0,null);
-insert into personnel values('00-01-00-00-00-00-00-00-00-00-00-00-00-00-00-00','student a',1,null);
-insert into personnel values('00-02-00-00-00-00-00-00-00-00-00-00-00-00-00-00','student b',1,null);
-insert into personnel values('00-03-00-00-00-00-00-00-00-00-00-00-00-00-00-00','student c',1,null);
+create table tags_location/*GIVES RECOMMAND LIST OF TAGS FOR EACH LOCATION*/
+(id varchar(64) , ltime datetime, location varchar(128) , IsRegistered boolean);
 
-insert into personnel values('E2-00-00-1B-89-13-01-54-05-00-83-45','Staff a',0,null);
-insert into personnel values('E2-00-00-1B-89-13-01-40-05-00-71-C6','Student a',1,null);
-insert into personnel values('E2-00-00-1B-89-13-01-56-05-00-83-46','Student b',1,null);
+source ./init-sample-data.sql;

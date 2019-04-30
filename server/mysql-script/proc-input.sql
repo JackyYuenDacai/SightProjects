@@ -1,25 +1,16 @@
 DELIMITER ';'
-use caritas_main;
-drop function if exists generate_unique_id;
-drop procedure if exists RoutineCheck;
-drop procedure if exists tagScanned;
-drop procedure if exists submitForm;
-drop procedure if exists getPopList;
-drop procedure if exists getStaffList;
 
-set global log_bin_trust_function_creators=TRUE;
+/*
+MYSQL SCRIPT
+PROCEDURE INPUT DATA
+*/
 
 DELIMITER '/$'
 
-create function generate_unique_id()
-returns varchar(128)
+create procedure setUserIconPath(pid varchar(128), icon_path varchar(256))
 begin
-  set @id = md5(TO_BASE64(now()+rand()));
-  while (select count(*) from id_list where id_list.id = @id) > 0 do
-    set @id = md5(TO_BASE64(now()+rand()));
-  end while;
-  insert into id_list values(@id);
-  return(@id);
+  delete from user_iconpath where user_iconpath.id = pid;
+  insert into user_iconpath values(pid,icon_path);
 end
 /$
 
@@ -42,47 +33,9 @@ begin
 end
 /$
 
-create procedure RoutineCheck()
-begin
-  truncate table tmp_list;
-  select count(distinct record_child.parent_token) from record_child where
-    addtime(record_child.record_time,"96:00:00") >= now() and
-    addtime(record_child.record_time,"00:25:30") < now()
-    into @expired_record_count;
-  insert into tmp_list(token) select distinct record_child.parent_token as token  from record_child where
-    addtime(record_child.record_time,"96:00:00") >= now() and
-    addtime(record_child.record_time,"00:25:30") < now()
-    order by record_child.parent_token;
-  set @one = 1;
-  while @expired_record_count > 0 do
-    select * from tmp_list order by token limit 1 into @currentToken;
-    set @expired_record_count = @expired_record_count - 1;
-    select count(*) into @Iscompleted from record_child where
-      record_child.parent_token = @currentToken and
-      record_child.child_status = 1;
-    if @Iscompleted = 0 then
-      /*APPEND POP OUT*/
-      insert into pop_list(sid,location,unitok) select distinct record_child.student_id as sid, master_record.t_location as location, master_record.token as unitok
-          from record_child inner join master_record on
-          record_child.parent_token = master_record.token
-          where record_child.parent_token = @currentToken;
-
-      delete from master_record where master_record.token = @currentToken ;
-      delete from record_child where record_child.parent_token = @currentToken ;
-      delete from tmp_list order by token limit 1;
-
-    end if;
-  end while;
-
-end;
-/$
-
 create procedure tagScanned(pid varchar(128), location varchar(128))
 begin
-  /*
-  TODO: Add routine clearing of unfinished records
-  */
-  call RoutineCheck();
+  /*CHECK IF TAGS VALID AND APPEND RECORD*/
   set @in_parent_token = null;
   set @out_parent_token = null;
   set @p_role = null;
@@ -128,25 +81,15 @@ begin
   end if;
   if @p_role is null then
     select 'ERROR: personnel unavail';
+    /*INSERT RECOMMAND TAGS LOCATION LIST NOT REGISTERED*/
+    delete from tags_location where tags_location.id = pid and tags_location.location = location;
+    insert into tags_location values(pid,now(),location,false);
+  else
+    /*INSERT RECOMMAND TAGS LOCATION LIST REGISTERED*/
+    delete from tags_location where tags_location.id = pid and tags_location.location = location;
+    insert into tags_location values(pid,now(),location,true);
   end if;
 end;
 /$
 
-create procedure getPopList(location varchar(128))
-begin
-  call RoutineCheck();
-  select personnel.p_name as name, pop_list.sid as id, pop_list.type as status, pop_list.unitok as unitok from pop_list inner join personnel on pop_list.sid = personnel.id where pop_list.Location = location;
-  delete  from pop_list where pop_list.Location = location;
-end;
-/$
-
-create procedure getStaffList(location varchar(128))
-begin
-  select staff_location.id as id, personnel.p_name as name from
-    staff_location inner join personnel on
-    staff_location.id = personnel.id where
-    staff_location.Location = location
-    order by ltime desc limit 5;
-end;
-/$
-DELIMITER ';'
+DELIMITER ';';
