@@ -46,6 +46,18 @@
   	<description></description>
   	<servlet-class>get_student_list</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>get_tags_list</servlet-name>
+  	<display-name>get_tags_list</display-name>
+  	<description></description>
+  	<servlet-class>get_tags_list</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>add_student</servlet-name>
+  	<display-name>add_student</display-name>
+  	<description></description>
+  	<servlet-class>add_student</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>get_pops_list</servlet-name>
   	<url-pattern>/get_pops_list</url-pattern>
@@ -73,5 +85,13 @@
   <servlet-mapping>
   	<servlet-name>get_student_list</servlet-name>
   	<url-pattern>/get_student_list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>get_tags_list</servlet-name>
+  	<url-pattern>/get_tags_list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>add_student</servlet-name>
+  	<url-pattern>/add_student</url-pattern>
   </servlet-mapping>
 </web-app>

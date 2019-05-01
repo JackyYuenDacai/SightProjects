@@ -126,23 +126,23 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             userHeader ,
-            ListTile(title: Text('RFID Page'),
+            ListTile(title: Text(I8N.of(context).rfid_title),
               leading: new CircleAvatar(child: new Icon(Icons.school),),
               onTap: () {
                 Navigator.of(context).pushNamed('/RFIDPage');
               },),
-              ListTile(title: Text('Data Analysis'),
+              ListTile(title: Text(I8N.of(context).students_title),
                 leading: new CircleAvatar(child: new Icon(Icons.school),),
                 onTap: () {
                   Navigator.of(context).pushNamed('/DataPage');
                 },),
-            ListTile(title: Text('Manuel Page'),
+            ListTile(title: Text(I8N.of(context).manuel_title),
               leading: new CircleAvatar(child: new Text('B2'),),
               onTap: () {
                 //Navigator.pop(context);
                 Navigator.of(context).pushNamed('/ManPage');
               },),
-            ListTile(title: Text('Settings'),
+            ListTile(title: Text(I8N.of(context).setting_title),
               leading: new CircleAvatar(
                 child: new Icon(Icons.list),),
               onTap: () {

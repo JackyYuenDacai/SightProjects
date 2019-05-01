@@ -42,7 +42,31 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
 
     });
   }
-  void showMyMaterialDialog(BuildContext context) {
+  void modifyDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new AlertDialog(
+            title: new Text("Modify "+name),
+            content: new Text('  '),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: new Text("Confirm"),
+              ),
+              new FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: new Text("Cancel"),
+              ),
+            ],
+          );
+        });
+  }
+  void recordDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) {
@@ -67,8 +91,7 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
         });
   }
   fetchUserData(BuildContext context){
-
-    showMyMaterialDialog(context);
+    recordDialog(context);
   }
   initState(){
     super.initState();
@@ -107,10 +130,16 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
       ],
       secondaryActions: <Widget>[
         new IconSlideAction(
-          caption: 'More',
+          caption: 'Records',
           color: Colors.black45,
           icon: Icons.more_horiz,
           onTap: () => fetchUserData(context),
+        ),
+        new IconSlideAction(
+          caption: 'Modify',
+          color: Colors.blue,
+          icon: Icons.mode_edit,
+          onTap: () => modifyDialog(context),
         ),
         new IconSlideAction(
           caption: 'Delete',
@@ -120,36 +149,6 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
         ),
       ],
     ));
-    /*return (new Row(
-              children: <Widget>[
-                new SizedBox(width:15.0),
-                new Container(
-                  width:350.0,
-                  child:
-                new Text(name,
-                  textAlign: TextAlign.start,
-                  style: TextStyle(fontSize: 32.0,color: Colors.blue),
-                  )
-                )
-                ,
-                new SizedBox(width:15.0),
-                new RaisedButton(
-                  onPressed: (){
-                      fetchUserData(context);
-                  },
-                  textColor: Colors.white,
-                  color: Colors.white,
-                  padding: const EdgeInsets.all(8.0),
-                  child: new Text(
-                    "View",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: 32.0,color: Colors.blue),
-                  ),
-                  )
-              ]
-            )
-
-    );*/
   }
 }
 
@@ -205,7 +204,7 @@ class _DialogContentState extends State<DialogContent>{
           }
           StaticList.entries = new record_entries.fromJson(json.decode(response.body));
           for(record_entry ent in StaticList.entries.entries){
-            print(ent.time_in);
+            //print(ent.time_in);
           }
     });
 
@@ -222,6 +221,7 @@ class _DialogContentState extends State<DialogContent>{
         int sum = 0;
 
         for(record_entry ent in StaticList.entries.entries){
+          print(timestring);
           if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
             sum += ent.data_json['select0'].toInt();
           }
@@ -239,7 +239,7 @@ class _DialogContentState extends State<DialogContent>{
 
         for(record_entry ent in StaticList.entries.entries){
           if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
-            sum += ent.data_json['select0'].toInt();
+            sum += ent.data_json['select0'].toInt();print(timestring);
           }
         }
         data.add(new ClicksPerYear(timestring,sum,Colors.blue));
@@ -256,6 +256,7 @@ class _DialogContentState extends State<DialogContent>{
         for(record_entry ent in StaticList.entries.entries){
           if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
             sum += ent.data_json['select0'].toInt();
+            print(timestring);
           }
         }
         data.add(new ClicksPerYear(timestring,sum,Colors.green));
@@ -295,7 +296,6 @@ class _DialogContentState extends State<DialogContent>{
           color: Colors.blue,
           fontSize: 25.0,
           )
-
       ),
       new Slider(
           min:0,

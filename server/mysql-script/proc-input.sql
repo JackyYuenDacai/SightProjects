@@ -39,8 +39,13 @@ begin
   set @in_parent_token = null;
   set @out_parent_token = null;
   set @p_role = null;
+  set @pid = null;
   select distinct tags_linkage.pid from tags_linkage where tags_linkage.tagId = tagId into @pid;
-  select distinct personnel.p_role from personnel where id = @pid into @p_role;
+  if @pid = null then
+    set @p_role = null;
+  else
+    select distinct personnel.p_role from personnel where id = @pid into @p_role;
+  end if;
   if @p_role = 0 then
     delete from staff_location where staff_location.id = @pid;
     insert into staff_location values(@pid,now(),location);
@@ -84,11 +89,11 @@ begin
     select 'ERROR: personnel unavail';
     /*INSERT RECOMMAND TAGS LOCATION LIST NOT REGISTERED*/
     delete from tags_location where tags_location.id = @pid and tags_location.location = location;
-    insert into tags_location values(@pid,now(),location,false);
+    insert into tags_location values(tagId,now(),location,false);
   else
     /*INSERT RECOMMAND TAGS LOCATION LIST REGISTERED*/
     delete from tags_location where tags_location.id = @pid and tags_location.location = location;
-    insert into tags_location values(@pid,now(),location,true);
+    insert into tags_location values(tagId,now(),location,true);
   end if;
 end;
 /$
@@ -97,6 +102,13 @@ create procedure linkTag(pid varchar(128),tagId varchar(128))
 begin
   delete from tags_linkage where tags_linkage tagId = tagId;
   insert into tags_linkage values(pid,tagId);
+end;
+/$
+
+create procedure addStudent(id varchar(64), name varchar(128), tagId varchar(64) , extra varchar(1024))
+begin
+  insert into personnel values(id,name,1,extra);
+  insert into tags_linkage values(id,tagId);
 end;
 /$
 DELIMITER ';';

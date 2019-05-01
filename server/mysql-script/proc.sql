@@ -13,6 +13,7 @@ drop procedure if exists getTagsViaLocation;
 drop procedure if exists getUserIconPath;
 drop procedure if exists setUserIconPath;
 drop procedure if exists linkTag;
+drop procedure if exists addStudent;
 drop event if exists Event_Second;
 
 set global log_bin_trust_function_creators=TRUE;

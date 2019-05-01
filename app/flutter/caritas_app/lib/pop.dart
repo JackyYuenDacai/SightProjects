@@ -44,6 +44,23 @@ class staffList{
     return new staffList(Staffs:Staffs);
   }
 }
+
+class Tag{
+  final String id;
+  Tag(this.id);
+  factory Tag.fromJson(Map<String,dynamic> json){
+    return new Tag(json['id']);
+  }
+}
+class tagList{
+  final List<Tag> tags;
+  tagList({this.tags});
+  factory tagList.fromJson(List<dynamic> json){
+    List<Tag> tags = new List<Tag>();
+    tags = json.map((i)=>Tag.fromJson(i)).toList();
+    return new tagList(tags:tags);
+  }
+}
 class student{
   student(this.id,this.name);
   final String name;
@@ -99,10 +116,16 @@ class StaticList{
 
   static List<String> staff_id = new List<String>();
   static List<String> staff_list = new List<String>();
+
+  static List<String> tag_list = new List<String>();
+
   static String server_addr = 'http://localhost:8080';//'http://192.168.31.2:8080';
   static String getpop_api_url = server_addr+'/WebInterface/get_pops_list?location=';
   static String getstaff_api_url = server_addr+'/WebInterface/get_staff_list?location=';
   static String submit_form_api_url = server_addr+'/WebInterface/submit_form?';
   static String get_student_list = server_addr+'/WebInterface/get_student_list';
   static String get_record_data_url = server_addr+'/WebInterface/getRecordData?';
+  static String get_tags_url = server_addr+'/WebInterface/get_tags_list?location=';
+  static String add_student_api_url = server_addr+'/WebInterface/add_student?';
+
 }
