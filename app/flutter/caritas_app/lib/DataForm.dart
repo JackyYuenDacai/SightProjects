@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'pop.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_slidable/flutter_slidable.dart';
 class DataForm extends StatefulWidget{
   String name,id;
   DataForm([String n='Name',String i='Id']) : name=n,id=i
@@ -141,8 +142,50 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
   }
   @override
   Widget build(BuildContext context) {
+    return
+      Container(
+        width:550.0,
+        height:70,
+        child:new Slidable(
+      delegate: new SlidableDrawerDelegate(),
+      actionExtentRatio: 0.25,
+      child: new Container(
+        color: Colors.white,
+        child: new ListTile(
+          leading: new CircleAvatar(
+            backgroundColor: Colors.indigoAccent,
+            child: new Text(name),
+            foregroundColor: Colors.white,
+          ),
+          title: new Text(name),
+          subtitle: new Text(id),
+        ),
+      ),
+      actions: <Widget>[
 
-    return (new Row(
+        new IconSlideAction(
+          caption: 'Export',
+          color: Colors.indigo,
+          icon: Icons.share,
+          //onTap: () => _showSnackBar('Export'),
+        ),
+      ],
+      secondaryActions: <Widget>[
+        new IconSlideAction(
+          caption: 'More',
+          color: Colors.black45,
+          icon: Icons.more_horiz,
+          onTap: () => fetchUserData(context),
+        ),
+        new IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red,
+          icon: Icons.delete,
+          onTap: () => print('delete '+name),
+        ),
+      ],
+    ));
+    /*return (new Row(
               children: <Widget>[
                 new SizedBox(width:15.0),
                 new Container(
@@ -171,6 +214,6 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
               ]
             )
 
-    );
+    );*/
   }
 }

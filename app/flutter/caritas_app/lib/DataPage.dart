@@ -63,6 +63,7 @@ class _DataPageState extends State<DataPage> {
 
     return Scaffold(appBar: AppBar(title: Text("Record Data"),),
       body: new Container(
+        color: Colors.white,
         child: Align(alignment: Alignment.center,child:new SingleChildScrollView (
           scrollDirection: Axis.horizontal,
           child:
