@@ -141,9 +141,9 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 }).toList(),
                 onChanged: (String value) {setState(() {select1 = value;});},
                 style: new TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-          )
+                  color: Colors.white,
+                  fontSize: 20.0,
+                )
               ),
               new SizedBox(height:10),
               new DropdownButton<String>(

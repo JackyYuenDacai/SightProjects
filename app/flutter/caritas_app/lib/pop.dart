@@ -67,7 +67,7 @@ class record_entry{
   final DateTime time_in;
   final DateTime interval;
   final String location;
-  final String data_json;
+  final Map<String,dynamic> data_json;
   record_entry(this.time_in,this.interval,this.location,this.data_json);
   factory record_entry.fromJson(Map<String,dynamic> json){
     return new record_entry(
@@ -91,6 +91,8 @@ class record_entries{
 class StaticList{
   static List<ColForm> colform_list = new List<ColForm>();
   static String location = 'A';
+
+  static record_entries entries;
 
   static List<String> student_id = new List<String>();
   static List<String> student_name = new List<String>();
