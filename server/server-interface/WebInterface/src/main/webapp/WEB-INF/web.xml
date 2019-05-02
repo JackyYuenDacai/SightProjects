@@ -58,6 +58,18 @@
   	<description></description>
   	<servlet-class>add_student</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>record_export</servlet-name>
+  	<display-name>record_export</display-name>
+  	<description></description>
+  	<servlet-class>record_export</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>del_student</servlet-name>
+  	<display-name>del_student</display-name>
+  	<description></description>
+  	<servlet-class>del_student</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>get_pops_list</servlet-name>
   	<url-pattern>/get_pops_list</url-pattern>
@@ -93,5 +105,13 @@
   <servlet-mapping>
   	<servlet-name>add_student</servlet-name>
   	<url-pattern>/add_student</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>record_export</servlet-name>
+  	<url-pattern>/record_export</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>del_student</servlet-name>
+  	<url-pattern>/del_student</url-pattern>
   </servlet-mapping>
 </web-app>

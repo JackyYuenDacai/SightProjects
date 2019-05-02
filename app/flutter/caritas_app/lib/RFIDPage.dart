@@ -125,7 +125,11 @@ class _RFIDPageState extends State<RFIDPage> {
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
-    return Scaffold(
+    return new WillPopScope(
+  onWillPop: () async {
+    return true;
+  },
+  child: Scaffold(
       appBar: AppBar(title: Text("RFID Page"),),
       body: new Container(
         child: new SingleChildScrollView (
@@ -170,7 +174,7 @@ class _RFIDPageState extends State<RFIDPage> {
                 },),*/
           ],
         ),
-      ),);
+      ),));
   }
   dispose(){
 

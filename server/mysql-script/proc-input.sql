@@ -111,4 +111,11 @@ begin
   insert into tags_linkage values(id,tagId);
 end;
 /$
+
+create procedure delStudent(id varchar(64))
+begin
+  delete from personnel where personnel.id = id;
+  delete from tags_linkage where tags_linkage.pid = id;
+end;
+/$
 DELIMITER ';';

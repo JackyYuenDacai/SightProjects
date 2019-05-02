@@ -64,7 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
-    return Scaffold(appBar: new AppBar(title: Text(I8N.of(context).home),),
+    return
+    new WillPopScope(
+  onWillPop: () async {
+    return true;
+  },
+  child: Scaffold(appBar: new AppBar(title: Text(I8N.of(context).home),),
       body: new Container(
         child: Align(alignment: Alignment.center,child:new SingleChildScrollView (
           scrollDirection: Axis.horizontal,
@@ -121,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ]
           ))
         )),),
-      drawer: Drawer(
+      /*drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -150,6 +155,6 @@ class _MyHomePageState extends State<MyHomePage> {
               },),
           ],
         ),
-      ),);
+      ), */));
   }
 }

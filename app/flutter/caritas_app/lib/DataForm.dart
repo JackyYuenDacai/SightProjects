@@ -10,6 +10,14 @@ import 'pop.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:share/share.dart';
+import 'package:share_extend/share_extend.dart';
+
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 class DataForm extends StatefulWidget{
   String name,id;
   DataForm([String n='Name',String i='Id']) : name=n,id=i
@@ -41,6 +49,84 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
     setState((){
 
     });
+  }
+  _onDelStudent(){
+    if(!RFIDPage.IsNetwork){
+        print('no network');
+    }else{
+      var url = StaticList.del_student_api_url;
+      url = url + 'id=' + id +'&';
+      http.get(url)
+          .then((response) {
+            //print("Submit Response status: ${response.statusCode}");
+            print("Submit: ${response.body}");
+            if(response.body.length>0){
+
+            }
+          });
+    }
+  }
+  void deleteDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new AlertDialog(
+            title: new Text("Delete "+name),
+            content: new Text('  '),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _onDelStudent();
+
+                  this.setState((){
+                    //this.dispose();
+                    StaticList.datform_list.remove(this);
+                    //Navigator.of(context).pushNamed('/DataPage');
+                  });
+
+                },
+                child: new Text("Confirm"),
+              ),
+              new FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: new Text("Cancel"),
+              ),
+            ],
+          );
+        });
+  }
+  void getRecordData(String id){
+    ajaxResponse = new http.Response("",200);
+    var url = StaticList.get_record_export_url+"id="+id+"&time=1980-00-00%2000:00";
+    String retCSVdata ="";
+    print(url);
+    http.get(url)
+        .then((response) {
+          print("Response body: ${response.body.substring(0)}");
+          this.ajaxResponse = (response);
+          if(this.ajaxResponse.body.length<=0){
+            return;
+          }
+          shareCSV(response.body);
+          //retCSVdata = response.body.substring(0);
+
+    });
+    //print(retCSVdata);
+    //return retCSVdata;
+  }
+  void shareCSV(String csvData) async{
+    Directory dir = await getApplicationDocumentsDirectory();
+    File testFile = new File("${dir.path}/flutter/export.csv");
+    if (!await testFile.exists()) {
+      await testFile.create(recursive: true);
+
+    }
+    testFile.writeAsStringSync(csvData);
+    print(csvData);
+    ShareExtend.share(testFile.path, "file");
   }
   void modifyDialog(BuildContext context) {
     showDialog(
@@ -112,7 +198,7 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
         child: new ListTile(
           leading: new CircleAvatar(
             backgroundColor: Colors.indigoAccent,
-            child: new Text(name),
+            child: new Text(name.substring(0,1)),
             foregroundColor: Colors.white,
           ),
           title: new Text(name),
@@ -125,7 +211,7 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
           caption: 'Export',
           color: Colors.indigo,
           icon: Icons.share,
-          //onTap: () => _showSnackBar('Export'),
+          onTap: () => getRecordData(id),
         ),
       ],
       secondaryActions: <Widget>[
@@ -145,7 +231,7 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
           caption: 'Delete',
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () => print('delete '+name),
+          onTap: () => deleteDialog(context),
         ),
       ],
     ));
@@ -204,26 +290,28 @@ class _DialogContentState extends State<DialogContent>{
           }
           StaticList.entries = new record_entries.fromJson(json.decode(response.body));
           for(record_entry ent in StaticList.entries.entries){
-            //print(ent.time_in);
+            print(ent.time_in);
           }
     });
 
     //List<List<ClicksPerYear>> data;
     List<ClicksPerYear> data =[];
     List<charts.Series<ClicksPerYear,String>> chart_series =[];
+    DateTime nowDateTime = new DateTime.now();
     switch(_value?.toInt() ?? 0){
       case 0:
       for(int i = 8; i>0;i--){
-        DateTime start = (new DateTime.now()).subtract(new Duration(days:7*i+1));
-        DateTime end = (new DateTime.now()).subtract(new Duration(days:7*(i-1)+1));
+        DateTime start = nowDateTime.subtract(new Duration(days:7*i));
+        DateTime end = nowDateTime.subtract(new Duration(days:7*(i-1)));
         var timestring = DateFormat('MM/dd').format(start)+"-"+DateFormat('MM/dd').format(end);
 
         int sum = 0;
-
+        if(StaticList?.entries?.entries != null)
         for(record_entry ent in StaticList.entries.entries){
-          print(timestring);
-          if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
-            sum += ent.data_json['select0'].toInt();
+
+          if(ent.time_in.isAfter(start) == true && ent.time_in.isBefore(end) == true){
+            print(timestring);
+            sum += 1;//int.parse(ent.data_json['select0']);
           }
         }
         data.add(new ClicksPerYear(timestring,sum,Colors.red));
@@ -231,15 +319,15 @@ class _DialogContentState extends State<DialogContent>{
       break;
       case 1:
       for(int i = 8; i>0;i--){
-        DateTime start = (new DateTime.now()).subtract(new Duration(days:30*i+1));
-        DateTime end = (new DateTime.now()).subtract(new Duration(days:30*(i-1)+1));
+        DateTime start = (new DateTime.now()).subtract(new Duration(days:30*i));
+        DateTime end = (new DateTime.now()).subtract(new Duration(days:30*(i-1)));
         var timestring = DateFormat('MM/dd').format(start)+"-"+DateFormat('MM/dd').format(end);
 
         int sum = 0;
 
         for(record_entry ent in StaticList.entries.entries){
           if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
-            sum += ent.data_json['select0'].toInt();print(timestring);
+            sum += 1;//int.parse(ent.data_json['select0']);
           }
         }
         data.add(new ClicksPerYear(timestring,sum,Colors.blue));
@@ -247,15 +335,15 @@ class _DialogContentState extends State<DialogContent>{
       break;
       case 2:
       for(int i = 8; i>0;i--){
-        DateTime start = (new DateTime.now()).subtract(new Duration(days:365*i+1));
-        DateTime end = (new DateTime.now()).subtract(new Duration(days:365*(i-1)+1));
+        DateTime start = (new DateTime.now()).subtract(new Duration(days:365*i));
+        DateTime end = (new DateTime.now()).subtract(new Duration(days:365*(i-1)));
         var timestring = DateFormat('yyyy').format(start);
 
         int sum = 0;
 
         for(record_entry ent in StaticList.entries.entries){
           if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
-            sum += ent.data_json['select0'].toInt();
+            sum += 1;//int.parse(ent.data_json['select0']);
             print(timestring);
           }
         }
@@ -301,12 +389,14 @@ class _DialogContentState extends State<DialogContent>{
           min:0,
           max:2,
           value: _value == null? 0.0:_value ,
-          onChanged: (newValue) {setState((){_value = newValue;getRecord();});},
+          onChanged: (newValue) {setState((){_value = newValue;});},
           onChangeStart: (startValue) {
             //print('onChangeStart:$startValue');
           },
-          onChangeEnd: (endValue) {
-            //print('onChangeEnd:$endValue');
+          onChangeEnd: (newValue) {
+            setState((){
+              getRecord();
+            });
           },
           label: Divisions[_value?.toInt() ?? 0],
           divisions: 3,

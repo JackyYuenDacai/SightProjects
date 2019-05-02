@@ -331,6 +331,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.2"
+  path_provider:
+    dependency: "direct main"
+    description:
+      name: path_provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0+1"
   pedantic:
     dependency: transitive
     description:
@@ -373,6 +380,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  share:
+    dependency: "direct main"
+    description:
+      name: share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.1+1"
+  share_extend:
+    dependency: "direct main"
+    description:
+      name: share_extend
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.8"
   shelf:
     dependency: transitive
     description:

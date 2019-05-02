@@ -20,9 +20,13 @@ class DataPage extends StatefulWidget {
 
 class _DataPageState extends State<DataPage> {
   http.Response ajaxResponse = new http.Response("",200);
-  List<DataForm> datform_list = new List<DataForm>();
+  //List<DataForm> datform_list = new List<DataForm>();
   initState(){
     super.initState();
+    updateStudentList();
+  }
+  //
+  updateStudentList(){
     ajaxResponse = new http.Response("",200);;
     var url = StaticList.get_student_list;
     //print(url);
@@ -38,25 +42,22 @@ class _DataPageState extends State<DataPage> {
           studentList staffs = new studentList.fromJson(json.decode(response.body));
           StaticList.student_id.clear();
           StaticList.student_name.clear();
+          StaticList.datform_list.clear();
           for(student wid in staffs.Staffs){
             this.setState((){
               StaticList.student_id.add(wid.id);
               print('name:'+wid.name);
               StaticList.student_name.add(wid.name);
-              datform_list.add(new DataForm(wid.name,wid.id));
+              StaticList.datform_list.add(new DataForm(wid.name,wid.id));
             });
           }
 
           //ajaxCall.reset();
     });
-    //print("Response body:${ajaxResponse.body}");
     if(this.ajaxResponse.body.length <= 0){
-      //ajaxCall.reset();
-      //return;
     }
+    setState((){});
   }
-  //
-
   //ADD STUDENT VALUE START
   var add_name;
   var add_id;
@@ -195,7 +196,7 @@ class _DataPageState extends State<DataPage> {
                 onPressed: () {
                   //ADD STUDENT
                   _onAddStudent();
-                  setState((){});
+                  updateStudentList();
                   Navigator.of(context).pop();
                   add_tagId = null;
                 },
@@ -218,8 +219,12 @@ class _DataPageState extends State<DataPage> {
       accountName: new Text('Location'),
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
-
-    return Scaffold(
+    //rupdateStudentList();
+    return new WillPopScope(
+  onWillPop: () async {
+    return true;
+  },
+  child: Scaffold(
       appBar: AppBar(title: Text("Students"),),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -231,9 +236,9 @@ class _DataPageState extends State<DataPage> {
       body: new Container(
         color: Colors.white,
         child: Align(alignment: Alignment.center,child:new SingleChildScrollView (
-          scrollDirection: Axis.horizontal,
+          scrollDirection: Axis.vertical,
           child:
-              new Column(children:datform_list,)
+              new Column(children:StaticList.datform_list,)
               /*new Row(
               children:<Widget>[
                 //CONTENTS
@@ -254,7 +259,7 @@ class _DataPageState extends State<DataPage> {
               ListTile(title: Text(I8N.of(context).students_title),
                 leading: new CircleAvatar(child: new Icon(Icons.school),),
                 onTap: () {
-                  //Navigator.of(context).pushNamed('/DataPage');
+                  
                 },),
             ListTile(title: Text(I8N.of(context).manuel_title),
               leading: new CircleAvatar(child: new Text('B2'),),
@@ -270,6 +275,6 @@ class _DataPageState extends State<DataPage> {
               },),
           ],
         ),
-      ),);
+      ),));
   }
 }

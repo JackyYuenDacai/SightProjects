@@ -30,7 +30,11 @@ class _ManPageState extends State<ManPage> {
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
-    return Scaffold(
+    return new WillPopScope(
+  onWillPop: () async {
+    return true;
+  },
+  child: Scaffold(
       appBar: AppBar(title: Text("Manual Page"),),
       body:
       new Container(
@@ -166,7 +170,7 @@ class _ManPageState extends State<ManPage> {
 
           ],
         ),
-      ),);
+      ),));
   }
   dispose(){
     subscription.cancel();

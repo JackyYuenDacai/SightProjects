@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'columnWidget.dart';
 import 'package:intl/intl.dart';
+import 'DataForm.dart';
 class pop{
   pop(this.name,this.id,this.status,this.unitok);
   final String name;
@@ -107,6 +108,7 @@ class record_entries{
 
 class StaticList{
   static List<ColForm> colform_list = new List<ColForm>();
+  static List<DataForm> datform_list = new List<DataForm>();
   static String location = 'A';
 
   static record_entries entries;
@@ -127,5 +129,7 @@ class StaticList{
   static String get_record_data_url = server_addr+'/WebInterface/getRecordData?';
   static String get_tags_url = server_addr+'/WebInterface/get_tags_list?location=';
   static String add_student_api_url = server_addr+'/WebInterface/add_student?';
+  static String del_student_api_url = server_addr+'/WebInterface/del_student?';
+  static String get_record_export_url = server_addr+'/WebInterface/record_export?';
 
 }
