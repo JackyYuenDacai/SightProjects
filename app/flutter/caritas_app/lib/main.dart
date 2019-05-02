@@ -29,15 +29,6 @@ class MyApp extends StatelessWidget {
 
        ],
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
@@ -68,95 +59,40 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return
     new WillPopScope(
-  onWillPop: () async {
-    return true;
-  },
-  child: Scaffold(appBar: new AppBar(title: Text(I8N.of(context).home),),
-      body: new Container(
-        child: Align(alignment: Alignment.center,child:new SingleChildScrollView (
-          scrollDirection: Axis.horizontal,
-          child: new Align(
-            alignment: Alignment.center,
-            child:new Row(
-            //children:[]
-            children:[
+      onWillPop: () async {
+        return true;
+      },
+      child: Scaffold(appBar: new AppBar(title: Text(I8N.of(context).home),),
+          body: new Container(
+            child: Align(alignment: Alignment.center,child:new SingleChildScrollView (
+              scrollDirection: Axis.horizontal,
+              child: new Align(
+                alignment: Alignment.center,
+                child:new Row(
+                  children:
+                    <String>['A','B','C'].map((String title) {return new Row(children:<Widget>[
+                        new SizedBox(width:35),
+                        new Column(children:[
+                          new SizedBox(height: 135),
+                              GestureDetector(
+                                onTap: (){
+                                  StaticList.location = title;
+                                  Navigator.of(context).pushNamed('/RFIDPage');
+                                },
+                                child: new CircleAvatar(child: new Icon(Icons.school),radius: 72.0,)
+                              ),
+                              new SizedBox(height: 35),
+                              new Text((I8N.of(context).location_text ?? 'Location ')+title,textAlign:TextAlign.center,style: new TextStyle(
+                          color: Colors.purple,
+                          fontSize: 40.0,
+                        )),]),
+                        new SizedBox(width:35),
+                      ]
+                    );}).toList()
 
-              new Column(children:[
-                new SizedBox(height: 135),
-                    GestureDetector(
-                      onTap: (){
-                        StaticList.location = 'A';
-                        Navigator.of(context).pushNamed('/RFIDPage');
-                      },
-                      child: new CircleAvatar(child: new Icon(Icons.school),radius: 72.0,)
-                    ),
-                    new SizedBox(height: 35),
-                    new Text("Location A",textAlign:TextAlign.center,style: new TextStyle(
-                color: Colors.purple,
-                fontSize: 40.0,
-              )),]),
-              new SizedBox(width:35),
-              new Column(children:[
-                new SizedBox(height: 135),
-                    GestureDetector(
-                      onTap: (){
-                        StaticList.location = 'B';
-                        Navigator.of(context).pushNamed('/RFIDPage');
-                      },
-                      child: new CircleAvatar(child: new Icon(Icons.school),radius: 72.0,)
-                    ),
-                    new SizedBox(height: 35),
-                    new Text("Location B",textAlign:TextAlign.center,style: new TextStyle(
-                color: Colors.purple,
-                fontSize: 40.0,
-              )),]),
-              new SizedBox(width:35),
-              new Column(children:[
-                new SizedBox(height: 135),
-                    GestureDetector(
-                      onTap: (){
-                        StaticList.location = 'C';
-                        Navigator.of(context).pushNamed('/RFIDPage');
-                      },
-                      child: new CircleAvatar(child: new Icon(Icons.school),radius: 72.0,)
-                    ),
-                    new SizedBox(height: 35),
-                    new Text("Location C",textAlign:TextAlign.center,style: new TextStyle(
-                color: Colors.purple,
-                fontSize: 40.0,
-              )),]),
-            ]
-          ))
-        )),),
-      /*drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            userHeader ,
-            ListTile(title: Text(I8N.of(context).rfid_title),
-              leading: new CircleAvatar(child: new Icon(Icons.school),),
-              onTap: () {
-                Navigator.of(context).pushNamed('/RFIDPage');
-              },),
-              ListTile(title: Text(I8N.of(context).students_title),
-                leading: new CircleAvatar(child: new Icon(Icons.school),),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/DataPage');
-                },),
-            ListTile(title: Text(I8N.of(context).manuel_title),
-              leading: new CircleAvatar(child: new Text('B2'),),
-              onTap: () {
-                //Navigator.pop(context);
-                Navigator.of(context).pushNamed('/ManPage');
-              },),
-            ListTile(title: Text(I8N.of(context).setting_title),
-              leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
-              onTap: () {
-                Navigator.pop(context);
-              },),
-          ],
-        ),
-      ), */));
+              ))
+            )),),
+        )
+  );
   }
 }

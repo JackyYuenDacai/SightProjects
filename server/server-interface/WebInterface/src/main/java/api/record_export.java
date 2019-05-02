@@ -78,7 +78,7 @@ public class record_export extends HttpServlet {
 		// TODO Auto-generated method stub
 		Writer out = response.getWriter();
 		try {
-		out.write(csvfromJSONArray(getRecord(request.getParameter("id"),request.getParameter("time"))));
+			out.write(csvfromJSONArray(getRecord(request.getParameter("id"),request.getParameter("time"))));
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();

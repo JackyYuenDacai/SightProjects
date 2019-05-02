@@ -21,6 +21,7 @@ class I8N{
       'confirm':'Confirm',
       'cancel':'Cancel',
       'add_student':'Add Student',
+      'location_text':'Location ',
     },
     'zh':{
       'apptitle':'明愛樂勤應用程式',
@@ -32,6 +33,7 @@ class I8N{
       'confirm':'確定',
       'cancel':'取消',
       'add_student':'添加學生',
+      'location_text':'地點 ',
     }
   };
   String get apptitle{return I8N_values[locale.languageCode]['apptitle'];}
@@ -43,7 +45,7 @@ class I8N{
   String get confirm{return I8N_values[locale.languageCode]['confirm'];}
   String get cancel{return I8N_values[locale.languageCode]['cancel'];}
   String get add_student{return I8N_values[locale.languageCode]['add_student'];}
-
+  String get location_text{return I8N_values[locale.languageCode]['location_text'];}
 }
 class I8NDelegate extends LocalizationsDelegate<I8N>{
   const I8NDelegate();

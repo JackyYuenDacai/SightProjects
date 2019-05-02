@@ -100,7 +100,7 @@ end;
 
 create procedure linkTag(pid varchar(128),tagId varchar(128))
 begin
-  delete from tags_linkage where tags_linkage tagId = tagId;
+  delete from tags_linkage where tags_linkage.tagId = tagId;
   insert into tags_linkage values(pid,tagId);
 end;
 /$
@@ -127,4 +127,5 @@ begin
   insert into record_child values(generate_unique_id(),@unitok,id,time_out,1);
   insert into record_form values(generate_unique_id(),@unitok,id,data_json);
 end;
+/$
 DELIMITER ';';

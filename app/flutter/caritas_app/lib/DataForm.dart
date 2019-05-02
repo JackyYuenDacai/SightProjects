@@ -18,6 +18,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'network_request.dart';
 class DataForm extends StatefulWidget{
   String name,id;
   DataForm([String n='Name',String i='Id']) : name=n,id=i
@@ -260,7 +262,6 @@ class _DialogContentState extends State<DialogContent>{
     getRecord();
   }
   getRecord(){
-
     DateTime now = new DateTime.now();DateTime desire;
     switch(_value?.toInt() ?? 0){
         case 0://WEEK
@@ -276,23 +277,7 @@ class _DialogContentState extends State<DialogContent>{
           desire = now.subtract(new Duration(days:7*10+1));
           break;
     }
-    ajaxResponse = new http.Response("",200);
-    var url = StaticList.get_record_data_url+"id="+id+"&time="+DateFormat('yyyy-MM-dd HH:mm:ss').format(desire);
-    print(url);
-    http.get(url)
-        .then((response) {
-      //print("Response status: ${response.statusCode}");
-
-          print("Response body: ${response.body}");
-          print('get record data');
-          if(response.body.length<=0){
-            return;
-          }
-          StaticList.entries = new record_entries.fromJson(json.decode(response.body));
-          for(record_entry ent in StaticList.entries.entries){
-            print(ent.time_in);
-          }
-    });
+    network_request.get_record_data(id,DateFormat('yyyy-MM-dd HH:mm:ss').format(desire));
 
     //List<List<ClicksPerYear>> data;
     List<ClicksPerYear> data =[];

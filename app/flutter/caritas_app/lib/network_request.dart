@@ -29,6 +29,10 @@ class network_request{
     var url = StaticList.getpop_api_url+location;
     requestWrap(url,(response)=>get_pop_list_proc(response));
   }
+  static void get_record_data(String id, String time){
+    var url = StaticList.get_record_data_url+"id="+id+"&time=${time}";
+    requestWrap(url,(response)=>get_record_data_proc(response));
+  }
 
   static void requestWrap(String url,ProcessFunc process) async{
     await client.get(url)
@@ -40,9 +44,15 @@ class network_request{
           process(response);
     });
   }
+  static void get_record_data_proc(http.Response response){
+    print("Response body: ${response.body}");
+    print('get record data');
+    StaticList.entries = new record_entries.fromJson(json.decode(response.body));
+    for(record_entry ent in StaticList.entries.entries){
+      print(ent.time_in);
+    }
+  }
   static void get_pop_list_proc(http.Response response){
-    if(response.body.length<=0)
-      return;
     popList pops = new popList.fromJson(json.decode(response.body));
     for(pop wid in pops.Pops){
         if(wid.status == "0"){
@@ -60,8 +70,6 @@ class network_request{
     }
   }
   static void get_staff_list_proc(http.Response response){
-    if(response.body.length<=0)
-      return;
     staffList staffs = new staffList.fromJson(json.decode(response.body));
     StaticList.staff_id.clear();
     StaticList.staff_list.clear();

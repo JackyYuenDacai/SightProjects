@@ -23,37 +23,20 @@ class _RFIDPageState extends State<RFIDPage> {
   Duration ajaxCallDuration = new Duration(seconds:6);
   var ajaxCall = null;
   http.Response ajaxResponse = new http.Response("",200);
-  addColForm(String name,String id,String unitok){
-    this.setState((){
-      StaticList.colform_list.add(new ColForm(name,id,unitok));
-    });
-    setState((){});
-  }
-  delColForm(Object obj){
-    this.setState((){
-      StaticList.colform_list.remove(obj);
-    });
-  }
+  var subscription;
+ 
   ajaxCallFun(){
 
     this.setState((){network_request.get_pop_list(StaticList.location);});
     this.setState((){network_request.get_staff_list(StaticList.location);});
 
   }
-  var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
-        var connectivityResult = await Connectivity().checkConnectivity();
-        if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
-              //DUMMY
-        }else{
-            //DUMMY
-        }
-      });
 
   initState(){
     super.initState();
     ajaxCall = new RestartableTimer(ajaxCallDuration,ajaxCallFun);
 
-    var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
+    subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
           var connectivityResult = await Connectivity().checkConnectivity();
           if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
             //NO NETWORK CONNECTION
@@ -71,56 +54,50 @@ class _RFIDPageState extends State<RFIDPage> {
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
-    return new WillPopScope(
-  onWillPop: () async {
-    return true;
-  },
-  child: Scaffold(
-      appBar: AppBar(title: Text("RFID Page"),),
-      body: new Container(
-        child: new SingleChildScrollView (
-          scrollDirection: Axis.horizontal,
-          child: new Row(children:StaticList.colform_list,)
-        ),),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            userHeader ,
-            ListTile(title: Text(I8N.of(context).rfid_title),
-              leading: new CircleAvatar(child: new Icon(Icons.school),),
-              onTap: () {
-                //Navigator.of(context).pushNamed('/RFIDPage');
-              },),
-            ListTile(title: Text(I8N.of(context).students_title),
-              leading: new CircleAvatar(child: new Icon(Icons.school),),
-              onTap: () {
-                Navigator.of(context).pushNamed('/DataPage');
-              },),
-            ListTile(title: Text(I8N.of(context).manuel_title),
-              leading: new CircleAvatar(child: new Text('B2'),),
-              onTap: () {
-                //Navigator.pop(context);
-                //this.dispose();
-                Navigator.of(context).pushNamed('/ManPage');
-              },),
-            ListTile(title: Text(I8N.of(context).setting_title),
-              leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
-              onTap: () {
-                Navigator.pop(context);
-              },),
-              /*ListTile(title: Text('+'),
-                leading: new CircleAvatar(
-                  child: new Icon(Icons.list),),
-                onTap: () {
-                  this.setState((){
-                    StaticList.colform_list.add(new ColForm('Test','001'));
-                  });
-                },),*/
-          ],
-        ),
-      ),));
+    return
+    new WillPopScope(
+      onWillPop: () async {
+        return true;
+      },
+      child: Scaffold(
+          appBar: AppBar(title: Text("RFID Page"),),
+          body: new Container(
+            child: new SingleChildScrollView (
+              scrollDirection: Axis.horizontal,
+              child: new Row(children:StaticList.colform_list,)
+            ),),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                userHeader ,
+                ListTile(title: Text(I8N.of(context).rfid_title),
+                  leading: new CircleAvatar(child: new Icon(Icons.school),),
+                  onTap: () {
+                    //Navigator.of(context).pushNamed('/RFIDPage');
+                  },),
+                ListTile(title: Text(I8N.of(context).students_title),
+                  leading: new CircleAvatar(child: new Icon(Icons.school),),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/DataPage');
+                  },),
+                ListTile(title: Text(I8N.of(context).manuel_title),
+                  leading: new CircleAvatar(child: new Text('B2'),),
+                  onTap: () {
+                    //Navigator.pop(context);
+                    //this.dispose();
+                    Navigator.of(context).pushNamed('/ManPage');
+                  },),
+                ListTile(title: Text(I8N.of(context).setting_title),
+                  leading: new CircleAvatar(
+                    child: new Icon(Icons.list),),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },),
+              ],
+            ),
+          ),)
+    );
   }
   dispose(){
 
