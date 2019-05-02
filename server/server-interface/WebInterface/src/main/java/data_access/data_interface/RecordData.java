@@ -1,8 +1,9 @@
-package data_access;
+package data_access.data_interface;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import data_access.MysqlAccess;
+import data_access.data_impl.record_impl;
 import net.sf.json.JSONObject;
 //| token                            | student_id | location | time_in             | time_interval | data_json |
 //

@@ -6,6 +6,7 @@ import './pop.dart';
 import './DataPage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import './I8N.dart';
+import 'network_request.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CaritasApp',
+      debugShowCheckedModeBanner: false,
       onGenerateTitle: (BuildContext context) => I8N.of(context).apptitle,
       localizationsDelegates: [
         // ... app-specific localization delegate[s] here

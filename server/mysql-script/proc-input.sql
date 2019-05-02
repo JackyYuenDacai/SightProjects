@@ -118,4 +118,13 @@ begin
   delete from tags_linkage where tags_linkage.pid = id;
 end;
 /$
+
+create procedure manAddRecord(id varchar(64),time_in DateTime,time_out Datetime,location varchar(64),data_json varchar(1024))
+begin
+  set @unitok = generate_unique_id();
+  insert into master_record values(generate_unique_id(),location,@unitok);
+  insert into record_child values(generate_unique_id(),@unitok,id,time_in,0);
+  insert into record_child values(generate_unique_id(),@unitok,id,time_out,1);
+  insert into record_form values(generate_unique_id(),@unitok,id,data_json);
+end;
 DELIMITER ';';

@@ -1,4 +1,4 @@
-package data_access;
+package data_access.data_impl;
 
 
 import org.junit.Test;
@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
 public class student_impl {
 	String id;
 	String name;
-	student_impl(String name,String id){
+	public student_impl(String name,String id){
 		this.name =name;
 		this.id=id;
 		

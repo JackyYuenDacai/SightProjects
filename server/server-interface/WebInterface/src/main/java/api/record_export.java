@@ -1,4 +1,4 @@
-
+package api;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -29,9 +29,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import data_access.RecordData;
-import data_access.record_impl;
-import data_access.staff_location_impl;
+import data_access.data_impl.record_impl;
+import data_access.data_interface.RecordData;
 
 import org.json.CDL;
 

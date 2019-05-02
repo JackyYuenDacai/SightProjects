@@ -1,4 +1,4 @@
-package data_access;
+package data_access.data_impl;
  
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ public class record_impl{
 	String interval;
 	String location;
 	String json_data;
-	record_impl(String name,String id,String time,String interval,String location,String json_data){
+	public record_impl(String name,String id,String time,String interval,String location,String json_data){
 		this.name = name;
 		this.id = id;
 		this.time = time;

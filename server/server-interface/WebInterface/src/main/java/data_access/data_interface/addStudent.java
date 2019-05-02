@@ -1,8 +1,9 @@
-package data_access;
+package data_access.data_interface;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import data_access.MysqlAccess;
 import net.sf.json.JSONObject;
 
 public class addStudent extends MysqlAccess{

@@ -1,8 +1,11 @@
-package data_access;
+package data_access.data_interface;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import data_access.MysqlAccess;
+import data_access.data_impl.tag_impl;
 
 public class tagsReal extends MysqlAccess{
 	public ArrayList<tag_impl> getTagsList(String location) {

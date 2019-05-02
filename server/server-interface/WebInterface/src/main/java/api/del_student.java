@@ -1,29 +1,28 @@
-
+package api;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import data_access.RecordData;
-import data_access.record_impl;
-import data_access.staff_location_impl;
-import net.sf.json.JSONArray;
+import data_access.data_interface.addStudent;
+import data_access.data_interface.delStudent;
+import net.sf.json.JSONObject;
 
 /**
- * Servlet implementation class getRecordData
+ * Servlet implementation class del_student
  */
-public class getRecordData extends HttpServlet {
+public class del_student extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    RecordData recordInterface = new RecordData();   
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public getRecordData() {
+	delStudent JSONform = new delStudent();
+    public del_student() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,16 +32,13 @@ public class getRecordData extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Writer out = response.getWriter();
-		JSONArray jsonObject = new JSONArray();
-		ArrayList<record_impl> staffOptained = recordInterface.getRecordList(request.getParameter("id"),request.getParameter("time"));
-		for(record_impl a : staffOptained) {
-			jsonObject.add(a.toJSONObject());
-			
+		
+		JSONObject json = new JSONObject();
+		json.put("id", request.getParameter("id"));
+		if(JSONform.submit(json)) {
+			Writer out = response.getWriter();
+			out.write("success");
 		}
-		//JSONObject jsonObject = new JSONObject();
-		//JSONArray jsonObject= JSONArray.fromObject(popOptained);
-		out.write(jsonObject.toString());
 	}
 
 	/**

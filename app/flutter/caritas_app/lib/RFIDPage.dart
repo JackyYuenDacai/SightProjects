@@ -10,6 +10,7 @@ import 'dart:convert';
 import './pop.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import './I8N.dart';
+import 'network_request.dart';
 class RFIDPage extends StatefulWidget {
   static var IsNetwork = true;
   @override
@@ -34,64 +35,9 @@ class _RFIDPageState extends State<RFIDPage> {
     });
   }
   ajaxCallFun(){
-    var url = StaticList.getpop_api_url+StaticList.location;
-    http.get(url)
-        .then((response) {
-      //print("Response status: ${response.statusCode}");
-      //print("Response body: ${response.body}");
-      this.ajaxResponse = response;
-          });
-    //print("Response body:${ajaxResponse.body}");
-    if(ajaxResponse.body.length <= 0){
-      ajaxCall.reset();
-      return;
-    }
-    popList pops = new popList.fromJson(json.decode(ajaxResponse.body));
-    for(pop wid in pops.Pops){
-        if(wid.status == "0"){
-            this.addColForm(wid.name,wid.id,wid.unitok);
-            print("added colform ${wid.name} ${wid.id} ${wid.unitok}");
-        }else if(wid.status == "1"){
-          for(var a in StaticList.colform_list){
-            if(a.name == wid.name){
-              this.delColForm(a);
-              print("deleted colform ${wid.name} ${wid.id} ${wid.unitok}");
-              break;
-            }
-          }
-        }
-    }
 
-    ajaxResponse = new http.Response("",200);;
-    url = StaticList.getstaff_api_url+StaticList.location;
-    //print(url);
-    http.get(url)
-        .then((response) {
-      //print("Response status: ${response.statusCode}");
-
-          //print("Response body: ${response.body}");
-          //print('get staff list');
-          if(response.body.length<=0){
-            ajaxCall.reset();
-          }
-          staffList staffs = new staffList.fromJson(json.decode(response.body));
-          StaticList.staff_id.clear();
-          StaticList.staff_list.clear();
-          for(staff wid in staffs.Staffs){
-            this.setState((){
-              StaticList.staff_id.add(wid.id);
-              print('name:'+wid.name);
-              StaticList.staff_list.add(wid.name);
-            });
-          }
-          //print(StaticList.staff_list);
-          ajaxCall.reset();
-    });
-    //print("Response body:${ajaxResponse.body}");
-    if(this.ajaxResponse.body.length <= 0){
-      ajaxCall.reset();
-      return;
-    }
+    this.setState((){network_request.get_pop_list(StaticList.location);});
+    this.setState((){network_request.get_staff_list(StaticList.location);});
 
   }
   var subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{

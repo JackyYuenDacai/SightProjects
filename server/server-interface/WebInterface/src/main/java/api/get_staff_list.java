@@ -1,28 +1,30 @@
-
+package api;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import data_access.addStudent;
-import data_access.formSubmit;
-import net.sf.json.JSONObject;
+import data_access.data_interface.StaffLocation;
+import data_access.data_impl.pop_impl;
+import data_access.data_impl.staff_location_impl;
+import net.sf.json.JSONArray;
 
 /**
- * Servlet implementation class add_student
+ * Servlet implementation class get_staff_list
  */
-public class add_student extends HttpServlet {
+public class get_staff_list extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-	addStudent JSONform = new addStudent();
-    public add_student() {
+	StaffLocation StaffReal = new StaffLocation();
+    public get_staff_list() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,16 +34,17 @@ public class add_student extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		JSONObject json = new JSONObject();
-		json.put("name", request.getParameter("name"));
-		json.put("id", request.getParameter("id"));
-		json.put("extra", request.getParameter("extra"));
-		json.put("tagId", request.getParameter("tagId"));
-		
-		if(JSONform.submit(json)) {
-			Writer out = response.getWriter();
-			out.write("success");
+		Writer out = response.getWriter();
+		JSONArray jsonObject = new JSONArray();
+		ArrayList<staff_location_impl> staffOptained = StaffReal.getStaffList(request.getParameter("location"));
+		for(staff_location_impl a : staffOptained) {
+			jsonObject.add(a.toJSONObject());
+			//jsonObject.
+			
 		}
+		//JSONObject jsonObject = new JSONObject();
+		//JSONArray jsonObject= JSONArray.fromObject(popOptained);
+		out.write(jsonObject.toString());
 	}
 
 	/**

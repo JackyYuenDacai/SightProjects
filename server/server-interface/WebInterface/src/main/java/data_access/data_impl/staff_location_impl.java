@@ -1,4 +1,4 @@
-package data_access;
+package data_access.data_impl;
 
 import org.junit.Test;
 
@@ -7,7 +7,7 @@ import net.sf.json.JSONObject;
 public class staff_location_impl {
 	String id;
 	String name;
-	staff_location_impl(String name,String id){
+	public staff_location_impl(String name,String id){
 		this.name =name;
 		this.id=id;
 		

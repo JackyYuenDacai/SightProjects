@@ -14,6 +14,7 @@ drop procedure if exists getUserIconPath;
 drop procedure if exists setUserIconPath;
 drop procedure if exists linkTag;
 drop procedure if exists addStudent;
+drop procedure if exists manAddRecord;
 drop event if exists Event_Second;
 
 set global log_bin_trust_function_creators=TRUE;
@@ -24,7 +25,7 @@ source ./proc-input.sql
 source ./proc-output.sql
 source ./proc-routine.sql
 source ./func-utils.sql
-
+source ./proc-sample-data.sql
 
 
 

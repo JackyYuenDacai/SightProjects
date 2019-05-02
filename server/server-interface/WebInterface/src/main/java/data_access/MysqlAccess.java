@@ -9,7 +9,7 @@ public class MysqlAccess {
 	private String url = "jdbc:mysql://localhost:3306/caritas_main?useSSL=false&useUnicode=true&characterEncoding=utf-8";
 	private String user = "root";
 	private String pwd = "";
-	private java.sql.Connection conn;
+	private static java.sql.Connection conn;
 	private PreparedStatement pstmt;
 	private java.sql.ResultSet rs;
 	static {
@@ -31,7 +31,6 @@ public class MysqlAccess {
     public java.sql.ResultSet executeQuery(String query,List<Object> params){
 		getConnection();
 		try {
-		
 			pstmt = conn.prepareStatement(query);
 			if(params!=null && params.size()>0){
 		        for(int i=0;i<params.size();i++){

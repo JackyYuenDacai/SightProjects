@@ -235,15 +235,10 @@ class _DataPageState extends State<DataPage> {
       ),
       body: new Container(
         color: Colors.white,
-        child: Align(alignment: Alignment.center,child:new SingleChildScrollView (
+        child: Align(alignment: Alignment.topCenter,child:new SingleChildScrollView (
           scrollDirection: Axis.vertical,
           child:
               new Column(children:StaticList.datform_list,)
-              /*new Row(
-              children:<Widget>[
-                //CONTENTS
-              ]
-            )*/
 
         )),),
       drawer: Drawer(
@@ -259,7 +254,7 @@ class _DataPageState extends State<DataPage> {
               ListTile(title: Text(I8N.of(context).students_title),
                 leading: new CircleAvatar(child: new Icon(Icons.school),),
                 onTap: () {
-                  
+
                 },),
             ListTile(title: Text(I8N.of(context).manuel_title),
               leading: new CircleAvatar(child: new Text('B2'),),

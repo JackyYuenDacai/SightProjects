@@ -1,4 +1,4 @@
-
+package api;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -9,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import data_access.StudentReal;
-import data_access.staff_location_impl;
-import data_access.student_impl;
+import data_access.data_impl.tag_impl;
+import data_access.data_interface.tagsReal;
 import net.sf.json.JSONArray;
 
 /**
- * Servlet implementation class get_student_list
+ * Servlet implementation class get_tags_list
  */
-public class get_student_list extends HttpServlet {
+public class get_tags_list extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    StudentReal instanceApi = new StudentReal();
+	tagsReal instanceApi = new tagsReal();
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public get_student_list() {
+    public get_tags_list() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,8 +34,8 @@ public class get_student_list extends HttpServlet {
 		// TODO Auto-generated method stub
 		Writer out = response.getWriter();
 		JSONArray jsonObject = new JSONArray();
-		ArrayList<student_impl> staffOptained = instanceApi.getStudentList();
-		for(student_impl a : staffOptained) {
+		ArrayList<tag_impl> tagOptained = instanceApi.getTagsList(request.getParameter("location"));
+		for(tag_impl a : tagOptained) {
 			jsonObject.add(a.toJSONObject());
 			//jsonObject.
 			

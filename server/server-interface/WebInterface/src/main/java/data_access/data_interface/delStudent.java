@@ -1,7 +1,8 @@
-package data_access;
+package data_access.data_interface;
 
 import java.sql.ResultSet;
 
+import data_access.MysqlAccess;
 import net.sf.json.JSONObject;
 
 public class delStudent extends MysqlAccess{
