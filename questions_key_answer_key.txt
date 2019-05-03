@@ -1,0 +1,40 @@
+diaper:
+  na
+  clean
+  dirty
+mistake:
+  na
+  wee
+  poo
+  both
+toilet:
+  na
+  nothing
+  wee
+  poo
+  both
+poo:
+  na
+  few
+  normal
+  much
+poo_consistency:
+  soft
+  hard
+  rot
+  dilute
+poo_color_yellow:
+  true
+  false
+poo_color_brown:
+  true
+  false
+poo_color_black:
+  true
+  false
+poo_consist_blood:
+  true
+  false
+poo_consist_goo:
+  true
+  false

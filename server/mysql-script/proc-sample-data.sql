@@ -4,6 +4,7 @@ manAddRecord(id varchar(64),time_in DateTime,time_out Datetime,location varchar(
   'yyyy-mm-dd hh:mm:ss'
 addStudent(id varchar(64), name varchar(128), tagId varchar(64) , extra varchar(1024))
 */
+
 /*
   EXAMPLES
   Add student named:Abi
@@ -22,20 +23,20 @@ addStudent(id varchar(64), name varchar(128), tagId varchar(64) , extra varchar(
             time  in 1980-01-01 00:00:00
             time out 1980-01-01 00:01:00
             location ABC
+            REFER TO questions_key_answer_key.txt
+            REFER TO questions_key_answer_key.txt
+            REFER TO questions_key_answer_key.txt
             form record:
               FirstChoice:A
               SecondChoice:B
+            REFER TO questions_key_answer_key.txt
             call manAddRecord('0001','1980-01-01 00:00:00','1980-01-01 00:01:00','ABC',"{'FirstChoice':'A','SecondChoice':'B'}");
 
 */
 /*
-
-diaper:
-  N/A
-  clean
-  dirty
-
-
+REFER TO questions_key_answer_key.txt
+REFER TO questions_key_answer_key.txt
+REFER TO questions_key_answer_key.txt
 *
 /*SAMPLE USERS*/
 

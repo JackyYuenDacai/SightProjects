@@ -76,7 +76,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     }
   }
 
-  Map<String,int> answer;
+  Map<String,String> answer;
   answerSelected(String title,String value){
     for(question i in StaticList.QuestionList){
       if(i.title == title){
@@ -109,40 +109,41 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 new Column(children:
                   //question(this.title,this.answer,this.answer_id);
                 StaticList.QuestionList.map((question list_val){
-                  if(list_val.type == 0)
-                  return new Column(children:<Widget>[
-                    new SizedBox(height:15),
-                    new DropdownButton<String>(
-                      hint: Container(width:180.0,child:Text(list_val.title)),
-                      //value: select0 == "" ? null : select0 ,
-                      items: list_val.answer.map((String value) {
-                        return new DropdownMenuItem<String>(
-                        value: value,
-                        child: Center(child:new Text(value, textAlign: TextAlign.center,style:  TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 20.0,
-                                        )),
-                                      ));
-                                    }).toList(),
-                        onChanged: (String value) {setState(() {
-                          //select0 = value;
-                          answerSelected(list_val.title,value);
-                        });},
-                        style:  TextStyle(
-                          color: Colors.blue,
-                          fontSize: 20.0,
-                          )
+                  switch(list_val.type){
+                    case null:
+                    case 0:
+                        return new Column(children:<Widget>[
+                          new SizedBox(height:15),
+                          new DropdownButton<String>(
+                            hint: Container(
+                              width:180.0,
+                              child:Text(list_val.title)
                             ),
-                          ]
-                      );
-                      if(list_val.type == 1)
-                      //CHECK BOX
-                      ;
+                            //value: select0 == "" ? null : select0 ,
+                            items: list_val.answer.map((String value) {
+                              return new DropdownMenuItem<String>(
+                              value: value,
+                              child: Center(child:new Text(value, textAlign: TextAlign.center,style:  TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 20.0,
+                                              )),
+                                            ));
+                                          }).toList(),
+                              onChanged: (String value) {setState(() {
+                                answerSelected(list_val.title,value);
+                              });},
+                              style:  TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 20.0,
+                                    )
+                                  ),
+                                ]
+                            );
+                            break;
+                    case 1:
+                            break;
+                  }
 
-
-                      if(list_val.type == 2)
-                      //TEXT LABEL TITLE
-                      ;
                     }
                   ).toList()
                 ),

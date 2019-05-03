@@ -108,9 +108,15 @@ class question{
   String title;
   String id;
   List<String> answer;
-  List<int> answer_id;
+  List<String> answer_id;
   int type = 0;
-  question(this.title,this.id,this.answer,this.answer_id,{this.type});
+  /*
+   * To dynamically spread questions
+   * Type 0: Multiple choice one choice
+   * Type 1: Check box true or false
+   * Type 2: Text label
+   */
+  question(this.title,this.id,this.answer,this.answer_id,[this.type=0]);
 }
 
 class StaticList{
@@ -138,9 +144,9 @@ class StaticList{
   static String get_record_export_url = server_addr+'/WebInterface/record_export?';
 
   static List<question> QuestionList = <question>[
-    new question('驗片','Diaper',<String>['N/A','淨片','污片'],<int>[0,1,2]),
-    new question('遺便','Mistake',<String>['N/A','小便','大便','小便與大便'],<int>[0,1,2,3]),
-    new question('如廁','Toilet',<String>['N/A','不適用','小便','大便','小便與大便'],<int>[0,1,2,3]),
+    new question('驗片','diaper',<String>['N/A','淨片','污片'],<String>['na','clean','dirty'],0),
+    new question('遺便','mistake',<String>['N/A','小便','大便','小便與大便'],<String>['na','wee','poo','both'],0),
+    new question('如廁','toilet',<String>['N/A','不適用','小便','大便','小便與大便'],<String>['na','nothing','wee','poo','both'],0),
 
   ];
 
