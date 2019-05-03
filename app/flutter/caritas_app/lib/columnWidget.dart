@@ -137,10 +137,12 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                       );
                       if(list_val.type == 1)
                       //CHECK BOX
+                      ;
 
 
                       if(list_val.type == 2)
                       //TEXT LABEL TITLE
+                      ;
                     }
                   ).toList()
                 ),
