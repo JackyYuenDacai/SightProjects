@@ -142,6 +142,15 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                             break;
                     case 1:
                             break;
+                    case 2:
+                        return new Text(
+                          list_val.title,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize:24.0,
+                          )
+                        );
+                        break;
                   }
 
                     }
