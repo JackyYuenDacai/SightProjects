@@ -29,8 +29,4 @@ source ./func-utils.sql
 source ./proc-sample-data.sql
 
 
-
-
-
-
 DELIMITER ';';

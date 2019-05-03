@@ -24,18 +24,22 @@ class _RFIDPageState extends State<RFIDPage> {
   var ajaxCall = null;
   http.Response ajaxResponse = new http.Response("",200);
   var subscription;
- 
+
   ajaxCallFun(){
 
-    this.setState((){network_request.get_pop_list(StaticList.location);});
-    this.setState((){network_request.get_staff_list(StaticList.location);});
-
+    try{
+      this.setState((){
+        network_request.get_pop_list(StaticList.location);
+        network_request.get_staff_list(StaticList.location);
+      });
+      ajaxCall.reset();
+    }catch(e){
+      print(e.toString());
+    }
   }
-
   initState(){
     super.initState();
     ajaxCall = new RestartableTimer(ajaxCallDuration,ajaxCallFun);
-
     subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async{
           var connectivityResult = await Connectivity().checkConnectivity();
           if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){

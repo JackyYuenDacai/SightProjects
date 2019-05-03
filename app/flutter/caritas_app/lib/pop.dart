@@ -104,15 +104,20 @@ class record_entries{
     return new record_entries(entries:entries);
   }
 }
-
+class question{
+  String title;
+  String id;
+  List<String> answer;
+  List<int> answer_id;
+  int type = 0;
+  question(this.title,this.id,this.answer,this.answer_id,{this.type});
+}
 
 class StaticList{
   static List<ColForm> colform_list = new List<ColForm>();
   static List<DataForm> datform_list = new List<DataForm>();
   static String location = 'A';
-
   static record_entries entries;
-
   static List<String> student_id = new List<String>();
   static List<String> student_name = new List<String>();
 
@@ -131,5 +136,12 @@ class StaticList{
   static String add_student_api_url = server_addr+'/WebInterface/add_student?';
   static String del_student_api_url = server_addr+'/WebInterface/del_student?';
   static String get_record_export_url = server_addr+'/WebInterface/record_export?';
+
+  static List<question> QuestionList = <question>[
+    new question('驗片','Diaper',<String>['N/A','淨片','污片'],<int>[0,1,2]),
+    new question('遺便','Mistake',<String>['N/A','小便','大便','小便與大便'],<int>[0,1,2,3]),
+    new question('如廁','Toilet',<String>['N/A','不適用','小便','大便','小便與大便'],<int>[0,1,2,3]),
+
+  ];
 
 }

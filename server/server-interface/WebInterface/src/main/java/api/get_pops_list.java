@@ -42,6 +42,7 @@ public class get_pops_list extends HttpServlet {
 		Writer out = response.getWriter();
 		JSONArray jsonObject = new JSONArray();
 		ArrayList<pop_impl> popOptained = PopReal.getPopList(request.getParameter("location"));
+		if(popOptained!=null)
 		for(pop_impl a : popOptained) {
 			jsonObject.add(a.toJSONObject());
 			//jsonObject.

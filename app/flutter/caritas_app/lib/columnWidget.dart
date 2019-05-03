@@ -20,24 +20,15 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
   String name;
   String id;
   String unitok;
-  String select0;
-  String select1;
-  String select2;
-  String select3;
   AnimationController _controller;
   Animation<double> _tween;
   var updateStafflist;
   int state = 0;  // 0: init
                   // 1: normal
                   // 2: animated
-
   _ColFormState(this.name,this.id,this.unitok);
   initState(){
     super.initState();
-    //print('init Called');
-    //select0 = "0";
-    //select1 = "1";
-    //select2 = "2";
     _controller = new AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync:this,);
@@ -45,14 +36,11 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
             animate(_controller)
             ..addListener(() {
               setState(() {
-
             });
       });
      _controller.forward(from: 0.0);
     updateStafflist  = new RestartableTimer(new Duration(seconds:4),(){
-       setState((){
-          print('colform staffs:'+StaticList.staff_list.toString());
-       });
+       setState((){;});
        updateStafflist.reset();
      });
   }
@@ -63,10 +51,10 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
       var url = StaticList.submit_form_api_url;
       url = url + 'id=' + id +'&';
       url = url + 'unitok=' + unitok +'&';
-      url = url + 'select0=${select0}&' ;
+      /*url = url + 'select0=${select0}&' ;
       url = url + 'select1=${select1}&';
       url = url + 'select2=${select2}&';
-      url = url + 'select3=${select3}&';
+      url = url + 'select3=${select3}&';*/
       http.get(url)
           .then((response) {
             //print("Submit Response status: ${response.statusCode}");
@@ -87,6 +75,19 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
             });
     }
   }
+
+  Map<String,int> answer;
+  answerSelected(String title,String value){
+    for(question i in StaticList.QuestionList){
+      if(i.title == title){
+        for(int j = 0; j < i.answer.length;j++){
+          if(i.answer[j] == value){
+            answer[i.id] = i.answer_id[j];
+          }
+        }
+      }
+    }
+  }
   Widget build(BuildContext context) {
 
     return
@@ -95,97 +96,55 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
         width: (this?._tween?.value ?? 0.0), //?. : check if width exist, null-->not initialized, width=0.0, else return width
         height: double.infinity,
         child:Center(child:new SingleChildScrollView (
-          scrollDirection: Axis.horizontal,
+          scrollDirection: Axis.vertical,
           child: new Center(
             child: new Column(
               children: [
-                new SizedBox(height: 75),
-                new CircleAvatar(child: new Icon(Icons.school),radius: 55.0,),
-                new SizedBox(height: 35),
+                new SizedBox(height:30),
                 new Text(widget.name,textAlign:TextAlign.center,style: new TextStyle(
                   color: Colors.white,
                   fontSize: 40.0,
                   )
                 ),
-                new SizedBox(height:30),
-                new DropdownButton<String>(
-                  hint: Container(width:180.0,child:Text("Diaper check")),
-                  value: select0 == "" ? null : select0 ,
-                  items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                    return new DropdownMenuItem<String>(
-                    value: value,
-                    child: Center(child:new Text(value, textAlign: TextAlign.center,style:  TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20.0,
-                                    )),
-                                  ));
-                                }).toList(),
-                    onChanged: (String value) {setState(() {select0 = value;});},
-                    style:  TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      )
-                    ),
-              new SizedBox(height:10),
-              new DropdownButton<String>(
-                hint: Container(width:180.0,child:Text("Wet diaper")),
-                value: select1 == "" ? null : select1 ,
-                items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                  return new DropdownMenuItem<String>(
-                    value: value,
-                    child: Center(child:new Text(value,  textAlign: TextAlign.center,style:  TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20.0,
-                                    )),
-                  ));
-                }).toList(),
-                onChanged: (String value) {setState(() {select1 = value;});},
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                )
-              ),
-              new SizedBox(height:10),
-              new DropdownButton<String>(
+                new Column(children:
+                  //question(this.title,this.answer,this.answer_id);
+                StaticList.QuestionList.map((question list_val){
+                  if(list_val.type == 0)
+                  return new Column(children:<Widget>[
+                    new SizedBox(height:15),
+                    new DropdownButton<String>(
+                      hint: Container(width:180.0,child:Text(list_val.title)),
+                      //value: select0 == "" ? null : select0 ,
+                      items: list_val.answer.map((String value) {
+                        return new DropdownMenuItem<String>(
+                        value: value,
+                        child: Center(child:new Text(value, textAlign: TextAlign.center,style:  TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 20.0,
+                                        )),
+                                      ));
+                                    }).toList(),
+                        onChanged: (String value) {setState(() {
+                          //select0 = value;
+                          answerSelected(list_val.title,value);
+                        });},
+                        style:  TextStyle(
+                          color: Colors.blue,
+                          fontSize: 20.0,
+                          )
+                            ),
+                          ]
+                      );
+                      if(list_val.type == 1)
+                      //CHECK BOX
 
-                hint: Container(width:180.0,child:Text("Toileting condition", textAlign: TextAlign.center)),
-                value: select2 == "" ? null : select2 ,
-                items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                  return new DropdownMenuItem<String>(
-                    value: value,
-                    child: Center(child:new Text(value, textAlign: TextAlign.center, style:  TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20.0,
-                                    )),
-                  ));
-                }).toList(),
-                onChanged: (String value) {setState(() {select2 = value;});},
-                style: new TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-          )
-              ),
-              new SizedBox(height:10),
-              new DropdownButton<String>(
-                hint: Container(width:180.0,child:Text("Staff Responsible")),
-                value: select3 == "" ? null : select3 ,
-                items: StaticList.staff_list.map((String value) {
-                  return new DropdownMenuItem<String>(
-                    value: value,
-                    child: Center(child:new Text(value, style:  TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20.0,
-                                    )),
-                  ));
-                }).toList(),
-                onChanged: (String value) {setState(() {select3 = value;});},
 
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                )
-              ),
-              new SizedBox(height:30),
+                      if(list_val.type == 2)
+                      //TEXT LABEL TITLE
+                    }
+                  ).toList()
+                ),
+              new SizedBox(height:15),
               new RaisedButton(child: const Text('Submit',                style:  TextStyle(
                           color: Colors.white,
                           fontSize: 40.0,
@@ -194,16 +153,13 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 elevation: 4.0,
                 splashColor: Colors.blueGrey,
                 onPressed:(){_onSubmit();},),
-
+              new SizedBox(height:30),
           ],
-
         )),
-
-
       )),
       decoration: new BoxDecoration(
         color: Colors.lightBlue[400]
-      ),
+        ),
       ),
     );
   }
@@ -216,6 +172,6 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     _controller.dispose();
     super.dispose();
   }
-  bool operator ==(o) => o is _ColFormState && o.select0 == select0 ;
-  int get hashCode => select0.hashCode;
+  //bool operator ==(o) => o is _ColFormState && o.select0 == select0 ;
+  //int get hashCode => select0.hashCode;
 }

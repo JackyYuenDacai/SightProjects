@@ -39,7 +39,9 @@ public class MysqlAccess {
 		    }
 		    rs = pstmt.executeQuery();
 		} catch (SQLException e) {
-		    e.printStackTrace();
+		    e.printStackTrace();this.close();
+		}finally {
+			
 		}
 		return rs;
 	}
@@ -58,9 +60,9 @@ public class MysqlAccess {
 		    }
 		    result = pstmt.executeUpdate();
 		} catch (SQLException e) {
-		    e.printStackTrace();
+		    e.printStackTrace();this.close();
 		}finally{
-		    this.close();
+		    
 		}
 		return result;
 	}

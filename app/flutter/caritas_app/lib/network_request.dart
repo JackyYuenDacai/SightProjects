@@ -35,9 +35,15 @@ class network_request{
   }
 
   static void requestWrap(String url,ProcessFunc process) async{
-    await client.get(url)
+
+    await http.get(url)
         .then((response) {
           if(response.body.length<=0){
+            return;
+          }
+          if(response.statusCode != 200){
+            print('Server exception');
+            print(response.body);
             return;
           }
           ajaxResponse = response;
