@@ -64,17 +64,18 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
         for(int j = 0; j < i.answer.length;j++){
           if(i.answer[j] == value){
             answer[i.id] = i.answer_id[j];
+            print(i.answer_id[j]);
           }
         }
       }
     }
   }
   String answerValue(String title){
-
     for(question i in StaticList.QuestionList){
       if(i.title == title){
+        print(i.id);
         for(int j = 0; j < i.answer.length;j++){
-          if(i.answer_id[j] == answer[title]){
+          if(i.answer_id[j] == answer[i.id]){
             return i.answer[j];
           }
         }
@@ -107,7 +108,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                     case null:
                     case 0:
                         return new Column(children:<Widget>[
-                          new SizedBox(height:15),
+                          new SizedBox(height:5),
                           new DropdownButton<String>(
                             hint: Container(
                               width:180.0,
@@ -138,13 +139,41 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                             );
                             break;
                     case 1:
-                            break;
+                        return new Column(
+                              children: <Widget>[
+                                new CheckboxListTile(
+                                  title: new Text(list_val.title,
+                                    style: TextStyle(
+                                      color:Colors.white,
+                                      fontSize:17.0,
+                                    )
+                                  ),
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  activeColor: Colors.green,
+                                  value: (((answerValue(list_val.title)) == 'true')? true:false) ,
+                                  onChanged: (bool value) {
+                                    setState((){
+                                      if(answerValue(list_val.title) == 'true'){
+                                        answerSelected(list_val.title,'false');
+                                      }else{
+                                        answerSelected(list_val.title,'true');
+                                      }
+
+                                    });
+                                    print(answer);
+
+                                  },
+                                ),
+
+                              ],
+                        );
+                        break;
                     case 2:
                         return new Text(
                           list_val.title,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize:24.0,
+                            fontSize:20.0,
                           )
                         );
                         break;
@@ -153,7 +182,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                     }
                   ).toList()
                 ),
-              new SizedBox(height:15),
+              new SizedBox(height:10),
               new RaisedButton(child: const Text('Submit',                style:  TextStyle(
                           color: Colors.white,
                           fontSize: 40.0,

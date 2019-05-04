@@ -15,12 +15,13 @@ public class popReal extends MysqlAccess{
 		if(rs != null)
 		try {
 			while(rs.next()) {
-				if(rs!=null)
+				
 				result.add(new pop_impl(rs.getString("name"),rs.getString("id"),rs.getString("status"),rs.getString("unitok")));
 			}
 			this.close();
 		}catch (SQLException e) {
-			e.printStackTrace();this.close();
+			e.printStackTrace();
+			//this.close();
 		}finally {
 			
 		}
