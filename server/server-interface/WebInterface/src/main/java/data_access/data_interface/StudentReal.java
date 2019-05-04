@@ -10,13 +10,13 @@ public class StudentReal extends MysqlAccess{
 	// TODO Auto-generated method stub
 		ArrayList<student_impl> result = new ArrayList<student_impl>();
 		String query = "select personnel.id as id, personnel.p_name as name from personnel where personnel.p_role = 1 order by personnel.p_name;";
+		this.getConnection();
 		ResultSet rs = this.executeQuery(query, null);
 		if(rs != null)
 		try {
 			while(rs.next()) {
 				result.add(new student_impl(rs.getString("name"),rs.getString("id")));
 			}
-			this.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {

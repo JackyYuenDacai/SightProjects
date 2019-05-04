@@ -22,7 +22,7 @@ public class popReal extends MysqlAccess{
 		}catch (SQLException e) {
 			e.printStackTrace();this.close();
 		}finally {
-			this.close();
+			
 		}
 		return result;
 	}

@@ -9,29 +9,31 @@ public class MysqlAccess {
 	private String url = "jdbc:mysql://localhost:3306/caritas_main?useSSL=false&useUnicode=true&characterEncoding=utf-8";
 	private String user = "root";
 	private String pwd = "";
-	private static java.sql.Connection conn;
-	private PreparedStatement pstmt;
-	private java.sql.ResultSet rs;
+	private java.sql.Connection conn = null;
+	private PreparedStatement pstmt = null;
+	private java.sql.ResultSet rs = null;
 	static {
 		try {
-			java.lang.Class.forName("com.mysql.cj.jdbc.Driver");
+			java.lang.Class.forName("com.mysql.jdbc.Driver");
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	private void getConnection() {
-		if(conn == null) {
-			try {
-				conn = DriverManager.getConnection(url,user,pwd);
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
+	public void getConnection() {
+		
+		try {
+			
+			conn = DriverManager.getConnection(url,user,pwd);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
     public java.sql.ResultSet executeQuery(String query,List<Object> params){
-		getConnection();
+		 
 		try {
-			
+			getConnection();
 			pstmt = conn.prepareStatement(query);
 			if(params!=null && params.size()>0){
 		        for(int i=0;i<params.size();i++){
@@ -40,18 +42,18 @@ public class MysqlAccess {
 		    }
 		    rs = pstmt.executeQuery();
 		} catch (SQLException e) {
-		    e.printStackTrace();
+		    e.printStackTrace();this.close();
 		}finally {
-			this.close();
+			
 		}
 		return rs;
 	}
 
 	public int executeUpdate(String query,List<Object> params){
 		int result = 0;
-		getConnection();
-		try {
 		
+		try {
+			getConnection();
 		    pstmt = conn.prepareStatement(query);
 		
 		    if(params!=null && params.size()>0){
