@@ -31,6 +31,7 @@ public class MysqlAccess {
     public java.sql.ResultSet executeQuery(String query,List<Object> params){
 		getConnection();
 		try {
+			
 			pstmt = conn.prepareStatement(query);
 			if(params!=null && params.size()>0){
 		        for(int i=0;i<params.size();i++){
@@ -39,9 +40,9 @@ public class MysqlAccess {
 		    }
 		    rs = pstmt.executeQuery();
 		} catch (SQLException e) {
-		    e.printStackTrace();this.close();
+		    e.printStackTrace();
 		}finally {
-			
+			this.close();
 		}
 		return rs;
 	}
@@ -62,7 +63,7 @@ public class MysqlAccess {
 		} catch (SQLException e) {
 		    e.printStackTrace();this.close();
 		}finally{
-		    
+			this.close();
 		}
 		return result;
 	}

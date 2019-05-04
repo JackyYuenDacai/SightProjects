@@ -16,11 +16,13 @@ public class StaffLocation extends MysqlAccess{
 			while(rs.next()) {
 				result.add(new staff_location_impl(rs.getString("name"),rs.getString("id")));
 			}
+			this.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			this.close();
 		}
+		this.close();
 		return result;
 	}
 }

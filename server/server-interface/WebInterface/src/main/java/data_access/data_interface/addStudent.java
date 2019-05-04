@@ -13,9 +13,13 @@ public class addStudent extends MysqlAccess{
 			String query = "call addStudent(\'"+json.getString("id")+"\',\'"+json.getString("name")+"\',\'"+json.getString("tagId")+"\',\'"+json.getString("extra")+"\');";
 			
 			ResultSet rs = this.executeQuery(query, null);
-			if(rs != null)
-			return true;
-			else
-			return false;
+			if(rs != null) {
+				this.close();
+				return true;
+			}
+			else {
+				this.close();
+				return false;
+			}
 		}
 }

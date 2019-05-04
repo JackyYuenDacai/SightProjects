@@ -16,6 +16,7 @@ public class StudentReal extends MysqlAccess{
 			while(rs.next()) {
 				result.add(new student_impl(rs.getString("name"),rs.getString("id")));
 			}
+			this.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {

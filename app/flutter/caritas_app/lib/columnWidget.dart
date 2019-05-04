@@ -6,6 +6,7 @@ import './ManPage.dart';
 import 'RFIDPage.dart';
 import 'package:http/http.dart' as http;
 import 'pop.dart';
+import 'network_request.dart';
 class ColForm extends StatefulWidget{
   String name,id,unitok;
   ColForm([String n='Name',String i='Id',String t='']) : name=n,id=i,unitok=t
@@ -48,36 +49,16 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     if(!RFIDPage.IsNetwork){
         print('no network');
     }else{
-      var url = StaticList.submit_form_api_url;
-      url = url + 'id=' + id +'&';
-      url = url + 'unitok=' + unitok +'&';
-      /*url = url + 'select0=${select0}&' ;
-      url = url + 'select1=${select1}&';
-      url = url + 'select2=${select2}&';
-      url = url + 'select3=${select3}&';*/
-      http.get(url)
-          .then((response) {
-            //print("Submit Response status: ${response.statusCode}");
-            print("Submit: ${response.body}");
-            if(response.body.length>0)
-              _tween = new Tween<double>(begin: 250, end: 0.0).
-                animate(_controller)
-                ..addListener((){
-                  setState((){ });
-                })
-                ..addStatusListener((AnimationStatus status) {
-                  if (status == AnimationStatus.completed){
-                    this.dispose();
-                    StaticList.colform_list.remove(this);
-                  }
-                });
-                _controller.forward(from:250.0);
-            });
+
+      network_request.post_submit_form(id,unitok,answer);
+      setState((){});
     }
   }
 
-  Map<String,String> answer;
+  Map<String,String> answer = new Map<String,String>();
   answerSelected(String title,String value){
+    print(title);
+    print(value);
     for(question i in StaticList.QuestionList){
       if(i.title == title){
         for(int j = 0; j < i.answer.length;j++){
@@ -87,6 +68,19 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
         }
       }
     }
+  }
+  String answerValue(String title){
+
+    for(question i in StaticList.QuestionList){
+      if(i.title == title){
+        for(int j = 0; j < i.answer.length;j++){
+          if(i.answer_id[j] == answer[title]){
+            return i.answer[j];
+          }
+        }
+      }
+    }
+    return null;
   }
   Widget build(BuildContext context) {
 
@@ -119,7 +113,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                               width:180.0,
                               child:Text(list_val.title)
                             ),
-                            //value: select0 == "" ? null : select0 ,
+                            value: answerValue(list_val.title) ?? null,
                             items: list_val.answer.map((String value) {
                               return new DropdownMenuItem<String>(
                               value: value,
@@ -129,9 +123,12 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                                               )),
                                             ));
                                           }).toList(),
-                              onChanged: (String value) {setState(() {
-                                answerSelected(list_val.title,value);
-                              });},
+                              onChanged: (String value_clicked) {
+                                setState(() {
+                                    answerSelected(list_val.title,value_clicked);
+                                  }
+                                );
+                              },
                               style:  TextStyle(
                                     color: Colors.blue,
                                     fontSize: 20.0,

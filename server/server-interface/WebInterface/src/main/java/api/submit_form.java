@@ -2,6 +2,7 @@ package api;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,10 +37,12 @@ public class submit_form extends HttpServlet {
 		json.put("unitok", request.getParameter("unitok"));
 		json.put("id", request.getParameter("id"));
 		JSONObject json_form = new JSONObject();
-		json_form.put("select0", request.getParameter("select0"));
-		json_form.put("select1", request.getParameter("select1"));
-		json_form.put("select2", request.getParameter("select2"));
-		json.put("json_form", json_form);
+		//json_form.put("select0", request.getParameter("select0"));
+		//json_form.put("select1", request.getParameter("select1"));
+		//json_form.put("select2", request.getParameter("select2"));
+		//json_form string
+		//get json body data
+		json.put("json_form", String.valueOf(request.getInputStream().readAllBytes()));
 		if(JSONform.submit(json)) {
 			Writer out = response.getWriter();
 			out.write("success");
@@ -51,7 +54,17 @@ public class submit_form extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		JSONObject json = new JSONObject();
+		json.put("unitok", request.getParameter("unitok"));
+		json.put("id", request.getParameter("id"));
+		JSONObject json_form = new JSONObject();
+		String body = request.getReader().lines().collect(Collectors.joining());//json_form string
+		//get json body data
+		json.put("json_form", body);
+		if(JSONform.submit(json)) {
+			Writer out = response.getWriter();
+			out.write("success");
+		}
 	}
 
 }

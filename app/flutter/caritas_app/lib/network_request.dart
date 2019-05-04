@@ -2,8 +2,10 @@ import 'pop.dart';
 import 'dart:async';
 import 'package:async/async.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'columnWidget.dart';
+import 'package:json_annotation/json_annotation.dart';
 typedef ProcessFunc = void Function(http.Response);
 class network_request{
 
@@ -33,7 +35,17 @@ class network_request{
     var url = StaticList.get_record_data_url+"id="+id+"&time=${time}";
     requestWrap(url,(response)=>get_record_data_proc(response));
   }
-
+  static void post_submit_form(String id,String unitok,Map<String,String> json_data){
+    var url = StaticList.submit_form_api_url;
+    url = url + 'id=' + id +'&';
+    url = url + 'unitok=' + unitok +'&';
+    postWrap(url,{
+        HttpHeaders.contentTypeHeader: "application/json",
+        "callMethod" : "DOCTOR_AVAILABILITY"
+      },
+      json.encode(json_data),
+      (response){;});
+  }
   static void requestWrap(String url,ProcessFunc process) async{
 
     await http.get(url)
@@ -48,6 +60,26 @@ class network_request{
           }
           ajaxResponse = response;
           process(response);
+    });
+  }
+  static void postWrap(String url,var header,var body_data, ProcessFunc process) async{
+    print(body_data);
+    print(url);
+    await http.post(
+      url,
+      body:body_data,
+      headers:header
+    ).then((response) {
+      if(response.body.length<=0){
+        return;
+      }
+      if(response.statusCode != 200){
+        print('Server exception');
+        print(response.body);
+        return;
+      }
+      ajaxResponse = response;
+      process(response);
     });
   }
   static void get_record_data_proc(http.Response response){
