@@ -336,10 +336,10 @@ call manAddRecord('0021','2018-09-21 16:27:48','2018-09-21 16:37:03','ABC',"{'di
 call manAddRecord('0021','2018-09-22 06:51:53','2018-09-22 07:01:08','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-22 09:16:34','2018-09-22 09:25:49','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-22 12:21:42','2018-09-22 12:30:57','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
-call manAddRecord('0021','2018-09-22 14:40:49','2018-09-22 14:50:04','ABC',"{'diaper':'na','mistake':'na','toilet':'both','poo':'normal','poo_consistency':'soft','poo_color_yellow':'false','poo_color_brown':'true','poo_color_black':'false','poo_consist_blood':'false','poo_consist_goo':'false'}");}");
+call manAddRecord('0021','2018-09-22 14:40:49','2018-09-22 14:50:04','ABC',"{'diaper':'na','mistake':'na','toilet':'both','poo':'normal','poo_consistency':'soft','poo_color_yellow':'false','poo_color_brown':'true','poo_color_black':'false','poo_consist_blood':'false','poo_consist_goo':'false'}");
 call manAddRecord('0021','2018-09-22 15:31:03','2018-09-22 15:40:18','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-22 16:02:59','2018-09-22 16:12:14','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
-call manAddRecord('0021','2018-09-22 18:31:55','2018-09-22 18:41:10','ABC',"{'diaper':'na','mistake':'na','toilet':'both','poo':'much','poo_consistency':'hard','poo_color_yellow':'false','poo_color_brown':'true','poo_color_black':'false','poo_consist_blood':'true','poo_consist_goo':'false'}");}");
+call manAddRecord('0021','2018-09-22 18:31:55','2018-09-22 18:41:10','ABC',"{'diaper':'na','mistake':'na','toilet':'both','poo':'much','poo_consistency':'hard','poo_color_yellow':'false','poo_color_brown':'true','poo_color_black':'false','poo_consist_blood':'true','poo_consist_goo':'false'}");
 call manAddRecord('0021','2018-09-22 21:02:03','2018-09-22 21:11:18','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-22 21:25:05','2018-09-22 21:34:20','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-23 07:25:27','2018-09-23 07:34:42','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
