@@ -155,7 +155,7 @@ class StaticList{
     new question('黑色','poo_color_black',<String>['true','false'],<String>['true','false'],1),
     new question('含血','poo_consist_blood',<String>['true','false'],<String>['true','false'],1),
     new question('含潺','poo_consist_goo',<String>['true','false'],<String>['true','false'],1),
-
+    new question('預定時間','assigned_time',<String>['true','false'],<String>['true','false'],1)
   ];
 
 }
