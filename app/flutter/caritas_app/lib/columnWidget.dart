@@ -52,14 +52,16 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     }else{
 
       network_request.post_submit_form(id,unitok,answer);
-      setState((){});
+      setState((){
+        StaticList.colform_list.remove(this);
+      });
     }
   }
 
   Map<String,String> answer = new Map<String,String>();
   answerSelected(String title,String value){
-    print(title);
-    print(value);
+    //print(title);
+    //print(value);
     for(question i in StaticList.QuestionList){
       if(i.title == title){
         for(int j = 0; j < i.answer.length;j++){
@@ -74,7 +76,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
   String answerValue(String title){
     for(question i in StaticList.QuestionList){
       if(i.title == title){
-        print(i.id);
+        //print(i.id);
         for(int j = 0; j < i.answer.length;j++){
           if(i.answer_id[j] == answer[i.id]){
             return i.answer[j];
@@ -100,6 +102,28 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 new Text(widget.name,textAlign:TextAlign.center,style: new TextStyle(
                   color: Colors.white,
                   fontSize: 40.0,
+                  )
+                ),
+                new SizedBox(height:10),
+                new DropdownButton<String>(
+                  hint: Container(width:180.0,child:Text("負責職員")),
+                  value: answer['staff'] ?? null ,
+                  items: StaticList.staff_list.map((String value) {
+                    return new DropdownMenuItem<String>(
+                      value: value,
+                      child: Center(child:new Text(value, style:  TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20.0,
+                                      )),
+                    ));
+                  }).toList(),
+                  onChanged: (String value) {setState(() {
+                    answer['staff'] = value;
+                  });},
+
+                  style: new TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
                   )
                 ),
                 new Column(children:
@@ -210,6 +234,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
   }
   dispose(){
     _controller.dispose();
+    updateStafflist.cancel();
     super.dispose();
   }
   //bool operator ==(o) => o is _ColFormState && o.select0 == select0 ;

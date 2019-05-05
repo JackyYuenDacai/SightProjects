@@ -95,9 +95,7 @@ class _SettingPageState extends State<SettingPage> {
   var add_tagId;
   //ADD STUDENT VALUE END
   _onAddStudent(){
-    if(!RFIDPage.IsNetwork){
-        print('no network');
-    }else{
+
       var url = StaticList.add_staff_api_url;
       url = url + 'id=' + add_id +'&';
       url = url + 'name=' + add_name +'&';
@@ -111,7 +109,7 @@ class _SettingPageState extends State<SettingPage> {
 
             }
           });
-    }
+    
   }
   void getTagsNearby(){
     ajaxResponse = new http.Response("",200);;

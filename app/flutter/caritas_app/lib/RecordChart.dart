@@ -132,6 +132,17 @@ class _DialogContentState extends State<DialogContent>{
       chart = new charts.ScatterPlotChart(
         chart_series,
         animate: true,
+        behaviors: [
+        new charts.ChartTitle('日期（日）',
+            behaviorPosition: charts.BehaviorPosition.bottom,
+            titleOutsideJustification:
+                charts.OutsideJustification.middleDrawArea),
+        new charts.ChartTitle('時間（時）',
+            behaviorPosition: charts.BehaviorPosition.start,
+            titleOutsideJustification:
+                charts.OutsideJustification.middleDrawArea),
+
+      ],
       );
       chartWidget = new Padding(
         padding: new EdgeInsets.all(32.0),

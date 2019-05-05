@@ -59,8 +59,8 @@ class _ManPageState extends State<ManPage> {
   }
   Map<String,String> answer = new Map<String,String>();
   answerSelected(String title,String value){
-    print(title);
-    print(value);
+    //print(title);
+    //print(value);
     for(question i in StaticList.QuestionList){
       if(i.title == title){
         for(int j = 0; j < i.answer.length;j++){
@@ -75,7 +75,7 @@ class _ManPageState extends State<ManPage> {
   String answerValue(String title){
     for(question i in StaticList.QuestionList){
       if(i.title == title){
-        print(i.id);
+        //print(i.id);
         for(int j = 0; j < i.answer.length;j++){
           if(i.answer_id[j] == answer[i.id]){
             return i.answer[j];

@@ -12,7 +12,7 @@ class network_request{
   static var client = new http.Client();
 
   static http.Response ajaxResponse = new http.Response("",200);
-  static String server_addr = 'http://localhost:8080';//'http://192.168.31.2:8080';
+  static String server_addr = 'http://192.168.31.2:8080';//'http://192.168.31.2:8080';
   static String getpop_api_url = server_addr+'/WebInterface/get_pops_list?location=';
   static String getstaff_api_url = server_addr+'/WebInterface/get_staff_list?location=';
   static String submit_form_api_url = server_addr+'/WebInterface/submit_form?';
@@ -84,7 +84,7 @@ class network_request{
   }
   static void get_record_data_proc(http.Response response){
     //print("Response body: ${response.body}");
-    print('get record data');
+    
     StaticList.entries = new record_entries.fromJson(json.decode(response.body));
   }
   static void get_pop_list_proc(http.Response response){
