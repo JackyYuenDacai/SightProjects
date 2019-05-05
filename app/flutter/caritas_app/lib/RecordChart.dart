@@ -73,7 +73,10 @@ class _DialogContentState extends State<DialogContent>{
     network_request.get_record_data(id,DateFormat('yyyy-MM-dd HH:mm:ss').format(desire));
     List<ClicksPerYear> data =[];
     List<charts.Series<ClicksPerYear,String>> chart_series =[];
-    DateTime nowDateTime = new DateTime.now();
+    DateTime nowtmp = DateTime.now();
+
+    DateTime nowDateTime = new DateTime(nowtmp.year, nowtmp.month, nowtmp.day+1, 0, 0);
+
     switch(_value?.toInt() ?? 0){
       case 0:
       for(int i = 8; i>0;i--){
@@ -87,10 +90,13 @@ class _DialogContentState extends State<DialogContent>{
 
           if(ent.time_in.isAfter(start) == true && ent.time_in.isBefore(end) == true){
             print(timestring);
+
             sum += 1;//int.parse(ent.data_json['select0']);
           }
         }
+
         data.add(new ClicksPerYear(timestring,sum,Colors.red));
+
       }
       break;
       case 1:
