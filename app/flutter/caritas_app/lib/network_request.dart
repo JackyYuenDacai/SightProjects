@@ -22,7 +22,7 @@ class network_request{
   static String add_student_api_url = server_addr+'/WebInterface/add_student?';
   static String del_student_api_url = server_addr+'/WebInterface/del_student?';
   static String get_record_export_url = server_addr+'/WebInterface/record_export?';
-
+  static String add_staff_api_url = server_addr+'/WebInterface/add_staff?';
   static void get_staff_list(String location){
     var url = StaticList.getstaff_api_url+location;
     requestWrap(url,(response)=>get_staff_list_proc(response));

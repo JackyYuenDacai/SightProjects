@@ -7,6 +7,7 @@ import './DataPage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import './I8N.dart';
 import 'network_request.dart';
+import 'SettingPage.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           '/RFIDPage':(BuildContext context) => new RFIDPage(),
           '/ManPage':(BuildContext context) => new ManPage(),
           '/DataPage':(BuildContext context) => new DataPage(),
+          '/SettingPage':(BuildContext context) => new SettingPage(),
       },
     );
   }

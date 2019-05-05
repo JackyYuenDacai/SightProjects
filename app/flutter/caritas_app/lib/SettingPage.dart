@@ -12,52 +12,81 @@ import './DataForm.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import './I8N.dart';
 import 'network_request.dart';
-class DataPage extends StatefulWidget {
+class SettingPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new _DataPageState();
+    return new _SettingPageState();
   }
 }
 
-class _DataPageState extends State<DataPage> {
+class _SettingPageState extends State<SettingPage> {
   http.Response ajaxResponse = new http.Response("",200);
-  //List<DataForm> datform_list = new List<DataForm>();
+
   initState(){
     super.initState();
-    updateStudentList();
+
   }
-  //
-  updateStudentList(){
-    ajaxResponse = new http.Response("",200);;
-    var url = StaticList.get_student_list;
-    //print(url);
-    http.get(url)
-        .then((response) {
-      //print("Response status: ${response.statusCode}");
+  @override
+  Widget build(BuildContext context) {
+    Widget userHeader = UserAccountsDrawerHeader(
+      accountName: new Text('Location'),
+      currentAccountPicture: new CircleAvatar(
+        backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
-          print("Response body: ${response.body}");
-          print('get student list');
-          if(response.body.length<=0){
-            return;
-          }
-          studentList staffs = new studentList.fromJson(json.decode(response.body));
-          StaticList.student_id.clear();
-          StaticList.student_name.clear();
-          StaticList.datform_list.clear();
-          for(student wid in staffs.Staffs){
-            this.setState((){
-              StaticList.student_id.add(wid.id);
-              print('name:'+wid.name);
-              StaticList.student_name.add(wid.name);
-              StaticList.datform_list.add(new DataForm(wid.name,wid.id));
-            });
-          }
+    return new WillPopScope(
+  onWillPop: () async {
+    return true;
+  },
+  child: Scaffold(
+      appBar: AppBar(title: Text("Setting Page"),),
+      body:
+      new Container(
+          margin: const EdgeInsets.only(top:40.0, left: 20.0, right: 20.0),
+          child:  ListView(
+                        children: <Widget>[
+                          new RaisedButton(child: Text('Add Staff',
+                          style:  TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 40.0,
+                                    )),
+                            color: Theme.of(context).accentColor,
+                            elevation: 4.0,
+                            splashColor: Colors.blueGrey,
+                            onPressed:(){AddStudentDialog(context);},),
+                        ]
 
-          //ajaxCall.reset();
-    });
-    if(this.ajaxResponse.body.length <= 0){
-    }
-    setState((){});
+                      ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            userHeader ,
+            ListTile(title: Text(I8N.of(context).rfid_title),
+              leading: new CircleAvatar(child: new Icon(Icons.school),),
+              onTap: () {
+                Navigator.of(context).pushNamed('/RFIDPage');
+              },),
+            ListTile(title: Text(I8N.of(context).students_title),
+              leading: new CircleAvatar(child: new Icon(Icons.school),),
+              onTap: () {
+                Navigator.of(context).pushNamed('/DataPage');
+              },),
+            ListTile(title: Text(I8N.of(context).manuel_title),
+              leading: new CircleAvatar(child: new Text('B2'),),
+              onTap: () {
+                Navigator.of(context).pushNamed('/ManPage');
+              },),
+            ListTile(title: Text(I8N.of(context).setting_title),
+              leading: new CircleAvatar(
+                child: new Icon(Icons.list),),
+              onTap: () {
+
+              },),
+
+          ],
+        ),
+      ),));
   }
   //ADD STUDENT VALUE START
   var add_name;
@@ -69,7 +98,7 @@ class _DataPageState extends State<DataPage> {
     if(!RFIDPage.IsNetwork){
         print('no network');
     }else{
-      var url = StaticList.add_student_api_url;
+      var url = StaticList.add_staff_api_url;
       url = url + 'id=' + add_id +'&';
       url = url + 'name=' + add_name +'&';
       url = url + 'extra=${add_extra}&';
@@ -126,11 +155,11 @@ class _DataPageState extends State<DataPage> {
                       direction: Axis.horizontal,
                       children:
                         <Widget>[
-                          new Text('Student\'s Name',textAlign:TextAlign.center),
+                          new Text('Staff\'s Name',textAlign:TextAlign.center),
                           new TextField(
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Please enter student\'s name',
+                              hintText: 'Please enter staff\'s name',
                             ),
                             onChanged:(text){
                               add_name = text;
@@ -146,7 +175,7 @@ class _DataPageState extends State<DataPage> {
                           new TextField(
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Please enter student\'s id',
+                              hintText: 'Please enter staff\'s id',
                             ),
                             onChanged:(text){
                               add_id = text;
@@ -183,7 +212,6 @@ class _DataPageState extends State<DataPage> {
                         ));
                       }).toList(),
                       onChanged: (String value) {setState(() {add_tagId = value;});},
-
                       style: new TextStyle(
                         color: Colors.white,
                         fontSize: 20.0,
@@ -197,7 +225,6 @@ class _DataPageState extends State<DataPage> {
                 onPressed: () {
                   //ADD STUDENT
                   _onAddStudent();
-                  updateStudentList();
                   Navigator.of(context).pop();
                   add_tagId = null;
                 },
@@ -214,63 +241,7 @@ class _DataPageState extends State<DataPage> {
           );
         });
   }
-  @override
-  Widget build(BuildContext context) {
-    Widget userHeader = UserAccountsDrawerHeader(
-      accountName: new Text('Location'),
-      currentAccountPicture: new CircleAvatar(
-        backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
-    //rupdateStudentList();
-    return new WillPopScope(
-  onWillPop: () async {
-    return true;
-  },
-  child: Scaffold(
-      appBar: AppBar(title: Text("Students"),),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AddStudentDialog(context);
-        },
-        child: Icon(Icons.add,),
-        mini: false,
-      ),
-      body: new Container(
-        color: Colors.white,
-        child: Align(alignment: Alignment.topCenter,child:new SingleChildScrollView (
-          scrollDirection: Axis.vertical,
-          child:
-              new Column(children:StaticList.datform_list,)
-
-        )),),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            userHeader ,
-            ListTile(title: Text(I8N.of(context).rfid_title),
-              leading: new CircleAvatar(child: new Icon(Icons.school),),
-              onTap: () {
-                Navigator.of(context).pushNamed('/RFIDPage');
-              },),
-              ListTile(title: Text(I8N.of(context).students_title),
-                leading: new CircleAvatar(child: new Icon(Icons.school),),
-                onTap: () {
-
-                },),
-            ListTile(title: Text(I8N.of(context).manuel_title),
-              leading: new CircleAvatar(child: new Text('B2'),),
-              onTap: () {
-                //Navigator.pop(context);
-                Navigator.of(context).pushNamed('/ManPage');
-              },),
-            ListTile(title: Text(I8N.of(context).setting_title),
-              leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
-              onTap: () {
-                                Navigator.of(context).pushNamed('/SettingPage');
-              },),
-          ],
-        ),
-      ),));
+  dispose(){
+    super.dispose();
   }
 }

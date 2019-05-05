@@ -96,7 +96,7 @@ class _RFIDPageState extends State<RFIDPage> {
                   leading: new CircleAvatar(
                     child: new Icon(Icons.list),),
                   onTap: () {
-                    Navigator.pop(context);
+                                    Navigator.of(context).pushNamed('/SettingPage');
                   },),
               ],
             ),

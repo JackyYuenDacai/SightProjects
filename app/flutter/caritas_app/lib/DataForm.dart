@@ -151,7 +151,7 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
           StaticList.tag_list.clear();
           for(Tag wid in tags.tags){
               StaticList.tag_list.add(wid.id);
-              //print('id:'+wid.id);
+              print('id:'+wid.id);
           }
           //print(StaticList.staff_list);
 
@@ -193,7 +193,7 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
             title: new Text("Modify "+name),
             content:
             new Container(
-            width:350.0,
+            width:550.0,
             height:500.0,
             child:
             new ListView(
@@ -285,13 +285,13 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: new Text("Confirm"),
+                child: new Text(I8N.of(context).confirm),
               ),
               new FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: new Text("Cancel"),
+                child: new Text(I8N.of(context).cancel),
               ),
             ],
           );
@@ -309,7 +309,7 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return
       Container(
-        width:550.0,
+        width:650.0,
         height:70,
         child:new Slidable(
       delegate: new SlidableDrawerDelegate(),

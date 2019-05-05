@@ -88,11 +88,11 @@ begin
   if @p_role is null then
     select 'ERROR: personnel unavail';
     /*INSERT RECOMMAND TAGS LOCATION LIST NOT REGISTERED*/
-    delete from tags_location where tags_location.id = @pid and tags_location.location = location;
+    delete from tags_location where tags_location.id = tagId and tags_location.location = location;
     insert into tags_location values(tagId,now(),location,false);
   else
     /*INSERT RECOMMAND TAGS LOCATION LIST REGISTERED*/
-    delete from tags_location where tags_location.id = @pid and tags_location.location = location;
+    delete from tags_location where tags_location.id = tagId and tags_location.location = location;
     insert into tags_location values(tagId,now(),location,true);
   end if;
 end;
@@ -114,6 +114,21 @@ begin
     call linkTag(id,tagId);
   else
     insert into personnel values(id,name,1,extra);
+    insert into tags_linkage values(id,tagId);
+  end if;
+
+end;
+/$
+
+create procedure addStaff(id varchar(64), name varchar(128), tagId varchar(64) , extra varchar(1024))
+begin
+  select count(*) from personnel where personnel.id = id into @IfExist;
+  if(@IfExist != 0) then
+    delete from personnel where personnel.id = id;
+    insert into personnel values(id,name,0,extra);
+    call linkTag(id,tagId);
+  else
+    insert into personnel values(id,name,0,extra);
     insert into tags_linkage values(id,tagId);
   end if;
 

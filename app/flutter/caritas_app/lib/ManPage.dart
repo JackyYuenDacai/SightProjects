@@ -4,6 +4,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'dart:async';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import './I8N.dart';
+import './pop.dart';
 class ManPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -22,6 +23,67 @@ class _ManPageState extends State<ManPage> {
   initState(){
     super.initState();
 
+  }
+  submitClicked(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new AlertDialog(
+            title: new Text("確定提交？"),
+            content: new Text('  '),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+
+
+                  this.setState((){
+                    //this.dispose();
+
+                    //Navigator.of(context).pushNamed('/DataPage');
+                  });
+                  Navigator.of(context).pushNamed('/DataPage');
+
+                },
+                child: new Text("確定"),
+              ),
+              new FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: new Text("取消"),
+              ),
+            ],
+          );
+        });
+  }
+  Map<String,String> answer = new Map<String,String>();
+  answerSelected(String title,String value){
+    print(title);
+    print(value);
+    for(question i in StaticList.QuestionList){
+      if(i.title == title){
+        for(int j = 0; j < i.answer.length;j++){
+          if(i.answer[j] == value){
+            answer[i.id] = i.answer_id[j];
+            print(i.answer_id[j]);
+          }
+        }
+      }
+    }
+  }
+  String answerValue(String title){
+    for(question i in StaticList.QuestionList){
+      if(i.title == title){
+        print(i.id);
+        for(int j = 0; j < i.answer.length;j++){
+          if(i.answer_id[j] == answer[i.id]){
+            return i.answer[j];
+          }
+        }
+      }
+    }
+    return null;
   }
   @override
   Widget build(BuildContext context) {
@@ -46,7 +108,11 @@ class _ManPageState extends State<ManPage> {
                             direction: Axis.horizontal,
                             children:
                               <Widget>[
-                                new Text('Student\'s Name',textAlign:TextAlign.center),
+                                new Text('學生姓名',textAlign:TextAlign.center,
+                                style:TextStyle(
+                                  fontSize:20.0,
+                                )
+                              ),
                                 new TextField(
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -59,7 +125,10 @@ class _ManPageState extends State<ManPage> {
                             direction: Axis.horizontal,
                             children:
                               <Widget>[
-                                new Text('Staff\'s Name',textAlign:TextAlign.center),
+                                new Text('職員姓名',textAlign:TextAlign.center,
+                                style:TextStyle(
+                                  fontSize:20.0,
+                                )),
                                 new TextField(
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -76,8 +145,6 @@ class _ManPageState extends State<ManPage> {
                                       onPressed: () {
                                           DatePicker.showDateTimePicker(context,
                                                 showTitleActions: true,
-                                                //minTime: DateTime(2018, 3, 5),
-                                                //maxTime: DateTime(2019, 6, 7),
                                                 onChanged: (date) {
                                               print('change $date');
                                             }, onConfirm: (date) {
@@ -85,15 +152,13 @@ class _ManPageState extends State<ManPage> {
                                             }, currentTime: DateTime.now(), locale: LocaleType.zh);
                                       },
                                       child: Text(
-                                          'pick the time student got in',
-                                          style: TextStyle(color: Colors.blue),
+                                          '進入時間',
+                                          style: TextStyle(color: Colors.blue,fontSize:25.0,),
                                       )),
                                   FlatButton(
                                     onPressed: () {
                                         DatePicker.showDateTimePicker(context,
                                                               showTitleActions: true,
-                                                              //minTime: DateTime(2018, 3, 5),
-                                                              //maxTime: DateTime(2019, 6, 7),
                                                               onChanged: (date) {
                                                             print('change $date');
                                                           }, onConfirm: (date) {
@@ -101,44 +166,103 @@ class _ManPageState extends State<ManPage> {
                                                           }, currentTime: DateTime.now(), locale: LocaleType.zh);
                                     },
                                     child: Text(
-                                        'pick the time student got out',
-                                        style: TextStyle(color: Colors.blue),
+                                        '退出時間',
+                                        style: TextStyle(color: Colors.blue,fontSize:25.0,),
                                     )),
                             ]
                           ),
+                          Align(alignment: Alignment.topLeft,child:
+                          new Column(children:
+                            //question(this.title,this.answer,this.answer_id);
+                          StaticList.QuestionList.map((question list_val){
+                            switch(list_val.type){
+                              case null:
+                              case 0:
+                                  return Align(alignment: Alignment.topLeft,child:new Column(children:<Widget>[
+                                    new SizedBox(height:5),
+                                    new DropdownButton<String>(
+                                      hint: Container(
+                                        width:180.0,
+                                        child:Text(list_val.title)
+                                      ),
+                                      value: answerValue(list_val.title) ?? null,
+                                      items: list_val.answer.map((String value) {
+                                        return new DropdownMenuItem<String>(
+                                        value: value,
+                                        child: new Text(value, textAlign: TextAlign.left,style:  TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 20.0,
+                                                        )),
+                                                      );
+                                                    }).toList(),
+                                        onChanged: (String value_clicked) {
+                                          setState(() {
+                                              answerSelected(list_val.title,value_clicked);
+                                            }
+                                          );
+                                        },
+                                        style:  TextStyle(
+                                              color: Colors.blue,
+                                              fontSize: 20.0,
+                                              )
+                                            ),
+                                          ]
+                                      ));
+                                      break;
+                              case 1:
+                                  return new Column(
+                                        children: <Widget>[
+                                          new CheckboxListTile(
+                                            title: new Text(list_val.title,
+                                              style: TextStyle(
+                                                color:Colors.blue,
+                                                fontSize:17.0,
+                                              )
+                                            ),
+                                            controlAffinity: ListTileControlAffinity.leading,
+                                            activeColor: Colors.green,
+                                            value: (((answerValue(list_val.title)) == 'true')? true:false) ,
+                                            onChanged: (bool value) {
+                                              setState((){
+                                                if(answerValue(list_val.title) == 'true'){
+                                                  answerSelected(list_val.title,'false');
+                                                }else{
+                                                  answerSelected(list_val.title,'true');
+                                                }
 
-                              new DropdownButton<String>(
-                                hint: Text("Diaper check"),
-                                items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(value),
+                                              });
+                                              print(answer);
+
+                                            },
+                                          ),
+
+                                        ],
                                   );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),
-                              new SizedBox(height:50),
-                              new DropdownButton<String>(
-                                hint: Text("Wet diaper"),
-                                items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(value),
+                                  break;
+                              case 2:
+                                  return new Text(
+                                    list_val.title,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:20.0,
+                                    )
                                   );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),
-                              new SizedBox(height:50),
-                              new DropdownButton<String>(
-                                hint: Text("Toileting condition"),
-                                items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),]
+                                  break;
+                            }
+
+                              }
+                            ).toList()
+                          )),
+                          new SizedBox(height:10),
+                          new RaisedButton(child: Text(I8N.of(context).submit_text,
+                          style:  TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 40.0,
+                                    )),
+                            color: Theme.of(context).accentColor,
+                            elevation: 4.0,
+                            splashColor: Colors.blueGrey,
+                            onPressed:(){submitClicked(context);},),]
 
                       ),
       ),
@@ -165,7 +289,7 @@ class _ManPageState extends State<ManPage> {
               leading: new CircleAvatar(
                 child: new Icon(Icons.list),),
               onTap: () {
-                Navigator.pop(context);
+                                Navigator.of(context).pushNamed('/SettingPage');
               },),
 
           ],

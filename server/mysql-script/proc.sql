@@ -16,6 +16,7 @@ drop procedure if exists linkTag;
 drop procedure if exists addStudent;
 drop procedure if exists manAddRecord;
 drop procedure if exists delStudent;
+drop procedure if exists addStaff;
 drop event if exists Event_Second;
 
 set global log_bin_trust_function_creators=TRUE;

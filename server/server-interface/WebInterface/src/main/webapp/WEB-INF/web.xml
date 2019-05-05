@@ -70,6 +70,12 @@
   	<description></description>
   	<servlet-class>api.del_student</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>add_staff</servlet-name>
+  	<display-name>add_staff</display-name>
+  	<description></description>
+  	<servlet-class>api.add_staff</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>get_pops_list</servlet-name>
   	<url-pattern>/get_pops_list</url-pattern>
@@ -113,5 +119,9 @@
   <servlet-mapping>
   	<servlet-name>del_student</servlet-name>
   	<url-pattern>/del_student</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>add_staff</servlet-name>
+  	<url-pattern>/add_staff</url-pattern>
   </servlet-mapping>
 </web-app>
