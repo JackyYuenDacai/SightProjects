@@ -97,7 +97,7 @@ class _ManPageState extends State<ManPage> {
     return true;
   },
   child: Scaffold(
-      appBar: AppBar(title: Text("Manual Page"),),
+      appBar: AppBar(title: Text(I8N.of(context).manuel_title),),
       body:
       new Container(
           margin: const EdgeInsets.only(top:40.0, left: 20.0, right: 20.0),

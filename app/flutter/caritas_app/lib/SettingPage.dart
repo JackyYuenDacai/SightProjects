@@ -38,7 +38,7 @@ class _SettingPageState extends State<SettingPage> {
     return true;
   },
   child: Scaffold(
-      appBar: AppBar(title: Text("Setting Page"),),
+      appBar: AppBar(title: Text("設定"),),
       body:
       new Container(
           margin: const EdgeInsets.only(top:40.0, left: 20.0, right: 20.0),
@@ -109,7 +109,7 @@ class _SettingPageState extends State<SettingPage> {
 
             }
           });
-    
+
   }
   void getTagsNearby(){
     ajaxResponse = new http.Response("",200);;
@@ -142,7 +142,7 @@ class _SettingPageState extends State<SettingPage> {
         context: context,
         builder: (context) {
           return new AlertDialog(
-            title: new Text(I8N.of(context).add_student),
+            title: new Text(I8N.of(context).add_staff),
             content: new Container(
               width:450.0,
 

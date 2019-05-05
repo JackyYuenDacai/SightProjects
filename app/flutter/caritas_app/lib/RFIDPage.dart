@@ -54,7 +54,7 @@ class _RFIDPageState extends State<RFIDPage> {
   @override
   Widget build(BuildContext context) {
     Widget userHeader = UserAccountsDrawerHeader(
-      accountName: new Text('Current Location: '+StaticList.location),
+      accountName: new Text('地點 '+StaticList.location),
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 
@@ -64,7 +64,7 @@ class _RFIDPageState extends State<RFIDPage> {
         return true;
       },
       child: Scaffold(
-          appBar: AppBar(title: Text("RFID Page"),),
+          appBar: AppBar(title: Text(I8N.of(context).rfid_title),),
           body: new Container(
             child: new SingleChildScrollView (
               scrollDirection: Axis.horizontal,

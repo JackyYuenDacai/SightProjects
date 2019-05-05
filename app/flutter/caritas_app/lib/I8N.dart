@@ -11,7 +11,7 @@ class I8N{
     return Localizations.of<I8N>(context, I8N);
   }
   static Map<String,Map<String,String>> I8N_values = {
-    'en':{
+    'zh':{
       'apptitle':'CaritasApp',
       'students_title':'Students',
       'home':'Home',
@@ -21,10 +21,11 @@ class I8N{
       'confirm':'Confirm',
       'cancel':'Cancel',
       'add_student':'Add Student',
+      'add_staff':'Add Staff',
       'location_text':'Location ',
       'submit_text':'Submit',
     },
-    'zh':{
+    'en':{
       'apptitle':'明愛樂勤應用程式',
       'students_title':'學生',
       'home':'主頁',
@@ -34,9 +35,10 @@ class I8N{
       'confirm':'確定',
       'cancel':'取消',
       'add_student':'添加學生',
+      'add_staff':'添加職員',
       'location_text':'地點 ',
       'submit_text':'提交',
-    }
+    },
   };
   String get apptitle{return I8N_values[locale.languageCode]['apptitle'];}
   String get home{return I8N_values[locale.languageCode]['home'];}
@@ -47,6 +49,8 @@ class I8N{
   String get confirm{return I8N_values[locale.languageCode]['confirm'];}
   String get cancel{return I8N_values[locale.languageCode]['cancel'];}
   String get add_student{return I8N_values[locale.languageCode]['add_student'];}
+  String get add_staff{return I8N_values[locale.languageCode]['add_staff'];}
+
   String get location_text{return I8N_values[locale.languageCode]['location_text'];}
   String get submit_text{return I8N_values[locale.languageCode]['submit_text'];}
 }

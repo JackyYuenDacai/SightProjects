@@ -226,7 +226,7 @@ class _DataPageState extends State<DataPage> {
     return true;
   },
   child: Scaffold(
-      appBar: AppBar(title: Text("Students"),),
+      appBar: AppBar(title: Text(I8N.of(context).students_title),),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           AddStudentDialog(context);
