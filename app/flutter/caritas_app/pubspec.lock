@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.3.2"
+  calendar_view_widget:
+    dependency: "direct main"
+    description:
+      name: calendar_view_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.6"
   charcode:
     dependency: transitive
     description:

@@ -107,8 +107,16 @@ end;
 
 create procedure addStudent(id varchar(64), name varchar(128), tagId varchar(64) , extra varchar(1024))
 begin
-  insert into personnel values(id,name,1,extra);
-  insert into tags_linkage values(id,tagId);
+  select count(*) from personnel where personnel.id = id into @IfExist;
+  if(@IfExist != 0) then
+    delete from personnel where personnel.id = id;
+    insert into personnel values(id,name,1,extra);
+    call linkTag(id,tagId);
+  else
+    insert into personnel values(id,name,1,extra);
+    insert into tags_linkage values(id,tagId);
+  end if;
+
 end;
 /$
 

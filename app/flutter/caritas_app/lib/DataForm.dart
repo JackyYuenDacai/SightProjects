@@ -20,6 +20,10 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'network_request.dart';
+
+import 'I8N.dart';
+
+import 'RecordChart.dart';
 class DataForm extends StatefulWidget{
   String name,id;
   DataForm([String n='Name',String i='Id']) : name=n,id=i
@@ -29,14 +33,13 @@ class DataForm extends StatefulWidget{
   @override
   _DataFormState createState() => new _DataFormState(name,id);
 }
-class ClicksPerYear {
-  final String year;
-  final int clicks;
-  final charts.Color color;
 
-  ClicksPerYear(this.year, this.clicks, Color color)
-      : this.color = new charts.Color(
-            r: color.red, g: color.green, b: color.blue, a: color.alpha);
+class TimePoint{
+  final TimeOfDay time;
+  final String when;
+  final charts.Color color;
+  TimePoint(this.when,this.time,Color color):this.color = new charts.Color(
+        r: color.red, g: color.green, b: color.blue, a: color.alpha);
 }
 class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin {
   String name,id;
@@ -130,25 +133,141 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
     print(csvData);
     ShareExtend.share(testFile.path, "file");
   }
+  void getTagsNearby(){
+    ajaxResponse = new http.Response("",200);;
+    var url = StaticList.get_tags_url+StaticList.location;
+    //print(url);
+    http.get(url)
+        .then((response) {
+      //print("Response status: ${response.statusCode}");
+
+          print("Response body: ${response.body}");
+          print('get tags list');
+          if(response.body.length<=0){
+            return;
+          }
+          tagList tags = new tagList.fromJson(json.decode(response.body));
+
+          StaticList.tag_list.clear();
+          for(Tag wid in tags.tags){
+              StaticList.tag_list.add(wid.id);
+              //print('id:'+wid.id);
+          }
+          //print(StaticList.staff_list);
+
+    });
+  }
+  //ADD STUDENT VALUE START
+  var add_name;
+  var add_id;
+  var add_extra;
+  var add_tagId;
+  //ADD STUDENT VALUE END
+  void _onModStudent(){
+    if(!RFIDPage.IsNetwork){
+        print('no network');
+    }else{
+      var url = StaticList.add_student_api_url;
+      url = url + 'id=' + id +'&';
+      url = url + 'name=' + add_name +'&';
+      url = url + 'extra=${add_extra}&';
+      url = url + 'tagId=${add_tagId}&';
+      http.get(url)
+          .then((response) {
+            //print("Submit Response status: ${response.statusCode}");
+            print("Submit: ${response.body}");
+            if(response.body.length>0){
+
+            }
+          });
+    }
+  }
   void modifyDialog(BuildContext context) {
+    add_name = name;
+    add_id = id;
+    getTagsNearby();
     showDialog(
         context: context,
         builder: (context) {
           return new AlertDialog(
             title: new Text("Modify "+name),
-            content: new Text('  '),
+            content:
+            new Container(
+            width:350.0,
+            height:500.0,
+            child:
+            new ListView(
+                              children:<Widget>[
+                                new Wrap(
+                                  direction: Axis.horizontal,
+                                  children:
+                                    <Widget>[
+                                      new Text('Student\'s Name',textAlign:TextAlign.center),
+                                      new TextField(
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Please enter student\'s name',
+                                        ),
+                                        onChanged:(text){
+                                          add_name = text;
+                                        }
+                                      ),
+                                    ]
+                                ),
+                                new Wrap(
+                                  direction: Axis.horizontal,
+                                  children:
+                                    <Widget>[
+                                      new Text('Extra info',textAlign:TextAlign.center),
+                                      new TextField(
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Please enter student\'s extra info',
+                                        ),
+                                        onChanged:(text){
+                                          add_extra = text;
+                                        }
+                                      ),
+                                    ]
+                                ),
+                                new DropdownButton<String>(
+                                  hint: Container(width:180.0,child:Text("Tags Nearby")),
+                                  value: add_tagId == "" ? null : add_tagId ,
+                                  items: StaticList.tag_list.map((String value) {
+                                    return new DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Center(child:new Text(value, style:  TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 20.0,
+                                                      )),
+                                    ));
+                                  }).toList(),
+                                  onChanged: (String value) {setState(() {
+                                    add_tagId = value;
+                                  });},
+
+                                  style: new TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                  )
+                                )
+                              ]
+                            ),),
             actions: <Widget>[
               new FlatButton(
                 onPressed: () {
+
                   Navigator.of(context).pop();
+                  _onModStudent();
                 },
-                child: new Text("Confirm"),
+                child: new Text(I8N.of(context).confirm),
               ),
               new FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
+                  //add_tagId = null;
                 },
-                child: new Text("Cancel"),
+                child: new Text(I8N.of(context).cancel),
               ),
             ],
           );
@@ -237,163 +356,5 @@ class _DataFormState extends State<DataForm> with SingleTickerProviderStateMixin
         ),
       ],
     ));
-  }
-}
-
-class DialogContent extends StatefulWidget{
-  final String name;
-  final String id;
-  DialogContent(this.name,this.id);
-  @override
-  _DialogContentState createState() => new _DialogContentState(name,id);
-}
-class _DialogContentState extends State<DialogContent>{
-  final String name;
-  final String id;
-  var chart;
-  var chartWidget;
-  record_entries entries;
-  http.Response ajaxResponse = new http.Response("",200);
-  List<String> Divisions = <String>['Weeks','Months','Years'];
-  double _value;
-  _DialogContentState(this.name,this.id);
-  @override void initState(){
-    super.initState();
-    getRecord();
-  }
-  getRecord(){
-    DateTime now = new DateTime.now();DateTime desire;
-    switch(_value?.toInt() ?? 0){
-        case 0://WEEK
-          desire = now.subtract(new Duration(days:7*10+1));
-          break;
-        case 1://MONTH
-          desire = now.subtract(new Duration(days:30*10+1));
-          break;
-        case 2://YEAR
-          desire = now.subtract(new Duration(days:10*365+1));
-          break;
-        default:
-          desire = now.subtract(new Duration(days:7*10+1));
-          break;
-    }
-    network_request.get_record_data(id,DateFormat('yyyy-MM-dd HH:mm:ss').format(desire));
-
-    //List<List<ClicksPerYear>> data;
-    List<ClicksPerYear> data =[];
-    List<charts.Series<ClicksPerYear,String>> chart_series =[];
-    DateTime nowDateTime = new DateTime.now();
-    switch(_value?.toInt() ?? 0){
-      case 0:
-      for(int i = 8; i>0;i--){
-        DateTime start = nowDateTime.subtract(new Duration(days:7*i));
-        DateTime end = nowDateTime.subtract(new Duration(days:7*(i-1)));
-        var timestring = DateFormat('MM/dd').format(start)+"-"+DateFormat('MM/dd').format(end);
-
-        int sum = 0;
-        if(StaticList?.entries?.entries != null)
-        for(record_entry ent in StaticList.entries.entries){
-
-          if(ent.time_in.isAfter(start) == true && ent.time_in.isBefore(end) == true){
-            print(timestring);
-            sum += 1;//int.parse(ent.data_json['select0']);
-          }
-        }
-        data.add(new ClicksPerYear(timestring,sum,Colors.red));
-      }
-      break;
-      case 1:
-      for(int i = 8; i>0;i--){
-        DateTime start = (new DateTime.now()).subtract(new Duration(days:30*i));
-        DateTime end = (new DateTime.now()).subtract(new Duration(days:30*(i-1)));
-        var timestring = DateFormat('MM/dd').format(start)+"-"+DateFormat('MM/dd').format(end);
-
-        int sum = 0;
-
-        for(record_entry ent in StaticList.entries.entries){
-          if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
-            sum += 1;//int.parse(ent.data_json['select0']);
-          }
-        }
-        data.add(new ClicksPerYear(timestring,sum,Colors.blue));
-      }
-      break;
-      case 2:
-      for(int i = 8; i>0;i--){
-        DateTime start = (new DateTime.now()).subtract(new Duration(days:365*i));
-        DateTime end = (new DateTime.now()).subtract(new Duration(days:365*(i-1)));
-        var timestring = DateFormat('yyyy').format(start);
-
-        int sum = 0;
-
-        for(record_entry ent in StaticList.entries.entries){
-          if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
-            sum += 1;//int.parse(ent.data_json['select0']);
-            print(timestring);
-          }
-        }
-        data.add(new ClicksPerYear(timestring,sum,Colors.green));
-      }
-      break;
-    }
-    chart_series.add(
-      new charts.Series<ClicksPerYear,String>(
-        domainFn: (ClicksPerYear clickData, _) => clickData.year,
-        measureFn: (ClicksPerYear clickData, _) => clickData.clicks,
-        colorFn: (ClicksPerYear clickData, _) => clickData.color,
-        id: 'Success rate',
-        data: data,
-    ));
-
-    chart = new charts.BarChart(
-      chart_series,
-      animate: true,
-      barGroupingType: charts.BarGroupingType.groupedStacked,
-      behaviors: [new charts.SeriesLegend()],
-      );
-      chartWidget = new Padding(
-        padding: new EdgeInsets.all(32.0),
-        child: new SizedBox(
-          width:700.0,
-          height: 250.0,
-          child: chart,
-        ),
-      );
-
-  }
-  _getContent(){
-    return new Column(children:<Widget>[
-      new Text(
-        'Display according to...',
-        style: new TextStyle(
-          color: Colors.blue,
-          fontSize: 25.0,
-          )
-      ),
-      new Slider(
-          min:0,
-          max:2,
-          value: _value == null? 0.0:_value ,
-          onChanged: (newValue) {setState((){_value = newValue;});},
-          onChangeStart: (startValue) {
-            //print('onChangeStart:$startValue');
-          },
-          onChangeEnd: (newValue) {
-            setState((){
-              getRecord();
-            });
-          },
-          label: Divisions[_value?.toInt() ?? 0],
-          divisions: 3,
-          semanticFormatterCallback: (newValue) {
-            return '${newValue.round()} dollars';
-          },
-        ),
-      chartWidget,
-    ]);
-  }
-  @override
-  Widget build(BuildContext context) {
-    return _getContent();
   }
 }

@@ -7,6 +7,7 @@ import 'RFIDPage.dart';
 import 'package:http/http.dart' as http;
 import 'pop.dart';
 import 'network_request.dart';
+import './I8N.dart';
 class ColForm extends StatefulWidget{
   String name,id,unitok;
   ColForm([String n='Name',String i='Id',String t='']) : name=n,id=i,unitok=t
@@ -183,7 +184,8 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                   ).toList()
                 ),
               new SizedBox(height:10),
-              new RaisedButton(child: const Text('Submit',                style:  TextStyle(
+              new RaisedButton(child: Text(I8N.of(context).submit_text,
+              style:  TextStyle(
                           color: Colors.white,
                           fontSize: 40.0,
                         )),
