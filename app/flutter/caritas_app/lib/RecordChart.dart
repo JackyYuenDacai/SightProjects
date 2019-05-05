@@ -22,6 +22,7 @@ import 'package:path_provider/path_provider.dart';
 import 'network_request.dart';
 
 import 'I8N.dart';
+import 'package:flutter_range_slider/flutter_range_slider.dart';
 
 class ClicksPerYear {
   final String year;
@@ -76,7 +77,7 @@ class _DialogContentState extends State<DialogContent>{
     DateTime nowtmp = DateTime.now();
 
     DateTime nowDateTime = new DateTime(nowtmp.year, nowtmp.month, nowtmp.day+1, 0, 0);
-
+/*
     switch(_value?.toInt() ?? 0){
       case 0:
       for(int i = 8; i>0;i--){
@@ -99,40 +100,37 @@ class _DialogContentState extends State<DialogContent>{
 
       }
       break;
-      case 1:
-      for(int i = 8; i>0;i--){
-        DateTime start = (new DateTime.now()).subtract(new Duration(days:30*i));
-        DateTime end = (new DateTime.now()).subtract(new Duration(days:30*(i-1)));
-        var timestring = DateFormat('MM/dd').format(start)+"-"+DateFormat('MM/dd').format(end);
-
-        int sum = 0;
-
-        for(record_entry ent in StaticList.entries.entries){
-          if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
-            sum += 1;//int.parse(ent.data_json['select0']);
-          }
-        }
-        data.add(new ClicksPerYear(timestring,sum,Colors.blue));
-      }
-      break;
-      case 2:
-      for(int i = 8; i>0;i--){
-        DateTime start = (new DateTime.now()).subtract(new Duration(days:365*i));
-        DateTime end = (new DateTime.now()).subtract(new Duration(days:365*(i-1)));
-        var timestring = DateFormat('yyyy').format(start);
-
-        int sum = 0;
-
-        for(record_entry ent in StaticList.entries.entries){
-          if(ent.time_in.isAfter(start) && ent.time_in.isBefore(end)){
-            sum += 1;//int.parse(ent.data_json['select0']);
-            print(timestring);
-          }
-        }
-        data.add(new ClicksPerYear(timestring,sum,Colors.green));
-      }
-      break;
+    }*/
+    
+    class ScatteredData{
+      final int date;
+      final double time;
+      final double radius;
     }
+        DateTime start = nowDateTime.subtract(new Duration(months:_upperValue));
+        DateTime end = nowDateTime.subtract(new Duration(months:_lowerValue));
+        //var timestring = DateFormat('dd').format(start)+"-"+DateFormat('MM/dd').format(end);
+        //var timestring2 = DataFormat('hh').format(start);
+    
+        int sum = 0;
+        bool _assigned_time = false;
+        DataTime _time_in;
+        if(StaticList?.entries?.entries != null)
+        for(record_entry ent in StaticList.entries.entries){
+
+          if(ent.time_in.isAfter(start) == true && ent.time_in.isBefore(end) == true){
+            print(timestring);
+            _assigned_time = ent.data_json['assigned_time'] == 'true';
+            _time_in = ent.data.time_in;
+            var _date = DateFormat('dd').format(_time_in);
+            var _time = DateFormat('hh').format(_time_in);
+            var _time2 = DateFormat('mm').format(_time_in);
+            var _time3 = _time + _time2/60;
+            data.add(new ScatteredData(_date,_time3,2))  //2 is radius of the dot
+          }
+        
+    
+    /*
     chart_series.add(
       new charts.Series<ClicksPerYear,String>(
         domainFn: (ClicksPerYear clickData, _) => clickData.year,
@@ -156,7 +154,7 @@ class _DialogContentState extends State<DialogContent>{
           child: chart,
         ),
       );
-
+*/
 
   }
   _getContent(){
@@ -187,6 +185,30 @@ class _DialogContentState extends State<DialogContent>{
             return '${newValue.round()} dollars';
           },
         ),
+      new RangeSlider(
+                    min: 0,
+                    max: 13,
+                    lowerValue: _lowerValue,
+                    upperValue: _upperValue,
+                    divisions: 1,
+                    showValueIndicator: true,
+                    valueIndicatorMaxDecimals: 0,
+                    onChanged: (int newLowerValue, int newUpperValue) {
+                      setState(() {
+                        _lowerValue = newLowerValue;
+                        _upperValue = newUpperValue;
+                      });
+                    },
+                    onChangeStart:
+                        (int startLowerValue, int startUpperValue) {
+                      print(
+                          'Started with values: $startLowerValue and $startUpperValue');
+                    },
+                    onChangeEnd: (int newLowerValue, int newUpperValue) {
+                      print(
+                          'Ended with values: $newLowerValue and $newUpperValue');
+                    },
+                  ),
       chartWidget,
     ]);
   }
