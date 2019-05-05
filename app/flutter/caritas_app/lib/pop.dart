@@ -132,7 +132,7 @@ class StaticList{
 
   static List<String> tag_list = new List<String>();
 
-  static String server_addr = 'http://192.168.31.2:8080';//'http://192.168.31.2:8080';
+  static String server_addr = 'http://localhost:8080';//'http://192.168.31.2:8080';
   static String getpop_api_url = server_addr+'/WebInterface/get_pops_list?location=';
   static String getstaff_api_url = server_addr+'/WebInterface/get_staff_list?location=';
   static String submit_form_api_url = server_addr+'/WebInterface/submit_form?';
@@ -155,7 +155,6 @@ class StaticList{
     new question('黑色','poo_color_black',<String>['true','false'],<String>['true','false'],1),
     new question('含血','poo_consist_blood',<String>['true','false'],<String>['true','false'],1),
     new question('含潺','poo_consist_goo',<String>['true','false'],<String>['true','false'],1),
-    new question('預定時間','assigned_time',<String>['true','false'],<String>['true','false'],1)
   ];
 
 }

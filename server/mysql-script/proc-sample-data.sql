@@ -39,6 +39,7 @@ REFER TO questions_key_answer_key.txt
 REFER TO questions_key_answer_key.txt
 *
 /*SAMPLE USERS*/
+/*
 call addStudent('0001','Kenya','0012','F01Y');
 call addStudent('0002','Sabien','0013','F02Y2');
 call addStudent('0003','Alexandrina','0014','F03Y3');
@@ -280,7 +281,8 @@ insert into tags_linkage values('1077','0197');
 insert into tags_linkage values('1078','0198');
 insert into tags_linkage values('1079','0199');
 insert into tags_linkage values('1080','0200');
-
+*/
+call addStudent('0021','Gabriella','0032','F05Y3');
 /*SAMPLE RECORDS*/
 call manAddRecord('0021','2018-09-17 06:43:20','2018-09-17 06:52:35','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-17 08:33:42','2018-09-17 08:42:57','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");

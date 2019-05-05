@@ -27,7 +27,7 @@ source ./proc-input.sql
 source ./proc-output.sql
 source ./proc-routine.sql
 source ./func-utils.sql
-/*source ./proc-sample-data.sql*/
+source ./proc-sample-data.sql
 
 
 DELIMITER ';';

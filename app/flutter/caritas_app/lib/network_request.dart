@@ -12,7 +12,7 @@ class network_request{
   static var client = new http.Client();
 
   static http.Response ajaxResponse = new http.Response("",200);
-  static String server_addr = 'http://192.168.31.2:8080';//'http://192.168.31.2:8080';
+  static String server_addr = 'http://localhost:8080';//'http://192.168.31.2:8080';
   static String getpop_api_url = server_addr+'/WebInterface/get_pops_list?location=';
   static String getstaff_api_url = server_addr+'/WebInterface/get_staff_list?location=';
   static String submit_form_api_url = server_addr+'/WebInterface/submit_form?';
@@ -31,9 +31,9 @@ class network_request{
     var url = StaticList.getpop_api_url+location;
     requestWrap(url,(response)=>get_pop_list_proc(response));
   }
-  static void get_record_data(String id, String time){
+  static void get_record_data(String id, String time)async{
     var url = StaticList.get_record_data_url+"id="+id+"&time=${time}";
-    requestWrap(url,(response)=>get_record_data_proc(response));
+    await requestWrap(url,(response)=>get_record_data_proc(response));
   }
   static void post_submit_form(String id,String unitok,Map<String,String> json_data){
     var url = StaticList.submit_form_api_url;
@@ -83,12 +83,9 @@ class network_request{
     });
   }
   static void get_record_data_proc(http.Response response){
-    print("Response body: ${response.body}");
+    //print("Response body: ${response.body}");
     print('get record data');
     StaticList.entries = new record_entries.fromJson(json.decode(response.body));
-    for(record_entry ent in StaticList.entries.entries){
-      print(ent.time_in);
-    }
   }
   static void get_pop_list_proc(http.Response response){
     popList pops = new popList.fromJson(json.decode(response.body));

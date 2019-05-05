@@ -12,9 +12,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:share_extend/share_extend.dart';
-
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'dart:io';
-
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,11 +22,10 @@ import 'package:path_provider/path_provider.dart';
 import 'network_request.dart';
 
 import 'I8N.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
 
 class ClicksPerYear {
-  final String year;
-  final int clicks;
+  final int year;
+  final double clicks;
   final charts.Color color;
 
   ClicksPerYear(this.year, this.clicks, Color color)
@@ -45,176 +44,185 @@ class _DialogContentState extends State<DialogContent>{
   final String id;
   var chart;
   var chartWidget;
+  var numWidget;
   record_entries entries;
   http.Response ajaxResponse = new http.Response("",200);
   List<String> Divisions = <String>['Weeks','Months','Years'];
-  double _value;
+  DateTime _selected_month;
   _DialogContentState(this.name,this.id);
   @override void initState(){
     super.initState();
+    DateTime nowtmp = DateTime.now();
+    DateTime nowDateTime = new DateTime(nowtmp.year, nowtmp.month, 0, 0, 0);
+    _selected_month = nowDateTime;
     getRecord();
   }
+  int record_sum = 0;
+  int success_sum = 0;
+  int toilet_wee_sum = 0;
+  int toilet_poo_sum = 0;
+  int clean_diaper_sum = 0;
+  int clean_diaper_poo = 0;
+  int clean_diaper_wee = 0;
   getRecord(){
     DateTime now = new DateTime.now();
-    DateTime desire;
-    switch(_value?.toInt() ?? 0){
-        case 0://WEEK
-          desire = now.subtract(new Duration(days:7*10+1));
-          break;
-        case 1://MONTH
-          desire = now.subtract(new Duration(days:30*10+1));
-          break;
-        case 2://YEAR
-          desire = now.subtract(new Duration(days:10*365+1));
-          break;
-        default:
-          desire = now.subtract(new Duration(days:7*10+1));
-          break;
-    }
+    DateTime desire = _selected_month;
+
+    record_sum = 0;
+    success_sum = 0;
+    toilet_wee_sum = 0;
+    toilet_poo_sum = 0;
+    clean_diaper_sum = 0;
+    clean_diaper_poo = 0;
+    clean_diaper_wee = 0;
+    //print('DESIRE');
+    //print(desire);
     network_request.get_record_data(id,DateFormat('yyyy-MM-dd HH:mm:ss').format(desire));
     List<ClicksPerYear> data =[];
-    List<charts.Series<ClicksPerYear,String>> chart_series =[];
-    DateTime nowtmp = DateTime.now();
+    List<charts.Series<ClicksPerYear,int>> chart_series =[];
+    DateTime nowtmp = desire;
+    DateTime nowDateTime = new DateTime(nowtmp.year, nowtmp.month, 0, 0, 0);
+    DateTime endDateTime = new DateTime(nowtmp.year, nowtmp.month+1 , 0, 0, 0);
 
-    DateTime nowDateTime = new DateTime(nowtmp.year, nowtmp.month, nowtmp.day+1, 0, 0);
-/*
-    switch(_value?.toInt() ?? 0){
-      case 0:
-      for(int i = 8; i>0;i--){
-        DateTime start = nowDateTime.subtract(new Duration(days:7*i));
-        DateTime end = nowDateTime.subtract(new Duration(days:7*(i-1)));
-        var timestring = DateFormat('MM/dd').format(start)+"-"+DateFormat('MM/dd').format(end);
+    if(StaticList?.entries?.entries != null)
+    for(record_entry ent in StaticList.entries.entries){
+      if(ent.time_in.isAfter(nowDateTime) == true && ent.time_in.isBefore(endDateTime) == true){
+        record_sum ++;
+        //print(ent.data_json);
+        var timestring = DateFormat('MM/dd').format(ent.time_in);
+        if(ent.data_json['toilet'] == 'wee' || ent.data_json['toilet'] == 'poo'){
+          success_sum ++;
 
-        int sum = 0;
-        if(StaticList?.entries?.entries != null)
-        for(record_entry ent in StaticList.entries.entries){
-
-          if(ent.time_in.isAfter(start) == true && ent.time_in.isBefore(end) == true){
-            print(timestring);
-
-            sum += 1;//int.parse(ent.data_json['select0']);
-          }
+          if(ent.data_json['toilet'] == 'wee')
+            toilet_wee_sum ++;
+          else
+            toilet_poo_sum ++;
+            if(ent.data_json['assigned_time'] == true)
+              data.add(new ClicksPerYear(ent.time_in.day,ent.time_in.hour+ent.time_in.minute/60,Colors.green));
+            else
+              data.add(new ClicksPerYear(ent.time_in.day,ent.time_in.hour+ent.time_in.minute/60,Colors.blue));
+        }else{
+              data.add(new ClicksPerYear(ent.time_in.day,ent.time_in.hour+ent.time_in.minute/60,Colors.red));
+        }
+        if(ent.data_json['diaper'] == 'dirty'){
+          clean_diaper_sum ++;
+        }
+        if(ent.data_json['mistake'] == 'wee')
+          clean_diaper_wee ++;
+        if(ent.data_json['mistake'] == 'poo')
+          clean_diaper_poo ++;
+        if(ent.data_json['mistake'] == 'both'){
+          clean_diaper_wee ++;
+          clean_diaper_poo ++;
         }
 
-        data.add(new ClicksPerYear(timestring,sum,Colors.red));
-
       }
-      break;
-    }*/
-    
-    class ScatteredData{
-      final int date;
-      final double time;
-      final double radius;
-      ScatteredData(this.date,this.time.this.radius);
     }
-        DateTime start = nowDateTime.subtract(new Duration(months:_upperValue));
-        DateTime end = nowDateTime.subtract(new Duration(months:_lowerValue));
-        //var timestring = DateFormat('dd').format(start)+"-"+DateFormat('MM/dd').format(end);
-        //var timestring2 = DataFormat('hh').format(start);
-    
-        int sum = 0;
-        bool _assigned_time = false;
-        DataTime _time_in;
-        if(StaticList?.entries?.entries != null)
-        for(record_entry ent in StaticList.entries.entries){
 
-          if(ent.time_in.isAfter(start) == true && ent.time_in.isBefore(end) == true){
-            print(timestring);
-            _assigned_time = ent.data_json['assigned_time'] == 'true';
-            _time_in = ent.data.time_in;
-            var _date = DateFormat('dd').format(_time_in);
-            var _time = DateFormat('hh').format(_time_in);
-            var _time2 = DateFormat('mm').format(_time_in);
-            var _time3 = _time + _time2/60;
-            data.add(new ScatteredData(_date,_time3,2))  //2 is radius of the dot
-          }
-        
-    
-    /*
     chart_series.add(
-      new charts.Series<ClicksPerYear,String>(
+      new charts.Series<ClicksPerYear,int>(
         domainFn: (ClicksPerYear clickData, _) => clickData.year,
         measureFn: (ClicksPerYear clickData, _) => clickData.clicks,
         colorFn: (ClicksPerYear clickData, _) => clickData.color,
+        radiusPxFn: (ClicksPerYear clickData, _) => 4.0,
         id: 'Success rate',
         data: data,
     ));
-*/
-    charts.Series<ScatteredData, int>(
-        id: 'Date';
-        domainFn: (ScatteredData sales, _) => sales.year,
-        measureFn: (ScatteredData sales, _) => sales.sales,
-        // Providing a radius function is optional.
-        radiusPxFn: (ScatteredData sales, _) => sales.radius,
-        data: data,
-      )
-      
-    chart = new charts.ScatterPlotChart(seriesList, animate: animate);
+
+      chart = new charts.ScatterPlotChart(
+        chart_series,
+        animate: true,
+      );
       chartWidget = new Padding(
         padding: new EdgeInsets.all(32.0),
-        child: new SizedBox(
-          width:700.0,
-          height: 250.0,
-          child: chart,
-        ),
+        child:
+          new SingleChildScrollView (
+              scrollDirection: Axis.horizontal,
+              child:
+                new SizedBox(
+                    width:1500.0,
+                    height: 450.0,
+                    child:
+                      chart
+                    )
+                  ),
       );
 
+      setState((){});
+      setState((){});
   }
   _getContent(){
-    return new Column(children:<Widget>[
-      new Text(
-        'Display according to...',
-        style: new TextStyle(
-          color: Colors.blue,
-          fontSize: 25.0,
-          )
-      ),
-      new Slider(
-          min:0,
-          max:2,
-          value: _value == null? 0.0:_value ,
-          onChanged: (newValue) {setState((){_value = newValue;});},
-          onChangeStart: (startValue) {
-            //print('onChangeStart:$startValue');
-          },
-          onChangeEnd: (newValue) {
-            setState((){
-              getRecord();
-            });
-          },
-          label: Divisions[_value?.toInt() ?? 0],
-          divisions: 3,
-          semanticFormatterCallback: (newValue) {
-            return '${newValue.round()} dollars';
-          },
-        ),
-      new RangeSlider(
-                    min: 0,
-                    max: 13,
-                    lowerValue: _lowerValue,
-                    upperValue: _upperValue,
-                    divisions: 1,
-                    showValueIndicator: true,
-                    valueIndicatorMaxDecimals: 0,
-                    onChanged: (int newLowerValue, int newUpperValue) {
-                      setState(() {
-                        _lowerValue = newLowerValue;
-                        _upperValue = newUpperValue;
-                      });
-                    },
-                    onChangeStart:
-                        (int startLowerValue, int startUpperValue) {
-                      print(
-                          'Started with values: $startLowerValue and $startUpperValue');
-                    },
-                    onChangeEnd: (int newLowerValue, int newUpperValue) {
-                      print(
-                          'Ended with values: $newLowerValue and $newUpperValue');
-                    },
-                  ),
+    return
+    new SingleChildScrollView (
+        scrollDirection: Axis.vertical,
+        child:
+    new Column(children:<Widget>[
+      Align(alignment: Alignment.topLeft,child:
+      FlatButton(
+        onPressed: () {
+          showMonthPicker(
+                context: context,
+                initialDate: _selected_month)
+            .then(
+              (date) {
+                      _selected_month = date;
+                      getRecord();
+                    }
+
+                    );
+
+
+                  },
+        child: Text(
+            '選擇月份',
+            style: TextStyle(color: Colors.blue,fontSize:25.0,),
+        ))),
       chartWidget,
-    ]);
+      new Column(
+        children:<Widget>[
+
+          new Row(
+            children:<Widget>[
+              new Text(
+                '如廁次數',
+                style: TextStyle(color: Colors.blue,fontSize:20.0,),
+              ),
+              new SizedBox(width:10.0),
+              new Text(
+                record_sum.toString(),
+                style: TextStyle(color: Colors.blue,fontSize:20.0,),
+              )
+            ]
+          ),
+          new Row(
+            children:<Widget>[
+              new Text(
+                '成功次數',
+                style: TextStyle(color: Colors.blue,fontSize:20.0,),
+              ),
+              new SizedBox(width:10.0),
+              new Text(
+                success_sum.toString(),
+                style: TextStyle(color: Colors.blue,fontSize:20.0,),
+              )
+            ]
+          ),
+          new Row(
+            children:<Widget>[
+              new Text(
+                '濕片次數',
+                style: TextStyle(color: Colors.blue,fontSize:20.0,),
+              ),
+              new SizedBox(width:10.0),
+              new Text(
+                clean_diaper_sum.toString(),
+                style: TextStyle(color: Colors.blue,fontSize:20.0,),
+              )
+            ]
+          ),
+        ]
+      ),
+    ]));
   }
   @override
   Widget build(BuildContext context) {

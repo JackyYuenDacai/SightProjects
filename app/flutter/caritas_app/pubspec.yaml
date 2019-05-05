@@ -37,6 +37,7 @@ dependencies:
   path_provider: ^0.5.0+1
   calendar_view_widget: ^0.1.6
   flutter_range_slider: "^1.2.0"
+  month_picker_dialog: ^0.0.8
 dev_dependencies:
   flutter_test:
     sdk: flutter
