@@ -106,6 +106,7 @@ class _DialogContentState extends State<DialogContent>{
       final int date;
       final double time;
       final double radius;
+      ScatteredData(this.date,this.time.this.radius);
     }
         DateTime start = nowDateTime.subtract(new Duration(months:_upperValue));
         DateTime end = nowDateTime.subtract(new Duration(months:_lowerValue));
@@ -139,13 +140,17 @@ class _DialogContentState extends State<DialogContent>{
         id: 'Success rate',
         data: data,
     ));
-
-    chart = new charts.BarChart(
-      chart_series,
-      animate: true,
-      barGroupingType: charts.BarGroupingType.groupedStacked,
-      behaviors: [new charts.SeriesLegend()],
-      );
+*/
+    charts.Series<ScatteredData, int>(
+        id: 'Date';
+        domainFn: (ScatteredData sales, _) => sales.year,
+        measureFn: (ScatteredData sales, _) => sales.sales,
+        // Providing a radius function is optional.
+        radiusPxFn: (ScatteredData sales, _) => sales.radius,
+        data: data,
+      )
+      
+    chart = new charts.ScatterPlotChart(seriesList, animate: animate);
       chartWidget = new Padding(
         padding: new EdgeInsets.all(32.0),
         child: new SizedBox(
@@ -154,7 +159,6 @@ class _DialogContentState extends State<DialogContent>{
           child: chart,
         ),
       );
-*/
 
   }
   _getContent(){
