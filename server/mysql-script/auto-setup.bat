@@ -1,0 +1,2 @@
+echo %MYSQL_HOME%
+set %MYSQL_HOME

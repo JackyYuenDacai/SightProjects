@@ -54,7 +54,7 @@ class _RFIDPageState extends State<RFIDPage> {
   @override
   Widget build(BuildContext context) {
     Widget userHeader = UserAccountsDrawerHeader(
-      accountName: new Text('地點 '+StaticList.location),
+      accountName: new Text('Location '+StaticList.location),
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/pic1.jpg'), radius: 35.0,),);
 

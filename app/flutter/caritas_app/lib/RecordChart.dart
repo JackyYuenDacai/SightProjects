@@ -195,7 +195,7 @@ class _DialogContentState extends State<DialogContent>{
           new Row(
             children:<Widget>[
               new Text(
-                '如廁次數',
+                'Number of record',
                 style: TextStyle(color: Colors.blue,fontSize:20.0,),
               ),
               new SizedBox(width:10.0),
@@ -208,7 +208,7 @@ class _DialogContentState extends State<DialogContent>{
           new Row(
             children:<Widget>[
               new Text(
-                '成功次數',
+                'Number of success',
                 style: TextStyle(color: Colors.blue,fontSize:20.0,),
               ),
               new SizedBox(width:10.0),
@@ -221,7 +221,7 @@ class _DialogContentState extends State<DialogContent>{
           new Row(
             children:<Widget>[
               new Text(
-                '濕片次數',
+                'Number of mistake',
                 style: TextStyle(color: Colors.blue,fontSize:20.0,),
               ),
               new SizedBox(width:10.0),

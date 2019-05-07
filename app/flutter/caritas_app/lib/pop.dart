@@ -144,17 +144,17 @@ class StaticList{
   static String get_record_export_url = server_addr+'/WebInterface/record_export?';
   static String add_staff_api_url = server_addr+'/WebInterface/add_staff?';
   static List<question> QuestionList = <question>[
-    new question('驗片','diaper',<String>['N/A','淨片','污片'],<String>['na','clean','dirty'],0),
-    new question('遺便','mistake',<String>['N/A','小便','大便','小便與大便'],<String>['na','wee','poo','both'],0),
-    new question('如廁','toilet',<String>['N/A','不適用','小便','大便','小便與大便'],<String>['na','nothing','wee','poo','both'],0),
-    new question('大便','poo',<String>['N/A','少','中','多'],<String>['na','few','normal','much'],0),
-    new question('大便質地','poo_consistency',<String>['軟','硬','爛','稀'],<String>['soft','hard','rot','dilute'],0),
-    new question('大便色','poo_color',<String>['true','false'],<String>['true','false'],2),
-    new question('黃色','poo_color_yellow',<String>['true','false'],<String>['true','false'],1),
-    new question('棕色','poo_color_brown',<String>['true','false'],<String>['true','false'],1),
-    new question('黑色','poo_color_black',<String>['true','false'],<String>['true','false'],1),
-    new question('含血','poo_consist_blood',<String>['true','false'],<String>['true','false'],1),
-    new question('含潺','poo_consist_goo',<String>['true','false'],<String>['true','false'],1),
+    new question('Check','diaper',<String>['N/A','Clean','Dirty'],<String>['na','clean','dirty'],0),
+    new question('Mistake','mistake',<String>['N/A','Wee','Poo','Both'],<String>['na','wee','poo','both'],0),
+    new question('Toilet','toilet',<String>['N/A','Nothing','Wee','Poo','Both'],<String>['na','nothing','wee','poo','both'],0),
+    new question('Poo','poo',<String>['N/A','Few','Normal','Much'],<String>['na','few','normal','much'],0),
+    new question('Consistency','poo_consistency',<String>['Soft','Hard','Rot','Dilute'],<String>['soft','hard','rot','dilute'],0),
+    new question('Color','poo_color',<String>['true','false'],<String>['true','false'],2),
+    new question('Yellow','poo_color_yellow',<String>['true','false'],<String>['true','false'],1),
+    new question('Brown','poo_color_brown',<String>['true','false'],<String>['true','false'],1),
+    new question('Black','poo_color_black',<String>['true','false'],<String>['true','false'],1),
+    new question('Blood','poo_consist_blood',<String>['true','false'],<String>['true','false'],1),
+    new question('Goo','poo_consist_goo',<String>['true','false'],<String>['true','false'],1),
   ];
 
 }

@@ -84,7 +84,7 @@ class network_request{
   }
   static void get_record_data_proc(http.Response response){
     //print("Response body: ${response.body}");
-    
+
     StaticList.entries = new record_entries.fromJson(json.decode(response.body));
   }
   static void get_pop_list_proc(http.Response response){

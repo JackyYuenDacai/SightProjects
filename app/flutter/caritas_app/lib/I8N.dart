@@ -11,7 +11,7 @@ class I8N{
     return Localizations.of<I8N>(context, I8N);
   }
   static Map<String,Map<String,String>> I8N_values = {
-    'zh':{
+    'en':{
       'apptitle':'CaritasApp',
       'students_title':'Students',
       'home':'Home',
@@ -25,7 +25,7 @@ class I8N{
       'location_text':'Location ',
       'submit_text':'Submit',
     },
-    'en':{
+    'zh':{
       'apptitle':'明愛樂勤應用程式',
       'students_title':'學生',
       'home':'主頁',

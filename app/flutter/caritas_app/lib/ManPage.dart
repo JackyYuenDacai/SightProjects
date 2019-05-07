@@ -29,7 +29,7 @@ class _ManPageState extends State<ManPage> {
         context: context,
         builder: (context) {
           return new AlertDialog(
-            title: new Text("確定提交？"),
+            title: new Text("Submit？"),
             content: new Text('  '),
             actions: <Widget>[
               new FlatButton(
@@ -45,13 +45,13 @@ class _ManPageState extends State<ManPage> {
                   Navigator.of(context).pushNamed('/DataPage');
 
                 },
-                child: new Text("確定"),
+                child: new Text("Confirm"),
               ),
               new FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: new Text("取消"),
+                child: new Text("Cancel"),
               ),
             ],
           );
@@ -108,7 +108,7 @@ class _ManPageState extends State<ManPage> {
                             direction: Axis.horizontal,
                             children:
                               <Widget>[
-                                new Text('學生姓名',textAlign:TextAlign.center,
+                                new Text('Student\'s Name',textAlign:TextAlign.center,
                                 style:TextStyle(
                                   fontSize:20.0,
                                 )
@@ -125,7 +125,7 @@ class _ManPageState extends State<ManPage> {
                             direction: Axis.horizontal,
                             children:
                               <Widget>[
-                                new Text('職員姓名',textAlign:TextAlign.center,
+                                new Text('Staff Name',textAlign:TextAlign.center,
                                 style:TextStyle(
                                   fontSize:20.0,
                                 )),
@@ -152,7 +152,7 @@ class _ManPageState extends State<ManPage> {
                                             }, currentTime: DateTime.now(), locale: LocaleType.zh);
                                       },
                                       child: Text(
-                                          '進入時間',
+                                          'Entry time',
                                           style: TextStyle(color: Colors.blue,fontSize:25.0,),
                                       )),
                                   FlatButton(
@@ -166,7 +166,7 @@ class _ManPageState extends State<ManPage> {
                                                           }, currentTime: DateTime.now(), locale: LocaleType.zh);
                                     },
                                     child: Text(
-                                        '退出時間',
+                                        'Exit time',
                                         style: TextStyle(color: Colors.blue,fontSize:25.0,),
                                     )),
                             ]

@@ -52,9 +52,12 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     }else{
 
       network_request.post_submit_form(id,unitok,answer);
-      setState((){
-        StaticList.colform_list.remove(this);
-      });
+      for(ColForm a in StaticList.colform_list){
+        if(a.id == id){
+          StaticList.colform_list.remove(a);
+        }
+      }
+      setState((){});
     }
   }
 
@@ -106,7 +109,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                 ),
                 new SizedBox(height:10),
                 new DropdownButton<String>(
-                  hint: Container(width:180.0,child:Text("負責職員")),
+                  hint: Container(width:180.0,child:Text("Staff Responsible")),
                   value: answer['staff'] ?? null ,
                   items: StaticList.staff_list.map((String value) {
                     return new DropdownMenuItem<String>(
@@ -144,7 +147,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
                               return new DropdownMenuItem<String>(
                               value: value,
                               child: Center(child:new Text(value, textAlign: TextAlign.center,style:  TextStyle(
-                                                color: Colors.blue,
+                                                color: Colors.black,
                                                 fontSize: 20.0,
                                               )),
                                             ));

@@ -52,15 +52,20 @@ begin
     select 'SUCCESS: updated staff''s location';
   end if;
   if @p_role = 1 then
-      select distinct record_child.parent_token into @in_parent_token from record_child where
+      select distinct record_child.parent_token  from record_child where
         record_child.student_id = @pid and (select master_record.t_location from master_record where master_record.token = record_child.parent_token) = location and
-        addtime(record_child.record_time,"00:25:30") >= now() and
-        record_child.child_status = 0
-        limit 1;
+        addtime(record_child.record_time,"00:25:30") >= now() and record_child.child_status = 0
+        order by record_child.record_time
+        desc
+        limit 1
+        into @in_parent_token;
 
       select distinct record_child.parent_token from record_child where
         record_child.student_id = @pid and (select master_record.t_location from master_record where master_record.token = record_child.parent_token) = location and
         addtime(record_child.record_time,"00:25:30") >= now() and record_child.child_status = 1
+        and record_child.parent_token = @in_parent_token
+        order by record_child.record_time
+        desc
         limit 1
         into @out_parent_token;
 
