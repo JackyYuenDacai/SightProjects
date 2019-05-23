@@ -284,6 +284,7 @@ insert into tags_linkage values('1080','0200');
 */
 call addStudent('0021','Gabriella','0032','F05Y3');
 /*SAMPLE RECORDS*/
+/*
 call manAddRecord('0021','2018-09-17 06:43:20','2018-09-17 06:52:35','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-17 08:33:42','2018-09-17 08:42:57','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-17 10:11:50','2018-09-17 10:21:05','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
@@ -430,3 +431,4 @@ call manAddRecord('0021','2018-09-30 06:36:16','2018-09-30 06:45:31','ABC',"{'di
 call manAddRecord('0021','2018-09-30 09:24:05','2018-09-30 09:33:20','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-30 12:57:58','2018-09-30 13:07:13','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
 call manAddRecord('0021','2018-09-30 17:21:11','2018-09-30 17:30:26','ABC',"{'diaper':'na','mistake':'na','toilet':'wee','poo':'na'}");
+*/

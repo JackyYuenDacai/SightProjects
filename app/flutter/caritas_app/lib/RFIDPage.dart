@@ -20,7 +20,7 @@ class RFIDPage extends StatefulWidget {
 }
 
 class _RFIDPageState extends State<RFIDPage> {
-  Duration ajaxCallDuration = new Duration(seconds:6);
+  Duration ajaxCallDuration = new Duration(seconds:2);
   var ajaxCall = null;
   http.Response ajaxResponse = new http.Response("",200);
   var subscription;

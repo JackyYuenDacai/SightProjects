@@ -44,7 +44,17 @@ class network_request{
         "callMethod" : "DOCTOR_AVAILABILITY"
       },
       json.encode(json_data),
-      (response){;});
+      (response){
+        if(response.body == 'success'){
+          for(ColForm a in StaticList.colform_list){
+            if(a.id == id){
+              StaticList.colform_list.remove(a);
+              break;
+            }
+          }
+        }
+        ;
+      });
   }
   static void requestWrap(String url,ProcessFunc process) async{
 

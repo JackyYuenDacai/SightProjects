@@ -52,11 +52,7 @@ class _ColFormState extends State<ColForm> with SingleTickerProviderStateMixin {
     }else{
 
       network_request.post_submit_form(id,unitok,answer);
-      for(ColForm a in StaticList.colform_list){
-        if(a.id == id){
-          StaticList.colform_list.remove(a);
-        }
-      }
+      
       setState((){});
     }
   }
