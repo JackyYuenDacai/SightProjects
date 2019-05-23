@@ -1,0 +1,29 @@
+program UHFReader18demomain;
+
+{%File 'History.txt'}
+
+uses
+  Forms,
+  fRRU1861demomain in 'fRRU1861demomain.pas' {frmRRU1861demomain},
+  RRU1861M_DLL_Head in 'RRU1861M_DLL_Head.pas',
+  cRRU1861_Head in 'cRRU1861_Head.pas',
+  fRRProgress in 'fRRProgress.pas' {frmRRProgress},
+  locatedlg in 'locatedlg.pas' {locateForm},
+  ChangeDlg in 'ChangeDlg.pas' {ChangeIPdlg},
+  Setdlg in 'Setdlg.pas' {fSetdlg},
+  NhSetDlg in 'NhSetDlg.pas' {fNhSetDlg},
+  PhSetDlg in 'PhSetDlg.pas' {fPhSetDlg};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TfrmRRU1861demomain, frmRRU1861demomain);
+  Application.CreateForm(TfrmRRProgress, frmRRProgress);
+  Application.CreateForm(TlocateForm, locateForm);
+  Application.CreateForm(TChangeIPdlg, ChangeIPdlg);
+  Application.CreateForm(TfSetdlg, fSetdlg);
+  Application.CreateForm(TfNhSetDlg, fNhSetDlg);
+  Application.CreateForm(TfPhSetDlg, fPhSetDlg);
+  Application.Run;
+end.

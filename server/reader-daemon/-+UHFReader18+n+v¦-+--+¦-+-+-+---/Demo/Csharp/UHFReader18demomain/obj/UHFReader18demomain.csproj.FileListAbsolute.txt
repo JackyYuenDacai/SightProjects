@@ -1,0 +1,15 @@
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\Debug\UHFReader18demomain.exe
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\Debug\UHFReader18demomain.pdb
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\bin\x86\Debug\UHFReader18demomain.exe
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\bin\x86\Debug\UHFReader18demomain.pdb
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\ResolveAssemblyReference.cache
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.ChangeIPdlg.resources
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.fNhSetDlg.resources
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.Form1.resources
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.fPhSetDlg.resources
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.fSetdlg.resources
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.locateForm.resources
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.Properties.Resources.resources
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.csproj.GenerateResource.Cache
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.exe
+H:\Program Files\Tencent\QQ\Users\406112259\FileRecv\以UHFReader18命名的中性的中文资料\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.pdb

@@ -1,0 +1,15 @@
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\bin\x86\Debug\UHFReader18demomain.exe
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\bin\x86\Debug\UHFReader18demomain.pdb
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.csprojAssemblyReference.cache
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.ChangeIPdlg.resources
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.fNhSetDlg.resources
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.Form1.resources
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.fPhSetDlg.resources
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.fSetdlg.resources
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.locateForm.resources
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.Properties.Resources.resources
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.csproj.GenerateResource.cache
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.csproj.CoreCompileInputs.cache
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.csproj.CopyComplete
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.exe
+C:\Users\ccyuenae\Desktop\ljyzn101¦--¦¦˜\-+UHFReader18+n+v¦-+--+¦-+-+-+---\Demo\Csharp\UHFReader18demomain\obj\x86\Debug\UHFReader18demomain.pdb
